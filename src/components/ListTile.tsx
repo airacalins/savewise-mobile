@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, View } from "react-native";
-import { defaultStyles } from "../../layouts/DefaultStyles";
+import { defaultStyles } from "../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "./Spacer";
 import { Body, Subtitle } from "./Typography";
 

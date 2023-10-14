@@ -1,8 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { defaultStyles } from "../../layouts/DefaultStyles";
+import { defaultStyles } from "../layouts/DefaultStyles";
 import { SafeAreaView } from "react-native";
-import { colors } from "../../layouts/Colors";
+import { colors } from "../layouts/Colors";
 
 interface GradientScreenProps {
   content: React.ReactNode;

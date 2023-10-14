@@ -1,6 +1,6 @@
 import React from "react";
 import { Image } from "react-native";
-import { colors } from "../../layouts/Colors";
+import { colors } from "../layouts/Colors";
 
 interface CircularImageProps {
   source: string;

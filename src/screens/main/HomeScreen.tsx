@@ -7,22 +7,22 @@ import {
   View,
 } from "react-native";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { GradientScreen } from "../../assets/components/Screen";
+import { GradientScreen } from "../../components/Screen";
 import {
   Body,
   Caption,
   Header,
   Subtitle,
   Title,
-} from "../../assets/components/Typography";
-import { HorizontalSpace, VerticalSpace } from "../../assets/components/Spacer";
+} from "../../components/Typography";
+import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
 import { FontAwesome } from "@expo/vector-icons";
 import { format } from "date-fns";
-import { ListTile } from "../../assets/components/ListTile";
+import { ListTile } from "../../components/ListTile";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { colors } from "../../layouts/Colors";
-import { CircularImage } from "../../assets/components/Image";
+import { CircularImage } from "../../components/Image";
 
 interface Savings {
   id: string;
