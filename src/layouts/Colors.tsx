@@ -1,7 +1,11 @@
 export const colors = {
-  gradientScreen: ["#0F2027", "#2C5364"],
-  white: "#FFF",
-  white10: "rgba(255, 255, 255, 0.10)",
-  white70: "rgba(255, 255, 255, 0.70)",
-  white90: "rgba(255, 255, 255, 0.90)",
+  background: "#E6E7ED",
+  info: "#1E90FF",
+  warning: "#F5B759",
+  success: "#00BF9A",
+  danger: "#FA5252",
+  dark: "#2A354F",
+  grey: "#44476a50",
+  border: "#d1d9e6",
+  white: "#fff",
 };

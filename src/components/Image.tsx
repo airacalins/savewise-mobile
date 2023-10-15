@@ -10,9 +10,7 @@ export const CircularImage: React.FC<CircularImageProps> = ({ source }) => {
   return (
     <Image
       style={{
-        borderColor: colors.white,
-        borderRadius: 25,
-        borderWidth: 2,
+        borderRadius: 4,
         height: 50,
         width: 50,
       }}

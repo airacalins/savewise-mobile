@@ -1,21 +1,26 @@
-import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { defaultStyles } from "../layouts/DefaultStyles";
-import { SafeAreaView } from "react-native";
+
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import { colors } from "../layouts/Colors";
 
-interface GradientScreenProps {
-  content: React.ReactNode;
+interface ScreenProps {
+  children: React.ReactNode;
 }
 
-export const GradientScreen: React.FC<GradientScreenProps> = ({ content }) => {
+export const Screen: React.FC<ScreenProps> = ({ children }) => {
   return (
-    <LinearGradient
-      style={[defaultStyles.gradientScreen]}
-      colors={colors.gradientScreen}
-      start={{ x: 0, y: 0 }}
-    >
-      <SafeAreaView style={defaultStyles.screen}>{content}</SafeAreaView>
-    </LinearGradient>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.screen}>{children}</View>
+    </SafeAreaView>
   );
 };
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  screen: {
+    paddingVertical: 16,
+  },
+});

@@ -1,13 +1,10 @@
-import { SafeAreaView, View } from "react-native";
-import { Text } from "react-native";
-import { defaultStyles } from "./src/layouts/DefaultStyles";
-import { HomeScreen } from "./src/screens/main/HomeScreen";
-import { useFonts } from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
+import { TabNavigator } from "./src/navigation/TabNavigator";
 
 export default function App() {
   return (
-    <View style={defaultStyles.screen}>
-      <HomeScreen />
-    </View>
+    <NavigationContainer>
+      <TabNavigator />
+    </NavigationContainer>
   );
 }

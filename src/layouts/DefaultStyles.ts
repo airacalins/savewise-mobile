@@ -2,31 +2,26 @@ import { StyleSheet } from "react-native";
 import { colors } from "./Colors";
 
 export const defaultStyles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
-  gradientScreen: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 64,
-  },
   listTileSeparator: {
-    width: "100%",
-    borderColor: colors.white70,
+    borderColor: colors.border,
     borderWidth: 0.5,
     marginVertical: 16,
+    width: "100%",
   },
   center: {
     alignItems: "center",
     justifyContent: "center",
   },
   centerHorizontally: {
-    flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
   },
   centerHorizontallyBetween: {
-    flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
     justifyContent: "space-between",
+  },
+  horizontalPadding: {
+    paddingHorizontal: 16,
   },
 });
