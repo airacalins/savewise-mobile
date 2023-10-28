@@ -1,39 +1,47 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextProps, View } from "react-native";
 import { colors } from "../layouts/Colors";
 
 const fontSize = {
   header: 32,
   title: 20,
   subtitle: 16,
-  body: 13,
+  body: 14,
   caption: 11,
 };
 
-interface TypographyProps {
+interface TypographyProps extends TextProps {
   children: React.ReactNode;
-  color?: string;
-  sx?: any;
 }
 
-export const Header: React.FC<TypographyProps> = ({ children, sx }) => (
-  <Text style={[styles.header, sx]}>{children}</Text>
+export const Header: React.FC<TypographyProps> = ({ children, ...props }) => (
+  <Text style={[styles.header]} {...props}>
+    {children}
+  </Text>
 );
 
-export const Title: React.FC<TypographyProps> = ({ children, sx }) => (
-  <Text style={[styles.title, sx]}>{children}</Text>
+export const Title: React.FC<TypographyProps> = ({ children, ...props }) => (
+  <Text style={[styles.title]} {...props}>
+    {children}
+  </Text>
 );
 
-export const Subtitle: React.FC<TypographyProps> = ({ children, sx }) => (
-  <Text style={[styles.subtitle, sx]}>{children}</Text>
+export const Subtitle: React.FC<TypographyProps> = ({ children, ...props }) => (
+  <Text style={[styles.subtitle]} {...props}>
+    {children}
+  </Text>
 );
 
-export const Body: React.FC<TypographyProps> = ({ children, sx }) => (
-  <Text style={[styles.body, sx]}>{children}</Text>
+export const Body: React.FC<TypographyProps> = ({ children, ...props }) => (
+  <Text style={[styles.body]} {...props}>
+    {children}
+  </Text>
 );
 
-export const Caption: React.FC<TypographyProps> = ({ children, sx }) => (
-  <Text style={[styles.caption, sx]}>{children}</Text>
+export const Caption: React.FC<TypographyProps> = ({ children, ...props }) => (
+  <Text style={[styles.caption]} {...props}>
+    {children}
+  </Text>
 );
 
 const styles = StyleSheet.create({

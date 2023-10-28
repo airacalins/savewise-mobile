@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 import { colors } from "./Colors";
 
 export const defaultStyles = StyleSheet.create({
@@ -18,10 +19,14 @@ export const defaultStyles = StyleSheet.create({
   },
   centerHorizontallyBetween: {
     alignItems: "center",
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
   },
   horizontalPadding: {
     paddingHorizontal: 16,
+  },
+  fontWeight500: {
+    fontWeight: "500",
   },
 });

@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import React from "react";
 import {
   FlatList,
@@ -7,19 +6,26 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { format } from "date-fns";
+import { useNavigation } from "@react-navigation/native";
 
-import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { Caption, Subtitle } from "../../../components/Typography";
+import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { ListTile } from "../../../components/ListTile";
 import { OffsetContainer } from "../../../components/Container";
-import { Savings } from "../HomeScreen";
+import { Saving } from "../../../interfaces/savings";
+import { SavingsStackParamList } from "../../../navigation/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 interface SavingsListProps {
   title: string;
-  data: Savings[];
+  data: Saving[];
 }
 
 export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<SavingsStackParamList>>();
+
   return (
     <View>
       <View style={{ paddingHorizontal: 16 }}>
@@ -36,7 +42,7 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
           )}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => navigation.navigate("SavingsDetails")}
               style={{ paddingHorizontal: 16 }}
             >
               <ListTile

@@ -1,5 +1,6 @@
 import React from "react";
-import { Image, View } from "react-native";
+import { View } from "react-native";
+
 import { defaultStyles } from "../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "./Spacer";
 import { Body, Subtitle } from "./Typography";
@@ -19,12 +20,7 @@ export const ListTile: React.FC<ListTileProps> = ({
 }) => {
   return (
     <>
-      <View
-        style={[
-          defaultStyles.centerHorizontally,
-          { justifyContent: "space-between" },
-        ]}
-      >
+      <View style={defaultStyles.centerHorizontallyBetween}>
         <View style={defaultStyles.centerHorizontally}>
           {LeadingComponent}
           <HorizontalSpace spacer={16} />

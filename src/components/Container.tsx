@@ -5,16 +5,25 @@ import { colors } from "../layouts/Colors";
 interface OffsetContainerProps {
   children: React.ReactNode;
   padding?: number;
+  backgroundColor?: string;
 }
 
 export const OffsetContainer: React.FC<OffsetContainerProps> = ({
   children,
   padding,
+  backgroundColor,
 }) => {
   return (
     <View style={styles.container}>
       <View style={styles.offsetBorder} />
-      <View style={[styles.offset, { padding }]}>{children}</View>
+      <View
+        style={[
+          styles.offset,
+          { padding, backgroundColor: backgroundColor ?? colors.background },
+        ]}
+      >
+        {children}
+      </View>
     </View>
   );
 };
@@ -25,7 +34,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   offset: {
-    backgroundColor: colors.background,
     borderColor: colors.border,
     borderRadius: 8,
     borderWidth: 1,

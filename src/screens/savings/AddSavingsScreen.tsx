@@ -1,7 +1,5 @@
 import React from "react";
-import { AntDesign } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
 import { Screen } from "../../components/Screen";
