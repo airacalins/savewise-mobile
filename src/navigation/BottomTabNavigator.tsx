@@ -16,6 +16,7 @@ import { FundsScreen } from "../screens/funds/FundsScreen";
 import { OffsetContainer } from "../components/Container";
 import { ProfileScreen } from "../screens/profile/ProfileScreen";
 import { SavingsStackNavigator } from "./SavingsStackNavigator";
+import { FundsStackNavigator } from "./FundStackNavigator";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -43,7 +44,7 @@ export const BottomTabNavigator = () => (
     />
     <Tab.Screen
       name="Funds"
-      component={FundsScreen}
+      component={FundsStackNavigator}
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => (

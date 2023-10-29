@@ -13,15 +13,20 @@ export const defaultStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  centerAlignHorizontally: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
   centerHorizontally: {
     alignItems: "center",
     flexDirection: "row",
   },
   centerHorizontallyBetween: {
     alignItems: "center",
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "100%",
   },
   horizontalPadding: {
     paddingHorizontal: 16,

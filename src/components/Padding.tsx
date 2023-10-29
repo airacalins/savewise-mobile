@@ -1,8 +1,8 @@
 import React, { Children } from "react";
-import { View } from "react-native";
+import { View, ViewProps } from "react-native";
 
-interface PaddingProps {
-  p: number;
+interface PaddingProps extends ViewProps {
+  p?: number;
   px?: number;
   py?: number;
   pt?: number;

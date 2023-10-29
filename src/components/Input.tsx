@@ -7,16 +7,12 @@ import { HorizontalSpace } from "./Spacer";
 import { OffsetContainer } from "./Container";
 import { defaultStyles } from "../layouts/DefaultStyles";
 
-interface TextFieldProps extends TextInputProps {
+interface InputProps extends TextInputProps {
   label: string;
   Icon: React.ReactNode;
 }
 
-export const TextField: React.FC<TextFieldProps> = ({
-  label,
-  Icon,
-  ...props
-}) => {
+export const Input: React.FC<InputProps> = ({ label, Icon, ...props }) => {
   return (
     <View style={styles.root}>
       <Body style={styles.label}>{label}</Body>

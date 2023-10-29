@@ -9,9 +9,9 @@ import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
 import { OffsetContainer } from "../../components/Container";
 import { savingsMockData } from "../../data/SavingsMockData";
 import { Screen } from "../../components/Screen";
-import { Transaction } from "./components/Transaction";
 import { StyleSheet } from "react-native";
 import { Padding } from "../../components/Padding";
+import { MonthlyTransactions } from "./components/MonthlyTransactions";
 
 export const SavingsDetailsScreen = () => {
   // TODO
@@ -64,13 +64,11 @@ export const SavingsDetailsScreen = () => {
         </Padding>
       </OffsetContainer>
 
-      <Padding p={16}>
-        <Caption style={defaultStyles.fontWeight500}>December 2023</Caption>
-        <VerticalSpace spacer={16} />
-        <Transaction />
-        <Caption style={defaultStyles.fontWeight500}>November 2023</Caption>
-        <VerticalSpace spacer={16} />
-        <Transaction />
+      <VerticalSpace spacer={32} />
+
+      <Padding px={16}>
+        <MonthlyTransactions />
+        <MonthlyTransactions />
       </Padding>
     </Screen>
   );

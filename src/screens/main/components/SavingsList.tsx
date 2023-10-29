@@ -31,40 +31,33 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
       <View style={{ paddingHorizontal: 16 }}>
         <Caption>{title}</Caption>
       </View>
-      <OffsetContainer>
-        <FlatList
-          style={{ paddingVertical: 16 }}
-          keyExtractor={(item) => item.id}
-          data={data}
-          scrollEnabled={false}
-          ItemSeparatorComponent={() => (
-            <View style={defaultStyles.listTileSeparator} />
-          )}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("SavingsDetails")}
-              style={{ paddingHorizontal: 16 }}
-            >
-              <ListTile
-                title={item.title}
-                subtitle={`₱${item.targetSavings} by ${format(
-                  new Date(2014, 1, 11),
-                  "MMM dd, yyyy"
-                )}`}
-                LeadingComponent={
-                  <Image
-                    style={styles.tileImage}
-                    source={{ uri: item.image }}
-                  />
-                }
-                TrailingComponent={
-                  <Subtitle>{`₱${item.totalSavings}`}</Subtitle>
-                }
-              />
-            </TouchableOpacity>
-          )}
-        />
-      </OffsetContainer>
+      <FlatList
+        style={{ paddingVertical: 16 }}
+        keyExtractor={(item) => item.id}
+        data={data}
+        scrollEnabled={false}
+        ItemSeparatorComponent={() => (
+          <View style={defaultStyles.listTileSeparator} />
+        )}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SavingsDetails")}
+            style={{ paddingHorizontal: 16 }}
+          >
+            <ListTile
+              title={item.title}
+              subtitle={`₱${item.targetSavings} by ${format(
+                new Date(2014, 1, 11),
+                "MMM dd, yyyy"
+              )}`}
+              LeadingComponent={
+                <Image style={styles.tileImage} source={{ uri: item.image }} />
+              }
+              TrailingComponent={<Subtitle>{`₱${item.totalSavings}`}</Subtitle>}
+            />
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };

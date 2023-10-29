@@ -5,18 +5,15 @@ import { SavingsScreen } from "../screens/main/SavingsScreen";
 import { SavingsDetailsScreen } from "../screens/savings/SavingsDetailsScreen";
 import { SavingsStackParamList } from "./types";
 
-const SavingsStack = createStackNavigator<SavingsStackParamList>();
+const Stack = createStackNavigator<SavingsStackParamList>();
 
 export const SavingsStackNavigator = () => (
-  <SavingsStack.Navigator screenOptions={{ headerShown: false }}>
-    <SavingsStack.Screen
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen
       name="Savings"
       component={SavingsScreen}
       options={{ headerShown: false }}
     />
-    <SavingsStack.Screen
-      name="SavingsDetails"
-      component={SavingsDetailsScreen}
-    />
-  </SavingsStack.Navigator>
+    <Stack.Screen name="SavingsDetails" component={SavingsDetailsScreen} />
+  </Stack.Navigator>
 );

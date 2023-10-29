@@ -3,12 +3,12 @@ import { AntDesign, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
 import { Screen } from "../../components/Screen";
-import { TextField } from "../../components/Input";
+import { Input } from "../../components/Input";
 
 export const AddSavingsScreen: React.FC = () => {
   return (
     <Screen>
-      <TextField
+      <Input
         label="Title"
         Icon={
           <MaterialCommunityIcons
@@ -18,11 +18,11 @@ export const AddSavingsScreen: React.FC = () => {
           />
         }
       />
-      <TextField
+      <Input
         label="Target Amount"
         Icon={<Entypo name="text" size={24} color={colors.dark} />}
       />
-      <TextField
+      <Input
         label="Target Date"
         Icon={<AntDesign name="calendar" size={24} color={colors.dark} />}
       />
