@@ -18,6 +18,9 @@ export const defaultStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
+  row: {
+    flexDirection: "row",
+  },
   centerHorizontally: {
     alignItems: "center",
     flexDirection: "row",

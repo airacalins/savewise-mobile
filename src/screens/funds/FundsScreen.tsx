@@ -19,60 +19,62 @@ export const FundsScreen = ({ navigation }: FundsStackProps) => {
     navigation.navigate("AllocateFund");
   const handleNavigateToCashOutScreen = () => navigation.navigate("CashOut");
   const handleNavigateToFundDetailsScreen = () =>
-    navigation.navigate("FundDetails");
+    navigation.navigate("FundDetailsStackNavigator");
 
   return (
     <Screen>
-      <OffsetContainer padding={16}>
-        <View style={defaultStyles.centerHorizontallyBetween}>
-          <View>
-            <Caption>Total Funds</Caption>
-            <VerticalSpace spacer={8} />
-            <Header>₱ 420,000.00</Header>
+      <Padding px={8}>
+        <OffsetContainer padding={16}>
+          <View style={defaultStyles.centerHorizontallyBetween}>
+            <View>
+              <Caption>Total Funds</Caption>
+              <VerticalSpace spacer={8} />
+              <Header>₱ 420,000.00</Header>
+            </View>
+
+            <TouchableOpacity onPress={handleNavigateToCashInScreen}>
+              <MaterialIcons
+                name="move-to-inbox"
+                size={32}
+                color={colors.success}
+              />
+            </TouchableOpacity>
+          </View>
+        </OffsetContainer>
+
+        <VerticalSpace spacer={16} />
+
+        <View style={defaultStyles.centerHorizontally}>
+          <View style={styles.iconContainer}>
+            <IconButton
+              onPress={handleNavigateToAllocateFundScreen}
+              title="Allocate"
+              IconComponent={
+                <MaterialCommunityIcons
+                  name="hand-coin-outline"
+                  size={24}
+                  color={colors.info}
+                />
+              }
+            />
           </View>
 
-          <TouchableOpacity onPress={handleNavigateToCashInScreen}>
-            <MaterialIcons
-              name="move-to-inbox"
-              size={32}
-              color={colors.success}
+          <View style={styles.iconContainer}>
+            <IconButton
+              onPress={handleNavigateToCashOutScreen}
+              title="Cash out"
+              IconComponent={
+                <MaterialIcons name="outbox" size={24} color={colors.danger} />
+              }
             />
-          </TouchableOpacity>
-        </View>
-      </OffsetContainer>
-
-      <VerticalSpace spacer={16} />
-
-      <View style={defaultStyles.centerHorizontally}>
-        <View style={styles.iconContainer}>
-          <IconButton
-            onPress={handleNavigateToAllocateFundScreen}
-            title="Allocate"
-            IconComponent={
-              <MaterialCommunityIcons
-                name="hand-coin-outline"
-                size={24}
-                color={colors.info}
-              />
-            }
-          />
+          </View>
         </View>
 
-        <View style={styles.iconContainer}>
-          <IconButton
-            onPress={handleNavigateToCashOutScreen}
-            title="Cash out"
-            IconComponent={
-              <MaterialIcons name="outbox" size={24} color={colors.danger} />
-            }
-          />
-        </View>
-      </View>
+        <VerticalSpace spacer={16} />
 
-      <VerticalSpace spacer={16} />
-
-      <Padding p={16}>
-        <MonthlyTransactions />
+        <Padding p={16}>
+          <MonthlyTransactions />
+        </Padding>
       </Padding>
     </Screen>
   );

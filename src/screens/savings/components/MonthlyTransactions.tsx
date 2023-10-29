@@ -7,6 +7,12 @@ import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { VerticalSpace, HorizontalSpace } from "../../../components/Spacer";
 import { Transaction } from "./Transaction";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  FundDetailsStackParamList,
+  FundsStackParamList,
+} from "../../../navigation/types";
+import { useNavigation } from "@react-navigation/native";
 
 interface MonthlyTransactionsProps {
   date: string;
@@ -15,13 +21,18 @@ interface MonthlyTransactionsProps {
 }
 
 export const MonthlyTransactions: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<FundsStackParamList>>();
+
   return (
     <>
       <Caption style={defaultStyles.fontWeight500}>December 2023</Caption>
 
       <VerticalSpace spacer={16} />
 
-      <Transaction />
+      <Transaction
+        onPress={() => navigation.navigate("FundDetailsStackNavigator")}
+      />
 
       <VerticalSpace spacer={32} />
     </>

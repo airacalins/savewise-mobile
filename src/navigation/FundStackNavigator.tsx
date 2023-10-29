@@ -1,10 +1,11 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { FundsStackParamList } from "./types";
-import { FundsScreen } from "../screens/funds/FundsScreen";
+
+import { AllocateFundScreen } from "../screens/funds/AllocateFundScreen";
 import { CashInScreen } from "../screens/funds/CashInScreen";
 import { CashOutScreen } from "../screens/funds/CashOutScreen";
-import { FundDetailsScreen } from "../screens/funds/FundDetailsScreen";
-import { AllocateFundScreen } from "../screens/funds/AllocateFundScreen";
+import { FundsScreen } from "../screens/funds/FundsScreen";
+import { FundsStackParamList } from "./types";
+import { FundDetailsStackNavigator } from "./FundDetailsNavigator";
 
 const Stack = createStackNavigator<FundsStackParamList>();
 
@@ -27,8 +28,8 @@ export const FundsStackNavigator = () => (
       options={{ presentation: "modal" }}
     />
     <Stack.Screen
-      name="FundDetails"
-      component={FundDetailsScreen}
+      name="FundDetailsStackNavigator"
+      component={FundDetailsStackNavigator}
       options={{ presentation: "modal" }}
     />
   </Stack.Navigator>

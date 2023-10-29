@@ -30,7 +30,7 @@ export const OffsetContainer: React.FC<OffsetContainerProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
     paddingVertical: 8,
   },
   offset: {
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     position: "absolute",
-    left: 16,
+    left: 8,
     top: 8,
   },
 });

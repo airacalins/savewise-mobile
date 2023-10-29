@@ -8,31 +8,48 @@ import { Caption, Subtitle } from "./Typography";
 import { StyleSheet } from "react-native";
 
 interface IconButtonProps extends TouchableOpacityProps {
-  title: string;
+  size?: "S" | "M";
+  title?: string;
   IconComponent: React.ReactNode;
 }
 
-interface CustomButtonProps extends TouchableOpacityProps {
-  title: string;
-}
-
 export const IconButton: React.FC<IconButtonProps> = ({
+  size,
   title,
   IconComponent,
   ...props
 }) => {
+  const buttonSize = () => {
+    switch (size) {
+      case "S":
+        return 8;
+      case "M":
+        return 16;
+      default:
+        return 16;
+    }
+  };
+
   return (
     <TouchableOpacity {...props}>
-      <OffsetContainer padding={16}>
+      <OffsetContainer padding={buttonSize()}>
         <View style={defaultStyles.centerHorizontally}>
           {IconComponent}
-          <HorizontalSpace spacer={8} />
-          <Subtitle>{title}</Subtitle>
+          {title && (
+            <>
+              <HorizontalSpace spacer={8} />
+              <Subtitle>{title}</Subtitle>
+            </>
+          )}
         </View>
       </OffsetContainer>
     </TouchableOpacity>
   );
 };
+
+interface CustomButtonProps extends TouchableOpacityProps {
+  title: string;
+}
 
 export const CustomButton: React.FC<CustomButtonProps> = ({
   title,

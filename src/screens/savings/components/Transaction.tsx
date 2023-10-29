@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Body, Caption } from "../../../components/Typography";
@@ -8,15 +8,19 @@ import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "../../../components/Spacer";
 
 interface TransactionProps {
-  month: string;
-  date: string;
-  description: string;
-  amount: number;
+  // month: string;
+  // date: string;
+  // description: string;
+  // amount: number;
+  onPress: () => void;
 }
 
-export const Transaction: React.FC = () => {
+export const Transaction: React.FC<TransactionProps> = ({ onPress }) => {
   return (
-    <View style={defaultStyles.centerHorizontally}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={defaultStyles.centerHorizontally}
+    >
       <View style={styles.dateContainer}>
         <Body>Dec</Body>
         <Body>31</Body>
@@ -40,7 +44,7 @@ export const Transaction: React.FC = () => {
         </View>
         <Caption style={{ color: colors.success }}>2,300</Caption>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

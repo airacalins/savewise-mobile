@@ -8,14 +8,14 @@ import { OffsetContainer } from "./Container";
 import { defaultStyles } from "../layouts/DefaultStyles";
 
 interface InputProps extends TextInputProps {
-  label: string;
+  label?: string;
   Icon: React.ReactNode;
 }
 
 export const Input: React.FC<InputProps> = ({ label, Icon, ...props }) => {
   return (
     <View style={styles.root}>
-      <Body style={styles.label}>{label}</Body>
+      {label && <Body style={styles.label}>{label}</Body>}
       <OffsetContainer>
         <View style={defaultStyles.centerHorizontally}>
           <View style={styles.icon}>{Icon}</View>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   label: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
   },
   icon: {
     alignItems: "center",

@@ -12,7 +12,6 @@ import { AddSavingsScreen } from "../screens/savings/AddSavingsScreen";
 import { BottomTabParamList } from "./types";
 import { Caption } from "../components/Typography";
 import { colors } from "../layouts/Colors";
-import { FundsScreen } from "../screens/funds/FundsScreen";
 import { OffsetContainer } from "../components/Container";
 import { ProfileScreen } from "../screens/profile/ProfileScreen";
 import { SavingsStackNavigator } from "./SavingsStackNavigator";
@@ -33,7 +32,7 @@ export const BottomTabNavigator = () => (
     }}
   >
     <Tab.Screen
-      name="Savings"
+      name="SavingsStackNavigator"
       component={SavingsStackNavigator}
       options={{
         headerShown: false,
@@ -43,7 +42,7 @@ export const BottomTabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Funds"
+      name="FundsStackNavigator"
       component={FundsStackNavigator}
       options={{
         headerShown: false,
