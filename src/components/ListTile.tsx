@@ -6,10 +6,10 @@ import { defaultStyles } from "../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "./Spacer";
 
 interface ListTileProps {
-  LeadingComponent: React.ReactNode;
+  LeadingComponent?: React.ReactNode;
   IconComponent?: React.ReactNode;
   TitleComponent: React.ReactNode;
-  SubtitleComponent: React.ReactNode;
+  SubtitleComponent?: React.ReactNode;
   TrailingComponent: React.ReactNode;
   onPress: () => void;
 }
@@ -33,8 +33,12 @@ export const ListTile: React.FC<ListTileProps> = ({
       <View style={[defaultStyles.centerHorizontallyBetween, { flex: 1 }]}>
         <View style={{ flex: 1 }}>
           {TitleComponent}
-          <VerticalSpace spacer={4} />
-          {SubtitleComponent}
+          {SubtitleComponent && (
+            <>
+              <VerticalSpace spacer={4} />
+              {SubtitleComponent}
+            </>
+          )}
         </View>
         {TrailingComponent}
       </View>

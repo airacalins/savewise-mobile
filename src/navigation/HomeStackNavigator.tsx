@@ -1,17 +1,17 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { SavingsScreen } from "../screens/main/SavingsScreen";
 import { SavingsDetailsScreen } from "../screens/savings/SavingsDetailsScreen";
-import { SavingsStackParamList } from "./types";
+import { HomeStackParamList } from "./types";
+import { HomeScreen } from "../screens/home/HomeScreen";
 
-const Stack = createStackNavigator<SavingsStackParamList>();
+const Stack = createStackNavigator<HomeStackParamList>();
 
-export const SavingsStackNavigator = () => (
+export const HomeStackNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen
-      name="Savings"
-      component={SavingsScreen}
+      name="Home"
+      component={HomeScreen}
       options={{ headerShown: false }}
     />
     <Stack.Screen name="SavingsDetails" component={SavingsDetailsScreen} />

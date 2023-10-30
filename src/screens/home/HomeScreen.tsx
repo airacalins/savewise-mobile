@@ -11,8 +11,9 @@ import { SavingsList } from "./components/SavingsList";
 import { savingsMockData } from "../../data/SavingsMockData";
 import { Screen } from "../../components/Screen";
 import { VerticalSpace } from "../../components/Spacer";
+import { Padding } from "../../components/Padding";
 
-export const SavingsScreen: React.FC = () => {
+export const HomeScreen: React.FC = () => {
   const personalSavings = savingsMockData.filter((saving) => !saving.shared);
   const sharedSavings = savingsMockData.filter((saving) => saving.shared);
 
@@ -24,37 +25,45 @@ export const SavingsScreen: React.FC = () => {
             image="https://cdn.pixabay.com/photo/2016/12/19/21/36/woman-1919143_1280.jpg"
             name="Aira"
           />
+
           <VerticalSpace spacer={16} />
-          <View style={defaultStyles.centerHorizontally}>
-            <View style={styles.card}>
-              <Card
-                title="Total Savings"
-                subtitle="₱100,000"
-                LeadingIconComponent={
-                  <MaterialCommunityIcons
-                    name="hand-coin-outline"
-                    size={24}
-                    color={colors.info}
-                  />
-                }
-              />
+
+          <Padding px={8}>
+            <View style={defaultStyles.centerHorizontally}>
+              <View style={styles.card}>
+                <Card
+                  title="Total Savings"
+                  subtitle="₱100,000"
+                  LeadingIconComponent={
+                    <MaterialCommunityIcons
+                      name="hand-coin-outline"
+                      size={24}
+                      color={colors.info}
+                    />
+                  }
+                />
+              </View>
+              <View style={styles.card}>
+                <Card
+                  title="Last month"
+                  subtitle="₱100,000"
+                  LeadingIconComponent={
+                    <AntDesign
+                      name="arrowup"
+                      size={24}
+                      color={colors.success}
+                    />
+                  }
+                />
+              </View>
             </View>
-            <View style={styles.card}>
-              <Card
-                title="Last month"
-                subtitle="₱100,000"
-                LeadingIconComponent={
-                  <AntDesign name="arrowup" size={24} color={colors.success} />
-                }
-              />
-            </View>
-          </View>
+          </Padding>
 
           <VerticalSpace spacer={16} />
 
           <VerticalSpace spacer={16} />
           <SavingsList title="Personal" data={personalSavings} />
-          <VerticalSpace spacer={16} />
+          <VerticalSpace spacer={32} />
           <SavingsList title="Shared" data={sharedSavings} />
           <VerticalSpace spacer={16} />
         </ScrollView>

@@ -1,5 +1,6 @@
 import React from "react";
-import { InputAccessoryView, View } from "react-native";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { InputAccessoryView, TouchableOpacity, View } from "react-native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { colors } from "../../../layouts/Colors";
@@ -17,11 +18,14 @@ export const FundsInputAccessory: React.FC<FundsInputAccessoryProps> = ({
     <InputAccessoryView nativeID={nativeID}>
       <OffsetContainer padding={16}>
         <View style={defaultStyles.centerHorizontallyBetween}>
-          <MaterialCommunityIcons
-            name="calendar-blank-outline"
-            size={24}
-            color={colors.dark}
-          />
+          <TouchableOpacity style={defaultStyles.centerAlignHorizontally}>
+            <MaterialCommunityIcons
+              name="calendar-blank-outline"
+              size={24}
+              color={colors.dark}
+            />
+            <RNDateTimePicker value={new Date()} mode="date" />
+          </TouchableOpacity>
           <Feather name="camera" size={24} color={colors.dark} />
         </View>
       </OffsetContainer>

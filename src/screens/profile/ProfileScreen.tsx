@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import { Body, Caption, Subtitle, Title } from "../../components/Typography";
@@ -9,8 +9,13 @@ import { OffsetContainer } from "../../components/Container";
 import { Screen } from "../../components/Screen";
 import { VerticalSpace } from "../../components/Spacer";
 import { Padding } from "../../components/Padding";
+import { ListTile } from "../../components/ListTile";
 
 export const ProfileScreen = () => {
+  const GreaterThanIcon = (
+    <AntDesign name="right" size={24} color={colors.dark} />
+  );
+
   return (
     <Screen>
       <View style={styles.sectionTitle}>
@@ -24,14 +29,12 @@ export const ProfileScreen = () => {
         <VerticalSpace spacer={8} />
         <Padding px={8}>
           <OffsetContainer padding={16}>
-            <View style={defaultStyles.centerHorizontallyBetween}>
-              <View>
-                <Subtitle>Aira Calingasan</Subtitle>
-                <VerticalSpace spacer={4} />
-                <Body>airacalins@gmail.com</Body>
-              </View>
-              <AntDesign name="right" size={24} color={colors.dark} />
-            </View>
+            <ListTile
+              TitleComponent={<Subtitle>Aira Calingasan</Subtitle>}
+              SubtitleComponent={<Body>airacalins@gmail.com</Body>}
+              TrailingComponent={GreaterThanIcon}
+              onPress={() => {}}
+            />
           </OffsetContainer>
         </Padding>
       </View>
@@ -43,15 +46,17 @@ export const ProfileScreen = () => {
         <VerticalSpace spacer={8} />
         <Padding px={8}>
           <OffsetContainer padding={16}>
-            <View style={defaultStyles.centerHorizontallyBetween}>
-              <Subtitle>Notifications</Subtitle>
-              <AntDesign name="right" size={24} color={colors.dark} />
-            </View>
+            <ListTile
+              TitleComponent={<Subtitle>Notifications</Subtitle>}
+              TrailingComponent={GreaterThanIcon}
+              onPress={() => {}}
+            />
             <View style={defaultStyles.listTileSeparator} />
-            <View style={defaultStyles.centerHorizontallyBetween}>
-              <Subtitle>Passcode</Subtitle>
-              <AntDesign name="right" size={24} color={colors.dark} />
-            </View>
+            <ListTile
+              TitleComponent={<Subtitle>Passcode</Subtitle>}
+              TrailingComponent={GreaterThanIcon}
+              onPress={() => {}}
+            />
           </OffsetContainer>
         </Padding>
       </View>
@@ -63,15 +68,17 @@ export const ProfileScreen = () => {
         <VerticalSpace spacer={8} />
         <Padding px={8}>
           <OffsetContainer padding={16}>
-            <View style={defaultStyles.centerHorizontallyBetween}>
-              <Subtitle>Rate Splitwise</Subtitle>
-              <AntDesign name="right" size={24} color={colors.dark} />
-            </View>
+            <ListTile
+              TitleComponent={<Subtitle>Rate Savewise</Subtitle>}
+              TrailingComponent={GreaterThanIcon}
+              onPress={() => {}}
+            />
             <View style={defaultStyles.listTileSeparator} />
-            <View style={defaultStyles.centerHorizontallyBetween}>
-              <Subtitle>Contact Us</Subtitle>
-              <AntDesign name="right" size={24} color={colors.dark} />
-            </View>
+            <ListTile
+              TitleComponent={<Subtitle>Contact Us</Subtitle>}
+              TrailingComponent={GreaterThanIcon}
+              onPress={() => {}}
+            />
           </OffsetContainer>
         </Padding>
       </View>

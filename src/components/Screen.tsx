@@ -1,4 +1,5 @@
 import React from "react";
+import LottieView from "lottie-react-native";
 
 import {
   SafeAreaView,
@@ -8,6 +9,8 @@ import {
   View,
 } from "react-native";
 import { colors } from "../layouts/Colors";
+import { Padding } from "./Padding";
+import { defaultStyles } from "../layouts/DefaultStyles";
 
 interface ScreenProps {
   children: React.ReactNode;
@@ -30,6 +33,22 @@ export const ScrollableScreen: React.FC<ScreenProps> = ({ children }) => {
     </SafeAreaView>
   );
 };
+
+export const NewFeatureSceen = () => (
+  <View style={defaultStyles.center}>
+    <Padding p={32}>
+      <LottieView
+        autoPlay
+        style={{
+          width: 500,
+        }}
+        source={{
+          uri: "https://lottie.host/7885bfd9-c9ba-4419-8b5d-b8ad89765bd1/RlqXGOWk3v.json",
+        }}
+      />
+    </Padding>
+  </View>
+);
 
 export const styles = StyleSheet.create({
   container: {

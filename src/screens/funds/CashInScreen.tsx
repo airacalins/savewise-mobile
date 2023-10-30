@@ -1,5 +1,9 @@
-import React from "react";
-import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import {
+  Entypo,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
 import { CustomButton } from "../../components/Button";
@@ -10,10 +14,14 @@ import { Input } from "../../components/Input";
 import { Padding } from "../../components/Padding";
 import { Screen } from "../../components/Screen";
 import { Subtitle } from "../../components/Typography";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Button } from "react-native";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 export const CashInScreen = ({ navigation }: FundsStackProps) => {
   const inputAccessoryViewID = "otherOptions";
+  const [date, setDate] = useState(new Date());
+  const [isOpenDatePicker, setIsOpenDatePicker] = useState(false);
 
   const handleSave = () => navigation.goBack();
 
@@ -54,6 +62,8 @@ export const CashInScreen = ({ navigation }: FundsStackProps) => {
           </Padding>
         </Padding>
       </Screen>
+
+      <RNDateTimePicker value={new Date()} mode="date" />
 
       <FundsInputAccessory nativeID={inputAccessoryViewID} />
     </>

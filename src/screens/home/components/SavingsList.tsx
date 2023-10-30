@@ -14,7 +14,7 @@ import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { ListTile } from "../../../components/ListTile";
 import { OffsetContainer } from "../../../components/Container";
 import { Saving } from "../../../interfaces/savings";
-import { SavingsStackParamList } from "../../../navigation/types";
+import { HomeStackParamList } from "../../../navigation/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { colors } from "../../../layouts/Colors";
 import { VerticalSpace } from "../../../components/Spacer";
@@ -26,7 +26,7 @@ interface SavingsListProps {
 
 export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<SavingsStackParamList>>();
+    useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
     <View>
@@ -34,7 +34,7 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
         <Caption>{title}</Caption>
       </View>
       <FlatList
-        style={{ paddingVertical: 16 }}
+        style={{ padding: 16 }}
         keyExtractor={(item) => item.id}
         data={data}
         scrollEnabled={false}
@@ -42,35 +42,28 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
           <View style={defaultStyles.listTileSeparator} />
         )}
         renderItem={({ item }) => (
-          <TouchableOpacity
+          <ListTile
+            LeadingComponent={
+              <Image style={styles.tileImage} source={{ uri: item.image }} />
+            }
+            TitleComponent={
+              <Body style={defaultStyles.fontWeight500}>{item.title}</Body>
+            }
+            SubtitleComponent={
+              <Body>
+                {`₱${item.targetSavings} by ${format(
+                  new Date(2014, 1, 11),
+                  "MMM dd, yyyy"
+                )}`}
+              </Body>
+            }
+            TrailingComponent={
+              <Caption
+                style={{ color: colors.success }}
+              >{`₱${item.totalSavings}`}</Caption>
+            }
             onPress={() => navigation.navigate("SavingsDetails")}
-            style={{ paddingHorizontal: 16 }}
-          >
-            <ListTile
-              LeadingComponent={
-                <Image style={styles.tileImage} source={{ uri: item.image }} />
-              }
-              TitleComponent={
-                <Body style={defaultStyles.fontWeight500}>{item.title}</Body>
-              }
-              SubtitleComponent={
-                <Body>
-                  {`₱${item.targetSavings} by ${format(
-                    new Date(2014, 1, 11),
-                    "MMM dd, yyyy"
-                  )}`}
-                </Body>
-              }
-              TrailingComponent={
-                <Caption
-                  style={{ color: colors.success }}
-                >{`₱${item.totalSavings}`}</Caption>
-              }
-              onPress={function (): void {
-                throw new Error("Function not implemented.");
-              }}
-            />
-          </TouchableOpacity>
+          />
         )}
       />
     </View>

@@ -2,15 +2,15 @@ import type { NavigatorScreenParams } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 export type BottomTabParamList = {
-  SavingsStackNavigator: NavigatorScreenParams<SavingsStackParamList>;
+  HomeStackNavigator: NavigatorScreenParams<HomeStackParamList>;
   FundsStackNavigator: NavigatorScreenParams<FundsStackParamList>;
   AddSavings: undefined;
   Activity: undefined;
   Profile: undefined;
 };
 
-export type SavingsStackParamList = {
-  Savings: undefined;
+export type HomeStackParamList = {
+  Home: undefined;
   SavingsDetails: undefined;
 };
 

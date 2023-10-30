@@ -5,17 +5,16 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
 
 import { ActivityScreen } from "../screens/activity/ActivityScreen";
 import { AddSavingsScreen } from "../screens/savings/AddSavingsScreen";
 import { BottomTabParamList } from "./types";
-import { Caption } from "../components/Typography";
 import { colors } from "../layouts/Colors";
 import { OffsetContainer } from "../components/Container";
 import { ProfileScreen } from "../screens/profile/ProfileScreen";
-import { SavingsStackNavigator } from "./SavingsStackNavigator";
 import { FundsStackNavigator } from "./FundStackNavigator";
+import { HomeStackNavigator } from "./HomeStackNavigator";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -33,8 +32,8 @@ export const BottomTabNavigator = () => (
     }}
   >
     <Tab.Screen
-      name="SavingsStackNavigator"
-      component={SavingsStackNavigator}
+      name="HomeStackNavigator"
+      component={HomeStackNavigator}
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => (
