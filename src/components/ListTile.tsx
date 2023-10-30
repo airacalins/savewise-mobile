@@ -1,37 +1,43 @@
 import React from "react";
-import { View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { defaultStyles } from "../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "./Spacer";
-import { Body, Subtitle } from "./Typography";
 
 interface ListTileProps {
-  title: string;
-  subtitle: string;
   LeadingComponent: React.ReactNode;
+  IconComponent?: React.ReactNode;
+  TitleComponent: React.ReactNode;
+  SubtitleComponent: React.ReactNode;
   TrailingComponent: React.ReactNode;
+  onPress: () => void;
 }
 
 export const ListTile: React.FC<ListTileProps> = ({
-  title,
-  subtitle,
   LeadingComponent,
+  IconComponent,
+  TitleComponent,
+  SubtitleComponent,
   TrailingComponent,
+  onPress,
 }) => {
   return (
-    <>
-      <View style={defaultStyles.centerHorizontallyBetween}>
-        <View style={defaultStyles.centerHorizontally}>
-          {LeadingComponent}
-          <HorizontalSpace spacer={16} />
-          <View>
-            <Subtitle>{title}</Subtitle>
-            <VerticalSpace spacer={4} />
-            <Body>{subtitle}</Body>
-          </View>
+    <TouchableOpacity
+      onPress={onPress}
+      style={defaultStyles.centerHorizontally}
+    >
+      {LeadingComponent}
+      {IconComponent}
+      <HorizontalSpace spacer={4} />
+      <View style={[defaultStyles.centerHorizontallyBetween, { flex: 1 }]}>
+        <View style={{ flex: 1 }}>
+          {TitleComponent}
+          <VerticalSpace spacer={4} />
+          {SubtitleComponent}
         </View>
         {TrailingComponent}
       </View>
-    </>
+    </TouchableOpacity>
   );
 };

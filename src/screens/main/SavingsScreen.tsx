@@ -30,7 +30,7 @@ export const SavingsScreen: React.FC = () => {
               <Card
                 title="Total Savings"
                 subtitle="₱100,000"
-                LeadingIcon={
+                LeadingIconComponent={
                   <MaterialCommunityIcons
                     name="hand-coin-outline"
                     size={24}
@@ -43,7 +43,7 @@ export const SavingsScreen: React.FC = () => {
               <Card
                 title="Last month"
                 subtitle="₱100,000"
-                LeadingIcon={
+                LeadingIconComponent={
                   <AntDesign name="arrowup" size={24} color={colors.success} />
                 }
               />

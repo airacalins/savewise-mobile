@@ -7,16 +7,20 @@ import { Caption, Title } from "../../../components/Typography";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 
 interface CardProps {
-  LeadingIcon: React.ReactNode;
+  LeadingIconComponent: React.ReactNode;
   title: string;
   subtitle: string;
 }
 
-export const Card: React.FC<CardProps> = ({ LeadingIcon, title, subtitle }) => {
+export const Card: React.FC<CardProps> = ({
+  LeadingIconComponent,
+  title,
+  subtitle,
+}) => {
   return (
     <OffsetContainer>
       <View style={[defaultStyles.centerHorizontally, { padding: 16 }]}>
-        {LeadingIcon}
+        {LeadingIconComponent}
         <HorizontalSpace spacer={16} />
         <View>
           <Caption>{title}</Caption>
