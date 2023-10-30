@@ -48,23 +48,41 @@ export const IconButton: React.FC<IconButtonProps> = ({
 };
 
 interface CustomButtonProps extends TouchableOpacityProps {
+  size?: "S" | "M";
   title: string;
 }
 
 export const CustomButton: React.FC<CustomButtonProps> = ({
+  size,
   title,
   ...props
-}) => (
-  <TouchableOpacity {...props}>
-    <OffsetContainer>
-      <Caption style={styles.customButtonText}>{title}</Caption>
-    </OffsetContainer>
-  </TouchableOpacity>
-);
+}) => {
+  const buttonSize = () => {
+    switch (size) {
+      case "S":
+        return {
+          paddingHorizontal: 8,
+          paddingVertical: 4,
+        };
+      case "M":
+        return {
+          padding: 16,
+        };
+      default:
+        return {
+          paddingHorizontal: 8,
+          paddingVertical: 4,
+        };
+    }
+  };
 
-const styles = StyleSheet.create({
-  customButtonText: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-});
+  return (
+    <TouchableOpacity {...props}>
+      <OffsetContainer>
+        <View style={{ alignSelf: "center" }}>
+          <Caption style={{ ...buttonSize() }}>{title}</Caption>
+        </View>
+      </OffsetContainer>
+    </TouchableOpacity>
+  );
+};

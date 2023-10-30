@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Entypo,
   Ionicons,
@@ -8,18 +8,23 @@ import {
 } from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
-import { Screen } from "../../components/Screen";
-import { Subtitle } from "../../components/Typography";
-import { StyleSheet, View } from "react-native";
-import { IconButton } from "../../components/Button";
-import { Padding } from "../../components/Padding";
-import { VerticalSpace } from "../../components/Spacer";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Details } from "../../components/Details";
 import { FundDetailsStackProps } from "../../navigation/types";
+import { IconButton } from "../../components/Button";
+import { Screen } from "../../components/Screen";
+import { Subtitle } from "../../components/Typography";
+import { StyleSheet, View } from "react-native";
+import { Padding } from "../../components/Padding";
+import { VerticalSpace } from "../../components/Spacer";
+import { ConfirmationModal } from "../../components/Modal";
 
 export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
-  const handleDelete = () => navigation.goBack();
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
+  const handleDelete = () => {
+    setIsDeleteModalVisible(true);
+  };
 
   const handleEdit = () => navigation.navigate("AllocateFund");
 
@@ -77,7 +82,7 @@ export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
               <MaterialCommunityIcons
                 name="calendar-blank-outline"
                 size={32}
-                color="black"
+                color={colors.dark}
               />
             }
           />
@@ -98,8 +103,33 @@ export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
           />
         </Padding>
       </Padding>
+
+      <ConfirmationModal
+        title="Are you sure you want to delete?"
+        confirmButtonTitle="Yes, I'm sure!"
+        visible={isDeleteModalVisible}
+        onConfirm={() => {
+          setIsDeleteModalVisible(false);
+          navigation.goBack();
+        }}
+        onClose={() => setIsDeleteModalVisible(false)}
+      />
     </Screen>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+  },
+  modal: {
+    backgroundColor: colors.background,
+    borderColor: colors.border,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 16,
+  },
+});

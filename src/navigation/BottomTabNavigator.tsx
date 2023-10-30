@@ -22,6 +22,7 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 export const BottomTabNavigator = () => (
   <Tab.Navigator
     screenOptions={{
+      headerShown: false,
       tabBarActiveTintColor: colors.dark,
       tabBarInactiveTintColor: colors.grey,
       tabBarShowLabel: false,
@@ -59,15 +60,7 @@ export const BottomTabNavigator = () => (
         headerStyle: {
           backgroundColor: colors.background,
         },
-        headerRight: () => (
-          <TouchableOpacity>
-            <OffsetContainer>
-              <Caption style={{ paddingHorizontal: 8, paddingVertical: 4 }}>
-                Save
-              </Caption>
-            </OffsetContainer>
-          </TouchableOpacity>
-        ),
+
         tabBarButton: () => (
           <OffsetContainer backgroundColor={colors.dark}>
             <TouchableWithoutFeedback

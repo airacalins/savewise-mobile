@@ -2,16 +2,15 @@ import React from "react";
 import { Entypo, MaterialIcons } from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
+import { CustomButton } from "../../components/Button";
+import { defaultStyles } from "../../layouts/DefaultStyles";
+import { FundsInputAccessory } from "./components/FundsInputAccessory";
+import { FundsStackProps } from "../../navigation/types";
 import { Input } from "../../components/Input";
+import { Padding } from "../../components/Padding";
 import { Screen } from "../../components/Screen";
 import { Subtitle } from "../../components/Typography";
 import { View } from "react-native";
-import { VerticalSpace } from "../../components/Spacer";
-import { defaultStyles } from "../../layouts/DefaultStyles";
-import { Padding } from "../../components/Padding";
-import { CustomButton } from "../../components/Button";
-import { FundsStackProps } from "../../navigation/types";
-import { FundsInputAccessory } from "./components/FundsInputAccessory";
 
 export const CashInScreen = ({ navigation }: FundsStackProps) => {
   const inputAccessoryViewID = "otherOptions";
@@ -30,8 +29,6 @@ export const CashInScreen = ({ navigation }: FundsStackProps) => {
           </Padding>
 
           <View style={defaultStyles.listTileSeparator} />
-
-          <VerticalSpace spacer={8} />
 
           <Padding px={8}>
             <Input

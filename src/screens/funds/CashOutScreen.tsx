@@ -10,7 +10,6 @@ import { Input } from "../../components/Input";
 import { Padding } from "../../components/Padding";
 import { Screen } from "../../components/Screen";
 import { Subtitle } from "../../components/Typography";
-import { VerticalSpace } from "../../components/Spacer";
 import { View } from "react-native";
 
 export const CashOutScreen = ({ navigation }: FundsStackProps) => {

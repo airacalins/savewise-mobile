@@ -8,10 +8,10 @@ import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "../../../components/Spacer";
 
 interface TransactionProps {
-  // month: string;
-  // date: string;
-  // description: string;
-  // amount: number;
+  month: string;
+  date: string;
+  description: string;
+  amount: number;
   onPress: () => void;
 }
 
