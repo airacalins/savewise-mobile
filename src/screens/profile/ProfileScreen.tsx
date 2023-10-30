@@ -10,8 +10,9 @@ import { Screen } from "../../components/Screen";
 import { VerticalSpace } from "../../components/Spacer";
 import { Padding } from "../../components/Padding";
 import { ListTile } from "../../components/ListTile";
+import { ProfileStackProps } from "../../navigation/ProfileStackNavigator";
 
-export const ProfileScreen = () => {
+export const ProfileScreen = ({ navigation }: ProfileStackProps) => {
   const GreaterThanIcon = (
     <AntDesign name="right" size={24} color={colors.dark} />
   );
@@ -33,7 +34,7 @@ export const ProfileScreen = () => {
               TitleComponent={<Subtitle>Aira Calingasan</Subtitle>}
               SubtitleComponent={<Body>airacalins@gmail.com</Body>}
               TrailingComponent={GreaterThanIcon}
-              onPress={() => {}}
+              onPress={() => navigation.navigate("Settings")}
             />
           </OffsetContainer>
         </Padding>
@@ -49,13 +50,13 @@ export const ProfileScreen = () => {
             <ListTile
               TitleComponent={<Subtitle>Notifications</Subtitle>}
               TrailingComponent={GreaterThanIcon}
-              onPress={() => {}}
+              onPress={() => navigation.navigate("Notifications")}
             />
             <View style={defaultStyles.listTileSeparator} />
             <ListTile
               TitleComponent={<Subtitle>Passcode</Subtitle>}
               TrailingComponent={GreaterThanIcon}
-              onPress={() => {}}
+              onPress={() => navigation.navigate("Passcode")}
             />
           </OffsetContainer>
         </Padding>
@@ -71,13 +72,13 @@ export const ProfileScreen = () => {
             <ListTile
               TitleComponent={<Subtitle>Rate Savewise</Subtitle>}
               TrailingComponent={GreaterThanIcon}
-              onPress={() => {}}
+              onPress={() => navigation.navigate("RateUs")}
             />
             <View style={defaultStyles.listTileSeparator} />
             <ListTile
               TitleComponent={<Subtitle>Contact Us</Subtitle>}
               TrailingComponent={GreaterThanIcon}
-              onPress={() => {}}
+              onPress={() => navigation.navigate("ContactUs")}
             />
           </OffsetContainer>
         </Padding>

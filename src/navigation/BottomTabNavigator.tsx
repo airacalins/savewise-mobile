@@ -9,12 +9,23 @@ import { TouchableWithoutFeedback } from "react-native";
 
 import { ActivityScreen } from "../screens/activity/ActivityScreen";
 import { AddSavingsScreen } from "../screens/savings/AddSavingsScreen";
-import { BottomTabParamList } from "./types";
 import { colors } from "../layouts/Colors";
+import { FundsStackNavigator, FundsStackParamList } from "./FundStackNavigator";
+import { HomeStackNavigator, HomeStackParamList } from "./HomeStackNavigator";
+import { NavigatorScreenParams } from "@react-navigation/native";
 import { OffsetContainer } from "../components/Container";
-import { ProfileScreen } from "../screens/profile/ProfileScreen";
-import { FundsStackNavigator } from "./FundStackNavigator";
-import { HomeStackNavigator } from "./HomeStackNavigator";
+import {
+  ProfileStackNavigator,
+  ProfileStackParamList,
+} from "./ProfileStackNavigator";
+
+export type BottomTabParamList = {
+  HomeStackNavigator: NavigatorScreenParams<HomeStackParamList>;
+  FundsStackNavigator: NavigatorScreenParams<FundsStackParamList>;
+  AddSavings: undefined;
+  Activity: undefined;
+  ProfileStackNavigator: NavigatorScreenParams<ProfileStackParamList>;
+};
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -88,8 +99,8 @@ export const BottomTabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Profile"
-      component={ProfileScreen}
+      name="ProfileStackNavigator"
+      component={ProfileStackNavigator}
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => (

@@ -4,8 +4,22 @@ import { AllocateFundScreen } from "../screens/funds/AllocateFundScreen";
 import { CashInScreen } from "../screens/funds/CashInScreen";
 import { CashOutScreen } from "../screens/funds/CashOutScreen";
 import { FundsScreen } from "../screens/funds/FundsScreen";
-import { FundsStackParamList } from "./types";
-import { FundDetailsStackNavigator } from "./FundDetailsNavigator";
+import {
+  FundDetailsStackNavigator,
+  FundDetailsStackParamList,
+} from "./FundDetailsStackNavigator";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NavigatorScreenParams } from "@react-navigation/native";
+
+export type FundsStackParamList = {
+  Funds: undefined;
+  FundDetailsStackNavigator: NavigatorScreenParams<FundDetailsStackParamList>;
+  CashIn: undefined;
+  CashOut: undefined;
+  AllocateFund: undefined;
+};
+
+export type FundsStackProps = NativeStackScreenProps<FundsStackParamList>;
 
 const Stack = createStackNavigator<FundsStackParamList>();
 

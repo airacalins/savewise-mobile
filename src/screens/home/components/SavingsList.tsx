@@ -1,23 +1,15 @@
 import React from "react";
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, Image, StyleSheet, View } from "react-native";
 import { format } from "date-fns";
 import { useNavigation } from "@react-navigation/native";
 
-import { Body, Caption, Subtitle } from "../../../components/Typography";
-import { defaultStyles } from "../../../layouts/DefaultStyles";
-import { ListTile } from "../../../components/ListTile";
-import { OffsetContainer } from "../../../components/Container";
-import { Saving } from "../../../interfaces/savings";
-import { HomeStackParamList } from "../../../navigation/types";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Body, Caption } from "../../../components/Typography";
 import { colors } from "../../../layouts/Colors";
-import { VerticalSpace } from "../../../components/Spacer";
+import { defaultStyles } from "../../../layouts/DefaultStyles";
+import { HomeStackParamList } from "../../../navigation/HomeStackNavigator";
+import { ListTile } from "../../../components/ListTile";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Saving } from "../../../interfaces/savings";
 
 interface SavingsListProps {
   title: string;

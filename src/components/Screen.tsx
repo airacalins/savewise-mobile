@@ -11,6 +11,8 @@ import {
 import { colors } from "../layouts/Colors";
 import { Padding } from "./Padding";
 import { defaultStyles } from "../layouts/DefaultStyles";
+import { Body, Caption } from "./Typography";
+import { VerticalSpace } from "./Spacer";
 
 interface ScreenProps {
   children: React.ReactNode;
@@ -35,19 +37,24 @@ export const ScrollableScreen: React.FC<ScreenProps> = ({ children }) => {
 };
 
 export const NewFeatureSceen = () => (
-  <View style={defaultStyles.center}>
-    <Padding p={32}>
-      <LottieView
-        autoPlay
-        style={{
-          width: 500,
-        }}
-        source={{
-          uri: "https://lottie.host/7885bfd9-c9ba-4419-8b5d-b8ad89765bd1/RlqXGOWk3v.json",
-        }}
-      />
-    </Padding>
-  </View>
+  <>
+    <View style={[defaultStyles.center, { flex: 1 }]}>
+      <Body>This feature is building for you</Body>
+      <VerticalSpace spacer={8} />
+      <Caption>- Savewise -</Caption>
+      <VerticalSpace spacer={32} />
+    </View>
+    <LottieView
+      autoPlay
+      style={{
+        width: "auto",
+        height: "75%",
+      }}
+      source={{
+        uri: "https://lottie.host/7885bfd9-c9ba-4419-8b5d-b8ad89765bd1/RlqXGOWk3v.json",
+      }}
+    />
+  </>
 );
 
 export const styles = StyleSheet.create({
