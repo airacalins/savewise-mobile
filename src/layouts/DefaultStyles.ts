@@ -31,6 +31,9 @@ export const defaultStyles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
   },
+  fullWidth: {
+    width: "100%",
+  },
   horizontalPadding: {
     paddingHorizontal: 16,
   },

@@ -5,6 +5,7 @@ import { defaultStyles } from "../layouts/DefaultStyles";
 import { HorizontalSpace } from "./Spacer";
 import { Caption, Subtitle } from "./Typography";
 import { OffsetContainer } from "./Container";
+import { colors } from "../layouts/Colors";
 
 interface IconButtonProps extends TouchableOpacityProps {
   size?: "S" | "M";
@@ -49,14 +50,27 @@ export const IconButton: React.FC<IconButtonProps> = ({
 interface CustomButtonProps extends TouchableOpacityProps {
   size?: "S" | "M";
   title: string;
+  bgColor?: "dark";
+  isFullWidth?: boolean;
 }
 
 export const CustomButton: React.FC<CustomButtonProps> = ({
   size,
   title,
+  bgColor,
+  isFullWidth,
   ...props
 }) => {
-  const buttonSize = () => {
+  const buttonBgColor = () => {
+    switch (bgColor) {
+      case "dark":
+        return colors.dark;
+      default:
+        return colors.background;
+    }
+  };
+
+  const buttonTitle = () => {
     switch (size) {
       case "S":
         return {
@@ -77,9 +91,16 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
 
   return (
     <TouchableOpacity {...props}>
-      <OffsetContainer>
+      <OffsetContainer backgroundColor={buttonBgColor()}>
         <View style={{ alignSelf: "center" }}>
-          <Caption style={{ ...buttonSize() }}>{title}</Caption>
+          <Caption
+            style={{
+              ...buttonTitle(),
+              color: bgColor === "dark" ? colors.white : colors.dark,
+            }}
+          >
+            {title}
+          </Caption>
         </View>
       </OffsetContainer>
     </TouchableOpacity>
