@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { AuthStackProps } from "../../navigation/AuthStackNavigator";
 import { Body, Header } from "../../components/Typography";
@@ -9,24 +10,19 @@ import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Input } from "../../components/Input";
 import { Screen } from "../../components/Screen";
 import { VerticalSpace, HorizontalSpace } from "../../components/Spacer";
-import { View, TouchableOpacity } from "react-native";
 
 export const RegisterScreen = ({ navigation }: AuthStackProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   return (
     <Screen>
-      <View
-        style={{
-          alignItems: "center",
-        }}
-      >
+      <View style={defaultStyles.centerHorizontally}>
         <VerticalSpace spacer={32} />
         <Header>Savewise</Header>
         <VerticalSpace spacer={32} />
       </View>
 
-      <View style={{ paddingHorizontal: 8 }}>
+      <View style={styles.formContainer}>
         <View>
           <Input
             label="First Name"
@@ -74,10 +70,18 @@ export const RegisterScreen = ({ navigation }: AuthStackProps) => {
           <Body>Already have an account?</Body>
           <HorizontalSpace spacer={4} />
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Body style={{ color: colors.info, fontWeight: "500" }}>Login</Body>
+            <Body style={(defaultStyles.textInfo, defaultStyles.fontWeight500)}>
+              Login
+            </Body>
           </TouchableOpacity>
         </View>
       </View>
     </Screen>
   );
 };
+
+const styles = StyleSheet.create({
+  formContainer: {
+    paddingHorizontal: 8,
+  },
+});

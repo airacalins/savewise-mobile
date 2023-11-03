@@ -32,7 +32,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     <Modal animationType="fade" transparent={true} {...props}>
       <View style={styles.centeredView}>
         <View style={styles.modal}>
-          <View style={{ alignSelf: "flex-end" }}>
+          <View style={styles.closeButtonContainer}>
             <TouchableOpacity onPress={onClose}>
               <AntDesign name="close" size={16} color={colors.dark} />
             </TouchableOpacity>
@@ -66,5 +66,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 16,
+  },
+  closeButtonContainer: {
+    alignSelf: "flex-end",
   },
 });

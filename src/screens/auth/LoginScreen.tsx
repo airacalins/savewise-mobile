@@ -10,23 +10,20 @@ import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
 import { Input } from "../../components/Input";
 import { Screen } from "../../components/Screen";
 import { TouchableOpacity, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 export const LoginScreen = ({ navigation }: AuthStackProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   return (
     <Screen>
-      <View
-        style={{
-          alignItems: "center",
-        }}
-      >
+      <View style={defaultStyles.centerHorizontally}>
         <VerticalSpace spacer={32} />
         <Header>Savewise</Header>
         <VerticalSpace spacer={32} />
       </View>
 
-      <View style={{ paddingHorizontal: 8 }}>
+      <View style={styles.formContainer}>
         <View>
           <Input
             label="Username"
@@ -66,7 +63,7 @@ export const LoginScreen = ({ navigation }: AuthStackProps) => {
           <Body>Don't have an account?</Body>
           <HorizontalSpace spacer={4} />
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Body style={{ color: colors.info, fontWeight: "500" }}>
+            <Body style={[defaultStyles.textInfo, { fontWeight: "500" }]}>
               Register
             </Body>
           </TouchableOpacity>
@@ -75,3 +72,9 @@ export const LoginScreen = ({ navigation }: AuthStackProps) => {
     </Screen>
   );
 };
+
+const styles = StyleSheet.create({
+  formContainer: {
+    paddingHorizontal: 8,
+  },
+});

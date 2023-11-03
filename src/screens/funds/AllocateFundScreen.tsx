@@ -5,13 +5,12 @@ import { colors } from "../../layouts/Colors";
 import { CustomButton } from "../../components/Button";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { FundsInputAccessory } from "./components/FundsInputAccessory";
-import { FundsStackProps } from "../../navigation/types";
 import { Input } from "../../components/Input";
 import { Padding } from "../../components/Padding";
 import { Screen } from "../../components/Screen";
 import { Subtitle } from "../../components/Typography";
-import { VerticalSpace } from "../../components/Spacer";
-import { ScrollView, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { FundsStackProps } from "../../navigation/FundStackNavigator";
 
 export const AllocateFundScreen = ({ navigation }: FundsStackProps) => {
   const inputAccessoryViewID = "otherOptions";
@@ -31,12 +30,7 @@ export const AllocateFundScreen = ({ navigation }: FundsStackProps) => {
 
           <View style={defaultStyles.listTileSeparator} />
 
-          <ScrollView
-            style={{
-              padding: 8,
-              height: "100%",
-            }}
-          >
+          <ScrollView style={styles.container}>
             <Input
               Icon={<FontAwesome5 name="boxes" size={24} color={colors.dark} />}
             />
@@ -63,3 +57,10 @@ export const AllocateFundScreen = ({ navigation }: FundsStackProps) => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 8,
+    height: "100%",
+  },
+});

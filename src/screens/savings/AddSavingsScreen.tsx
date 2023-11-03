@@ -10,8 +10,9 @@ import { CustomButton } from "../../components/Button";
 import { Subtitle } from "../../components/Typography";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { FundsInputAccessory } from "../funds/components/FundsInputAccessory";
+import { FundsStackProps } from "../../navigation/FundStackNavigator";
 
-export const AddSavingsScreen: React.FC = () => {
+export const AddSavingsScreen = ({ navigation }: FundsStackProps) => {
   const inputAccessoryViewID = "otherOptions";
 
   return (
@@ -20,7 +21,10 @@ export const AddSavingsScreen: React.FC = () => {
         <Padding pl={16} pr={8}>
           <View style={defaultStyles.centerHorizontallyBetween}>
             <Subtitle>Add planned savings</Subtitle>
-            <CustomButton title="Save" />
+            <CustomButton
+              onPress={() => navigation.navigate("Funds")}
+              title="Save"
+            />
           </View>
         </Padding>
 

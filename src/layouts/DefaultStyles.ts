@@ -40,4 +40,19 @@ export const defaultStyles = StyleSheet.create({
   fontWeight500: {
     fontWeight: "500",
   },
+  textDark: {
+    color: colors.dark,
+  },
+  textInfo: {
+    color: colors.info,
+  },
+  textSuccess: {
+    color: colors.success,
+  },
+  textWhite: {
+    color: colors.white,
+  },
+  flex1: {
+    flex: 1,
+  },
 });

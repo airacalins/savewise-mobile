@@ -11,15 +11,14 @@ import { MonthlyTransactions } from "../savings/components/MonthlyTransactions";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { IconButton } from "../../components/Button";
-import { FundsStackProps } from "../../navigation/types";
+import { FundsStackProps } from "../../navigation/FundStackNavigator";
 
 export const FundsScreen = ({ navigation }: FundsStackProps) => {
   const handleNavigateToCashInScreen = () => navigation.navigate("CashIn");
   const handleNavigateToAllocateFundScreen = () =>
     navigation.navigate("AllocateFund");
   const handleNavigateToCashOutScreen = () => navigation.navigate("CashOut");
-  const handleNavigateToFundDetailsScreen = () =>
-    navigation.navigate("FundDetailsStackNavigator");
+  const handleNavigateToFundDetailsScreen = () => navigation.navigate("Funds");
 
   return (
     <Screen>

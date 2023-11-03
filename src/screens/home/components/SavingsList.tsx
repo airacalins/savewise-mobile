@@ -25,11 +25,11 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
 
   return (
     <View>
-      <View style={{ paddingHorizontal: 16 }}>
+      <View style={defaultStyles.horizontalPadding}>
         <Caption>{title}</Caption>
       </View>
       <FlatList
-        style={{ padding: 16 }}
+        style={styles.listContainer}
         keyExtractor={(item) => item.id}
         data={data}
         scrollEnabled={false}
@@ -57,7 +57,7 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
                   color={colors.white}
                 />
                 <HorizontalSpace spacer={8} />
-                <Caption style={{ color: colors.white }}>
+                <Caption style={defaultStyles.textWhite}>
                   Put back to savings
                 </Caption>
               </View>
@@ -77,7 +77,7 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
               >
                 <MaterialIcons name="outbox" size={32} color={colors.white} />
                 <HorizontalSpace spacer={8} />
-                <Caption style={{ color: colors.white }}>Spend</Caption>
+                <Caption style={defaultStyles.textWhite}>Spend</Caption>
               </View>
             )}
           >
@@ -98,7 +98,7 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
               }
               TrailingComponent={
                 <Caption
-                  style={{ color: colors.success }}
+                  style={defaultStyles.textSuccess}
                 >{`₱${item.totalSavings}`}</Caption>
               }
               onPress={() => navigation.navigate("SavingsDetails")}
@@ -116,5 +116,8 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 2,
     marginRight: 8,
+  },
+  listContainer: {
+    padding: 16,
   },
 });

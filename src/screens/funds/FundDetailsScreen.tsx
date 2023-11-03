@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Entypo,
-  Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
   Octicons,
@@ -10,7 +9,6 @@ import {
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Details } from "../../components/Details";
-import { FundDetailsStackProps } from "../../navigation/types";
 import { IconButton } from "../../components/Button";
 import { Screen } from "../../components/Screen";
 import { Subtitle } from "../../components/Typography";
@@ -18,6 +16,7 @@ import { StyleSheet, View } from "react-native";
 import { Padding } from "../../components/Padding";
 import { VerticalSpace } from "../../components/Spacer";
 import { ConfirmationModal } from "../../components/Modal";
+import { FundDetailsStackProps } from "../../navigation/FundDetailsStackNavigator";
 
 export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
@@ -36,18 +35,6 @@ export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
             <Subtitle>Details</Subtitle>
           </Padding>
           <View style={[defaultStyles.centerHorizontally, { paddingRight: 8 }]}>
-            <IconButton
-              onPress={handleDelete}
-              size="S"
-              IconComponent={
-                <Ionicons
-                  name="trash-bin-outline"
-                  size={16}
-                  color={colors.danger}
-                />
-              }
-            />
-
             <IconButton
               onPress={handleEdit}
               size="S"

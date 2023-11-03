@@ -36,8 +36,10 @@ export const ListTile: React.FC<ListTileProps> = ({
         {LeadingComponent}
         {IconComponent}
         <HorizontalSpace spacer={4} />
-        <View style={[defaultStyles.centerHorizontallyBetween, { flex: 1 }]}>
-          <View style={{ flex: 1 }}>
+        <View
+          style={[defaultStyles.centerHorizontallyBetween, defaultStyles.flex1]}
+        >
+          <View style={defaultStyles.flex1}>
             {TitleComponent}
             {SubtitleComponent && (
               <>

@@ -46,10 +46,7 @@ export const NewFeatureSceen = () => (
     </View>
     <LottieView
       autoPlay
-      style={{
-        width: "auto",
-        height: "75%",
-      }}
+      style={styles.lottie}
       source={{
         uri: "https://lottie.host/7885bfd9-c9ba-4419-8b5d-b8ad89765bd1/RlqXGOWk3v.json",
       }}
@@ -64,5 +61,9 @@ export const styles = StyleSheet.create({
   },
   screen: {
     paddingVertical: 16,
+  },
+  lottie: {
+    width: "auto",
+    height: "75%",
   },
 });

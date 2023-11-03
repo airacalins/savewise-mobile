@@ -5,8 +5,8 @@ import { AuthStackNavigator } from "./src/navigation/AuthStackNavigator";
 export default function App() {
   return (
     <NavigationContainer>
-      <AuthStackNavigator />
-      {/* <BottomTabNavigator /> */}
+      {/* <AuthStackNavigator /> */}
+      <BottomTabNavigator />
     </NavigationContainer>
   );
 }
