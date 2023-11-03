@@ -1,9 +1,12 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { MaterialIcons } from "@expo/vector-icons";
+import { TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
 import { defaultStyles } from "../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "./Spacer";
+import { Caption } from "./Typography";
+import { colors } from "../layouts/Colors";
 
 interface ListTileProps {
   LeadingComponent?: React.ReactNode;
@@ -23,25 +26,29 @@ export const ListTile: React.FC<ListTileProps> = ({
   onPress,
 }) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={defaultStyles.centerHorizontally}
-    >
-      {LeadingComponent}
-      {IconComponent}
-      <HorizontalSpace spacer={4} />
-      <View style={[defaultStyles.centerHorizontallyBetween, { flex: 1 }]}>
-        <View style={{ flex: 1 }}>
-          {TitleComponent}
-          {SubtitleComponent && (
-            <>
-              <VerticalSpace spacer={4} />
-              {SubtitleComponent}
-            </>
-          )}
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View
+        style={[
+          defaultStyles.centerHorizontally,
+          { backgroundColor: colors.background },
+        ]}
+      >
+        {LeadingComponent}
+        {IconComponent}
+        <HorizontalSpace spacer={4} />
+        <View style={[defaultStyles.centerHorizontallyBetween, { flex: 1 }]}>
+          <View style={{ flex: 1 }}>
+            {TitleComponent}
+            {SubtitleComponent && (
+              <>
+                <VerticalSpace spacer={4} />
+                {SubtitleComponent}
+              </>
+            )}
+          </View>
+          {TrailingComponent}
         </View>
-        {TrailingComponent}
       </View>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   );
 };

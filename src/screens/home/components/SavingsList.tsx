@@ -2,6 +2,8 @@ import React from "react";
 import { FlatList, Image, StyleSheet, View } from "react-native";
 import { format } from "date-fns";
 import { useNavigation } from "@react-navigation/native";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import { Body, Caption } from "../../../components/Typography";
 import { colors } from "../../../layouts/Colors";
@@ -10,6 +12,7 @@ import { HomeStackParamList } from "../../../navigation/HomeStackNavigator";
 import { ListTile } from "../../../components/ListTile";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Saving } from "../../../interfaces/savings";
+import { HorizontalSpace } from "../../../components/Spacer";
 
 interface SavingsListProps {
   title: string;
@@ -34,28 +37,73 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
           <View style={defaultStyles.listTileSeparator} />
         )}
         renderItem={({ item }) => (
-          <ListTile
-            LeadingComponent={
-              <Image style={styles.tileImage} source={{ uri: item.image }} />
-            }
-            TitleComponent={
-              <Body style={defaultStyles.fontWeight500}>{item.title}</Body>
-            }
-            SubtitleComponent={
-              <Body>
-                {`₱${item.targetSavings} by ${format(
-                  new Date(2014, 1, 11),
-                  "MMM dd, yyyy"
-                )}`}
-              </Body>
-            }
-            TrailingComponent={
-              <Caption
-                style={{ color: colors.success }}
-              >{`₱${item.totalSavings}`}</Caption>
-            }
-            onPress={() => navigation.navigate("SavingsDetails")}
-          />
+          <Swipeable
+            renderLeftActions={() => (
+              <View
+                style={[
+                  defaultStyles.center,
+                  {
+                    flexDirection: "row",
+                    height: "100%",
+                    width: "50%",
+                    backgroundColor: colors.danger,
+                    marginRight: 16,
+                  },
+                ]}
+              >
+                <MaterialIcons
+                  name="move-to-inbox"
+                  size={32}
+                  color={colors.white}
+                />
+                <HorizontalSpace spacer={8} />
+                <Caption style={{ color: colors.white }}>
+                  Put back to savings
+                </Caption>
+              </View>
+            )}
+            renderRightActions={() => (
+              <View
+                style={[
+                  defaultStyles.center,
+                  {
+                    flexDirection: "row",
+                    height: "100%",
+                    width: "30%",
+                    backgroundColor: colors.info,
+                    marginLeft: 16,
+                  },
+                ]}
+              >
+                <MaterialIcons name="outbox" size={32} color={colors.white} />
+                <HorizontalSpace spacer={8} />
+                <Caption style={{ color: colors.white }}>Spend</Caption>
+              </View>
+            )}
+          >
+            <ListTile
+              LeadingComponent={
+                <Image style={styles.tileImage} source={{ uri: item.image }} />
+              }
+              TitleComponent={
+                <Body style={defaultStyles.fontWeight500}>{item.title}</Body>
+              }
+              SubtitleComponent={
+                <Body>
+                  {`₱${item.targetSavings} by ${format(
+                    new Date(2014, 1, 11),
+                    "MMM dd, yyyy"
+                  )}`}
+                </Body>
+              }
+              TrailingComponent={
+                <Caption
+                  style={{ color: colors.success }}
+                >{`₱${item.totalSavings}`}</Caption>
+              }
+              onPress={() => navigation.navigate("SavingsDetails")}
+            />
+          </Swipeable>
         )}
       />
     </View>

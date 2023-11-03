@@ -2,10 +2,9 @@ import React from "react";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 import { defaultStyles } from "../layouts/DefaultStyles";
-import { OffsetContainer } from "./Container";
 import { HorizontalSpace } from "./Spacer";
 import { Caption, Subtitle } from "./Typography";
-import { StyleSheet } from "react-native";
+import { OffsetContainer } from "./Container";
 
 interface IconButtonProps extends TouchableOpacityProps {
   size?: "S" | "M";
