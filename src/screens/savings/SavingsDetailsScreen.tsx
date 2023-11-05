@@ -12,6 +12,7 @@ import { Screen } from "../../components/Screen";
 import { StyleSheet } from "react-native";
 import { Padding } from "../../components/Padding";
 import { MonthlyTransactions } from "./components/MonthlyTransactions";
+import { ConfirmationModal } from "../../components/Modal";
 
 export const SavingsDetailsScreen = () => {
   // TODO
@@ -20,18 +21,13 @@ export const SavingsDetailsScreen = () => {
   return (
     <Screen>
       <OffsetContainer>
-        <Image
-          // TODO
-          source={{ uri: saving.image }}
-          style={styles.cardImage}
-        />
+        <Image source={{ uri: saving.image }} style={styles.cardImage} />
         <Padding p={16}>
           <View style={defaultStyles.centerHorizontallyBetween}>
             <Title>{saving.title}</Title>
             <View style={defaultStyles.centerHorizontally}>
               <AntDesign name="arrowup" size={16} color={colors.success} />
               <HorizontalSpace spacer={4} />
-              {/* TODO */}
               <Body style={defaultStyles.fontWeight500}>
                 {saving.totalSavings}
               </Body>
@@ -45,7 +41,6 @@ export const SavingsDetailsScreen = () => {
             <HorizontalSpace spacer={8} />
             <Body>Target amount: </Body>
             <Caption style={defaultStyles.fontWeight500}>
-              {/* TODO */}
               {saving.targetSavings}
             </Caption>
           </View>
@@ -56,7 +51,6 @@ export const SavingsDetailsScreen = () => {
             <AntDesign name="calendar" size={16} color={colors.dark} />
             <HorizontalSpace spacer={8} />
             <Body>Target date: </Body>
-            {/* TODO */}
             <Caption style={defaultStyles.fontWeight500}>
               {saving.targetDate}
             </Caption>

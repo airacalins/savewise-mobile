@@ -1,10 +1,56 @@
-import React from "react";
-import { NewFeatureSceen, Screen } from "../../components/Screen";
+import React, { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+
+import { Screen } from "../../components/Screen";
+import { Input } from "../../components/Input";
+import { StyleSheet, View } from "react-native";
+import { defaultStyles } from "../../layouts/DefaultStyles";
+import { Body } from "../../components/Typography";
+import { VerticalSpace } from "../../components/Spacer";
+import { CustomButton } from "../../components/Button";
+import { PasscodeForm } from "./components/PasscodeForm";
+import { ConfirmationModal } from "../../components/Modal";
 
 export const PasscodeScreen = () => {
+  const [isPasswordChanged, setIsPasswordChanged] = useState(false);
+  const [isPasswordRemoved, setIsPasswordRemoved] = useState(false);
+  const [isRemovePasswordModalVisible, setIsRemovePasswordModalVisible] =
+    useState(false);
+
+  const handleRemovePassword = () => {
+    setIsRemovePasswordModalVisible(false);
+    setIsPasswordRemoved(true);
+  };
+
   return (
-    <Screen>
-      <NewFeatureSceen />
+    <Screen title="Passcode">
+      <View style={{ paddingHorizontal: 8 }}>
+        {isPasswordChanged || isPasswordRemoved ? (
+          <PasscodeForm />
+        ) : (
+          <>
+            <CustomButton
+              onPress={() => setIsPasswordChanged(true)}
+              title={"Change Password"}
+              size="M"
+            />
+            <CustomButton
+              onPress={() => setIsRemovePasswordModalVisible(true)}
+              title={"Remove Password"}
+              size="M"
+              bgColor="danger"
+            />
+          </>
+        )}
+      </View>
+
+      <ConfirmationModal
+        title="Are you sure you want to delete?"
+        confirmButtonTitle="Yes, I'm sure!"
+        visible={isRemovePasswordModalVisible}
+        onConfirm={handleRemovePassword}
+        onClose={() => setIsRemovePasswordModalVisible(false)}
+      />
     </Screen>
   );
 };

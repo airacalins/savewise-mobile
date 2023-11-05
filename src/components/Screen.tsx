@@ -11,18 +11,36 @@ import {
 import { colors } from "../layouts/Colors";
 import { Padding } from "./Padding";
 import { defaultStyles } from "../layouts/DefaultStyles";
-import { Body, Caption } from "./Typography";
+import { Body, Caption, Subtitle } from "./Typography";
 import { VerticalSpace } from "./Spacer";
+import { CustomButton } from "./Button";
 
 interface ScreenProps {
+  title?: string;
   children: React.ReactNode;
+  HeaderRightComponent?: React.ReactNode;
 }
 
-export const Screen: React.FC<ScreenProps> = ({ children }) => {
+export const Screen: React.FC<ScreenProps> = ({
+  title,
+  children,
+  HeaderRightComponent,
+}) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.screen}>{children}</View>
+      <Padding py={16}>
+        <Padding pl={16} pr={8}>
+          <View style={defaultStyles.centerHorizontallyBetween}>
+            <Subtitle>{title}</Subtitle>
+            {HeaderRightComponent}
+          </View>
+        </Padding>
+
+        {title && <View style={defaultStyles.listTileSeparator} />}
+
+        <View style={styles.screen}>{children}</View>
+      </Padding>
     </SafeAreaView>
   );
 };
@@ -60,7 +78,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   screen: {
-    paddingVertical: 16,
+    paddingVertical: 8,
   },
   lottie: {
     width: "auto",

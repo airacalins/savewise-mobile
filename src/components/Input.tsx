@@ -10,7 +10,7 @@ import { defaultStyles } from "../layouts/DefaultStyles";
 
 interface InputProps extends TextInputProps {
   label?: string;
-  Icon: React.ReactNode;
+  Icon?: React.ReactNode;
   TrailingIcon?: React.ReactNode;
 }
 
@@ -25,11 +25,19 @@ export const Input: React.FC<InputProps> = ({
       {label && <Body style={styles.label}>{label}</Body>}
       <OffsetContainer>
         <View style={defaultStyles.centerHorizontally}>
-          <View style={styles.icon}>{Icon}</View>
-          <HorizontalSpace spacer={4} />
+          {Icon && (
+            <>
+              <View style={styles.icon}>{Icon}</View>
+              <HorizontalSpace spacer={4} />
+            </>
+          )}
           <View style={[defaultStyles.centerAlignHorizontally, { flex: 1 }]}>
             <TextInput style={styles.input} {...props} />
-            <View style={defaultStyles.horizontalPadding}>{TrailingIcon}</View>
+            {TrailingIcon && (
+              <View style={defaultStyles.horizontalPadding}>
+                {TrailingIcon}
+              </View>
+            )}
           </View>
         </View>
       </OffsetContainer>

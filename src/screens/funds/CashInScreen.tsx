@@ -22,39 +22,33 @@ export const CashInScreen = ({ navigation }: FundsStackProps) => {
 
   return (
     <>
-      <Screen>
-        <Padding py={16}>
-          <Padding pl={16} pr={8}>
-            <View style={defaultStyles.centerHorizontallyBetween}>
-              <Subtitle>Record a Cash-in</Subtitle>
-              <CustomButton onPress={handleSave} title="Save" />
-            </View>
-          </Padding>
-
-          <View style={defaultStyles.listTileSeparator} />
-
-          <Padding px={8}>
-            <Input
-              label="Description"
-              Icon={<Entypo name="text" size={24} color={colors.dark} />}
-              autoFocus
-              returnKeyType="next"
-              inputAccessoryViewID={inputAccessoryViewID}
-            />
-            <Input
-              label="Amount"
-              Icon={
-                <MaterialIcons
-                  name="move-to-inbox"
-                  size={32}
-                  color={colors.dark}
-                />
-              }
-              keyboardType="numeric"
-              returnKeyType="next"
-              inputAccessoryViewID={inputAccessoryViewID}
-            />
-          </Padding>
+      <Screen
+        title="Record a Cash-in"
+        HeaderRightComponent={
+          <CustomButton onPress={handleSave} title="Save" />
+        }
+      >
+        <Padding px={8}>
+          <Input
+            label="Description"
+            Icon={<Entypo name="text" size={24} color={colors.dark} />}
+            autoFocus
+            returnKeyType="next"
+            inputAccessoryViewID={inputAccessoryViewID}
+          />
+          <Input
+            label="Amount"
+            Icon={
+              <MaterialIcons
+                name="move-to-inbox"
+                size={32}
+                color={colors.dark}
+              />
+            }
+            keyboardType="numeric"
+            returnKeyType="next"
+            inputAccessoryViewID={inputAccessoryViewID}
+          />
         </Padding>
       </Screen>
 

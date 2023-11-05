@@ -14,12 +14,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { VerticalSpace, HorizontalSpace } from "../../../components/Spacer";
 import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
 
-interface MonthlyTransactionsProps {
-  date: string;
-  description: string;
-  amount: number;
-}
-
 export const MonthlyTransactions: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<FundsStackParamList>>();
