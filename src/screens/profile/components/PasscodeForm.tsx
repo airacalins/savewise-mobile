@@ -1,10 +1,11 @@
 import React from "react";
 import { View } from "react-native";
-import { defaultStyles } from "../../../layouts/DefaultStyles";
-import { CustomButton } from "../../../components/Button";
-import { StyleSheet } from "react-native";
-import { Input } from "../../../components/Input";
+
 import { Body } from "../../../components/Typography";
+import { CustomButton } from "../../../components/Button";
+import { defaultStyles } from "../../../layouts/DefaultStyles";
+import { Input } from "../../../components/Input";
+import { StyleSheet } from "react-native";
 import { VerticalSpace } from "../../../components/Spacer";
 
 export const PasscodeForm = () => (

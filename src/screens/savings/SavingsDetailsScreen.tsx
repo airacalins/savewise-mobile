@@ -6,13 +6,12 @@ import { Body, Caption, Title } from "../../components/Typography";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
+import { MonthlyTransactions } from "./components/MonthlyTransactions";
 import { OffsetContainer } from "../../components/Container";
+import { Padding } from "../../components/Padding";
 import { savingsMockData } from "../../data/SavingsMockData";
 import { Screen } from "../../components/Screen";
 import { StyleSheet } from "react-native";
-import { Padding } from "../../components/Padding";
-import { MonthlyTransactions } from "./components/MonthlyTransactions";
-import { ConfirmationModal } from "../../components/Modal";
 
 export const SavingsDetailsScreen = () => {
   // TODO

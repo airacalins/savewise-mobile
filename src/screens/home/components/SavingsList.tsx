@@ -1,18 +1,18 @@
 import React from "react";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import { FlatList, Image, StyleSheet, View } from "react-native";
 import { format } from "date-fns";
-import { useNavigation } from "@react-navigation/native";
-import Swipeable from "react-native-gesture-handler/Swipeable";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import { Body, Caption } from "../../../components/Typography";
 import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HomeStackParamList } from "../../../navigation/HomeStackNavigator";
+import { HorizontalSpace } from "../../../components/Spacer";
 import { ListTile } from "../../../components/ListTile";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Saving } from "../../../interfaces/savings";
-import { HorizontalSpace } from "../../../components/Spacer";
 
 interface SavingsListProps {
   title: string;

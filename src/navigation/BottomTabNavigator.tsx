@@ -1,10 +1,10 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   AntDesign,
   Entypo,
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TouchableWithoutFeedback } from "react-native";
 
 import { ActivityScreen } from "../screens/activity/ActivityScreen";

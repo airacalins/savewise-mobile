@@ -9,8 +9,8 @@ import { defaultStyles } from "../../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
 import { Input } from "../../components/Input";
 import { Screen } from "../../components/Screen";
-import { TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
 export const LoginScreen = ({ navigation }: AuthStackProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

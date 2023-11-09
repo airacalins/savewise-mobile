@@ -4,10 +4,10 @@ import { Entypo, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { colors } from "../../layouts/Colors";
 import { CustomButton } from "../../components/Button";
 import { FundsInputAccessory } from "./components/FundsInputAccessory";
+import { FundsStackProps } from "../../navigation/FundStackNavigator";
 import { Input } from "../../components/Input";
 import { Screen } from "../../components/Screen";
 import { ScrollView, StyleSheet } from "react-native";
-import { FundsStackProps } from "../../navigation/FundStackNavigator";
 
 export const AllocateFundScreen = ({ navigation }: FundsStackProps) => {
   const inputAccessoryViewID = "otherOptions";

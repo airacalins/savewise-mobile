@@ -1,11 +1,11 @@
 import React from "react";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { InputAccessoryView, TouchableOpacity, View } from "react-native";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { InputAccessoryView, TouchableOpacity, View } from "react-native";
 
 import { colors } from "../../../layouts/Colors";
-import { OffsetContainer } from "../../../components/Container";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
+import { OffsetContainer } from "../../../components/Container";
 
 interface FundsInputAccessoryProps {
   nativeID: string;

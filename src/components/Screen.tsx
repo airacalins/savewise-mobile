@@ -1,6 +1,5 @@
 import React from "react";
 import LottieView from "lottie-react-native";
-
 import {
   SafeAreaView,
   ScrollView,
@@ -8,12 +7,12 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { colors } from "../layouts/Colors";
-import { Padding } from "./Padding";
-import { defaultStyles } from "../layouts/DefaultStyles";
+
 import { Body, Caption, Subtitle } from "./Typography";
+import { colors } from "../layouts/Colors";
+import { defaultStyles } from "../layouts/DefaultStyles";
+import { Padding } from "./Padding";
 import { VerticalSpace } from "./Spacer";
-import { CustomButton } from "./Button";
 
 interface ScreenProps {
   title?: string;

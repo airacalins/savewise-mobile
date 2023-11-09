@@ -1,11 +1,11 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { ProfileScreen } from "../screens/profile/ProfileScreen";
 import { ContactUsScreen } from "../screens/profile/ContactUsScreen";
-import { RateUsScreen } from "../screens/profile/RateUsScreen";
-import { PasscodeScreen } from "../screens/profile/PasscodeScreen";
 import { NotificationScreen } from "../screens/profile/NotificationScreen";
+import { PasscodeScreen } from "../screens/profile/PasscodeScreen";
+import { ProfileScreen } from "../screens/profile/ProfileScreen";
+import { RateUsScreen } from "../screens/profile/RateUsScreen";
 import { SettingsScreen } from "../screens/profile/SettingsScreen";
 
 export type ProfileStackParamList = {

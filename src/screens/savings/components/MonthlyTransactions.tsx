@@ -1,18 +1,17 @@
 import React from "react";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { Feather } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import Swipeable from "react-native-gesture-handler/Swipeable";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
 
 import { Caption, Body } from "../../../components/Typography";
 import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
+import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
 import { ListTile } from "../../../components/ListTile";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { VerticalSpace, HorizontalSpace } from "../../../components/Spacer";
-import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
 
 export const MonthlyTransactions: React.FC = () => {
   const navigation =

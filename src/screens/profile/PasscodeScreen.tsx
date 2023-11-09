@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
 
-import { Screen } from "../../components/Screen";
-import { Input } from "../../components/Input";
-import { StyleSheet, View } from "react-native";
-import { defaultStyles } from "../../layouts/DefaultStyles";
-import { Body } from "../../components/Typography";
-import { VerticalSpace } from "../../components/Spacer";
+import { ConfirmationModal } from "../../components/Modal";
 import { CustomButton } from "../../components/Button";
 import { PasscodeForm } from "./components/PasscodeForm";
-import { ConfirmationModal } from "../../components/Modal";
+import { Screen } from "../../components/Screen";
+import { View } from "react-native";
 
 export const PasscodeScreen = () => {
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);

@@ -4,14 +4,11 @@ import { Entypo, MaterialIcons } from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
 import { CustomButton } from "../../components/Button";
-import { defaultStyles } from "../../layouts/DefaultStyles";
 import { FundsInputAccessory } from "./components/FundsInputAccessory";
 import { FundsStackProps } from "../../navigation/FundStackNavigator";
 import { Input } from "../../components/Input";
 import { Padding } from "../../components/Padding";
 import { Screen } from "../../components/Screen";
-import { Subtitle } from "../../components/Typography";
-import { View } from "react-native";
 
 export const CashInScreen = ({ navigation }: FundsStackProps) => {
   const inputAccessoryViewID = "otherOptions";

@@ -1,16 +1,16 @@
 import React from "react";
-import { AntDesign, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
-import { Screen } from "../../components/Screen";
-import { Input } from "../../components/Input";
-import { Padding } from "../../components/Padding";
-import { View } from "react-native";
 import { CustomButton } from "../../components/Button";
-import { Subtitle } from "../../components/Typography";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { FundsInputAccessory } from "../funds/components/FundsInputAccessory";
 import { FundsStackProps } from "../../navigation/FundStackNavigator";
+import { Input } from "../../components/Input";
+import { Padding } from "../../components/Padding";
+import { Screen } from "../../components/Screen";
+import { Subtitle } from "../../components/Typography";
+import { View } from "react-native";
 
 export const AddSavingsScreen = ({ navigation }: FundsStackProps) => {
   const inputAccessoryViewID = "otherOptions";

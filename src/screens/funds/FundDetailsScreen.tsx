@@ -7,16 +7,16 @@ import {
 } from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
+import { ConfirmationModal } from "../../components/Modal";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Details } from "../../components/Details";
 import { IconButton } from "../../components/Button";
+import { FundDetailsStackProps } from "../../navigation/FundDetailsStackNavigator";
 import { Screen } from "../../components/Screen";
 import { Subtitle } from "../../components/Typography";
 import { StyleSheet, View } from "react-native";
 import { Padding } from "../../components/Padding";
 import { VerticalSpace } from "../../components/Spacer";
-import { ConfirmationModal } from "../../components/Modal";
-import { FundDetailsStackProps } from "../../navigation/FundDetailsStackNavigator";
 
 export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);

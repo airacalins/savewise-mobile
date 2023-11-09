@@ -1,10 +1,10 @@
 import React from "react";
 import { View } from "react-native";
 
-import { OffsetContainer } from "../../../components/Container";
-import { HorizontalSpace, VerticalSpace } from "../../../components/Spacer";
 import { Caption, Title } from "../../../components/Typography";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
+import { HorizontalSpace, VerticalSpace } from "../../../components/Spacer";
+import { OffsetContainer } from "../../../components/Container";
 
 interface CardProps {
   LeadingIconComponent: React.ReactNode;

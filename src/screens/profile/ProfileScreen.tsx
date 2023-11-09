@@ -5,12 +5,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { Body, Caption, Subtitle, Title } from "../../components/Typography";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
+import { ListTile } from "../../components/ListTile";
 import { OffsetContainer } from "../../components/Container";
+import { Padding } from "../../components/Padding";
+import { ProfileStackProps } from "../../navigation/ProfileStackNavigator";
 import { Screen } from "../../components/Screen";
 import { VerticalSpace } from "../../components/Spacer";
-import { Padding } from "../../components/Padding";
-import { ListTile } from "../../components/ListTile";
-import { ProfileStackProps } from "../../navigation/ProfileStackNavigator";
 
 export const ProfileScreen = ({ navigation }: ProfileStackProps) => {
   const GreaterThanIcon = (
