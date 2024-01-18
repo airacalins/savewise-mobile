@@ -3,7 +3,7 @@ import { Entypo, MaterialIcons } from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
 import { CustomButton } from "../../components/Button";
-import { FundsInputAccessory } from "./components/FundsInputAccessory";
+import { FundsInputAccessory } from "../../components/InputAccessory";
 import { FundsStackProps } from "../../navigation/FundStackNavigator";
 import { Input } from "../../components/Input";
 import { Padding } from "../../components/Padding";

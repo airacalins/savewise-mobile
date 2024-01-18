@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -12,13 +12,20 @@ import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { IconButton } from "../../components/Button";
 import { FundsStackProps } from "../../navigation/FundStackNavigator";
+import agent from "../../api/agent";
+import { Fund } from "../../types/fund";
 
 export const FundsScreen = ({ navigation }: FundsStackProps) => {
+  const [funds, setFunds] = useState<Fund[]>([]);
   const handleNavigateToCashInScreen = () => navigation.navigate("CashIn");
   const handleNavigateToAllocateFundScreen = () =>
     navigation.navigate("AllocateFund");
   const handleNavigateToCashOutScreen = () => navigation.navigate("CashOut");
   const handleNavigateToFundDetailsScreen = () => navigation.navigate("Funds");
+
+  useEffect(() => {
+    agent.Funds.list().then((data) => setFunds(data));
+  }, []);
 
   return (
     <Screen>
@@ -72,7 +79,7 @@ export const FundsScreen = ({ navigation }: FundsStackProps) => {
         <VerticalSpace spacer={16} />
 
         <Padding p={16}>
-          <MonthlyTransactions />
+          <MonthlyTransactions monthlyTransactions={funds} />
         </Padding>
       </Padding>
     </Screen>

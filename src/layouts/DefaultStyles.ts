@@ -6,7 +6,7 @@ export const defaultStyles = StyleSheet.create({
   listTileSeparator: {
     borderColor: colors.border,
     borderWidth: 0.5,
-    marginVertical: 16,
+    marginVertical: 4,
     width: "100%",
   },
   center: {

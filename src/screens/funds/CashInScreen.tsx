@@ -1,57 +1,116 @@
-import React, { useState } from "react";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import {
+  Entypo,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 import { colors } from "../../layouts/Colors";
 import { CustomButton } from "../../components/Button";
-import { FundsInputAccessory } from "./components/FundsInputAccessory";
-import { FundsStackProps } from "../../navigation/FundStackNavigator";
+import { InputAccessory } from "../../components/InputAccessory";
 import { Input } from "../../components/Input";
 import { Padding } from "../../components/Padding";
 import { Screen } from "../../components/Screen";
+import { TouchableOpacity } from "react-native";
+import { defaultStyles } from "../../layouts/DefaultStyles";
 
-export const CashInScreen = ({ navigation }: FundsStackProps) => {
-  const inputAccessoryViewID = "otherOptions";
-  const [date, setDate] = useState(new Date());
-  const [isOpenDatePicker, setIsOpenDatePicker] = useState(false);
+type FormValues = {
+  title: string;
+  amount: string;
+  date: Date;
+};
 
-  const handleSave = () => navigation.goBack();
+const cashInDefaultValues = {
+  title: "",
+  amount: "",
+  date: new Date(),
+};
+
+export const CashInScreen: React.FC = () => {
+  const inputAccessoryViewID = "cashInInputAccessory";
+
+  const { control, handleSubmit } = useForm<FormValues>({
+    defaultValues: cashInDefaultValues,
+  });
+
+  const handleSave = (data: FormValues) => {
+    console.log("Form submitted", data);
+    // navigation.goBack();
+  };
 
   return (
     <>
       <Screen
         title="Record a Cash-in"
         HeaderRightComponent={
-          <CustomButton onPress={handleSave} title="Save" />
+          <CustomButton onPress={handleSubmit(handleSave)} title="Save" />
         }
       >
         <Padding px={8}>
-          <Input
-            label="Description"
-            Icon={<Entypo name="text" size={24} color={colors.dark} />}
-            autoFocus
-            returnKeyType="next"
-            inputAccessoryViewID={inputAccessoryViewID}
-          />
-          <Input
-            label="Amount"
-            Icon={
-              <MaterialIcons
-                name="move-to-inbox"
-                size={32}
-                color={colors.dark}
+          <Controller
+            control={control}
+            name="title"
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Input
+                label="Title"
+                Icon={<Entypo name="text" size={24} color={colors.dark} />}
+                inputAccessoryViewID={inputAccessoryViewID}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
               />
-            }
-            keyboardType="numeric"
-            returnKeyType="next"
-            inputAccessoryViewID={inputAccessoryViewID}
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="amount"
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Input
+                keyboardType="numeric"
+                label="Amount"
+                Icon={
+                  <MaterialIcons
+                    name="move-to-inbox"
+                    size={32}
+                    color={colors.dark}
+                  />
+                }
+                inputAccessoryViewID={inputAccessoryViewID}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+              />
+            )}
           />
         </Padding>
       </Screen>
 
-      <RNDateTimePicker value={new Date()} mode="date" />
-
-      <FundsInputAccessory nativeID={inputAccessoryViewID} />
+      <InputAccessory
+        nativeID={inputAccessoryViewID}
+        LeadingComponent={
+          <TouchableOpacity style={defaultStyles.centerAlignHorizontally}>
+            <MaterialCommunityIcons
+              name="calendar-blank-outline"
+              size={24}
+              color={colors.dark}
+            />
+            <Controller
+              name="date"
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <RNDateTimePicker
+                  onChange={(_, date) => onChange(date)}
+                  value={value}
+                  mode="date"
+                />
+              )}
+            />
+          </TouchableOpacity>
+        }
+      />
     </>
   );
 };

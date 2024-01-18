@@ -1,12 +1,9 @@
 import React from "react";
-import Swipeable from "react-native-gesture-handler/Swipeable";
-import { MaterialIcons } from "@expo/vector-icons";
-import { TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { TouchableWithoutFeedback, View } from "react-native";
 
+import { colors } from "../layouts/Colors";
 import { defaultStyles } from "../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "./Spacer";
-import { Caption } from "./Typography";
-import { colors } from "../layouts/Colors";
 
 interface ListTileProps {
   LeadingComponent?: React.ReactNode;
@@ -14,6 +11,7 @@ interface ListTileProps {
   TitleComponent: React.ReactNode;
   SubtitleComponent?: React.ReactNode;
   TrailingComponent: React.ReactNode;
+  verticalPadding?: number;
   onPress: () => void;
 }
 
@@ -23,6 +21,7 @@ export const ListTile: React.FC<ListTileProps> = ({
   TitleComponent,
   SubtitleComponent,
   TrailingComponent,
+  verticalPadding,
   onPress,
 }) => {
   return (
@@ -30,7 +29,10 @@ export const ListTile: React.FC<ListTileProps> = ({
       <View
         style={[
           defaultStyles.centerHorizontally,
-          { backgroundColor: colors.background },
+          {
+            backgroundColor: colors.background,
+            paddingVertical: verticalPadding,
+          },
         ]}
       >
         {LeadingComponent}
