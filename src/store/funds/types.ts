@@ -1,3 +1,9 @@
+export interface FundsState {
+  isFetching: boolean;
+  funds: Fund[];
+  fund?: Fund;
+}
+
 export interface Fund {
   id: string;
   image: string;

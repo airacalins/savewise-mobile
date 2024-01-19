@@ -12,7 +12,7 @@ import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
 import { ListTile } from "../../../components/ListTile";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { VerticalSpace, HorizontalSpace } from "../../../components/Spacer";
-import { Fund } from "../../../types/fund";
+import { Fund } from "../../../store/funds/fund";
 
 type MonthlyTransactionsProps = {
   monthlyTransactions: Fund[];

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Text } from "react-native";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -12,11 +13,12 @@ import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { IconButton } from "../../components/Button";
 import { FundsStackProps } from "../../navigation/FundStackNavigator";
-import agent from "../../api/agent";
-import { Fund } from "../../types/fund";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { fetchFunds } from "../../store/funds/action";
 
 export const FundsScreen = ({ navigation }: FundsStackProps) => {
-  const [funds, setFunds] = useState<Fund[]>([]);
+  const dispatch = useAppDispatch();
+  const { isFetching, funds } = useAppSelector((state) => state.fund);
   const handleNavigateToCashInScreen = () => navigation.navigate("CashIn");
   const handleNavigateToAllocateFundScreen = () =>
     navigation.navigate("AllocateFund");
@@ -24,8 +26,10 @@ export const FundsScreen = ({ navigation }: FundsStackProps) => {
   const handleNavigateToFundDetailsScreen = () => navigation.navigate("Funds");
 
   useEffect(() => {
-    agent.Funds.list().then((data) => setFunds(data));
+    dispatch(fetchFunds);
   }, []);
+
+  if (isFetching) return <Text>Loading....</Text>;
 
   return (
     <Screen>

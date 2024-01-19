@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import {
@@ -30,12 +30,16 @@ const cashInDefaultValues = {
 
 export const CashInScreen: React.FC = () => {
   const inputAccessoryViewID = "cashInInputAccessory";
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { control, handleSubmit } = useForm<FormValues>({
     defaultValues: cashInDefaultValues,
   });
 
   const handleSave = (data: FormValues) => {
+    setIsSubmitting(true);
+    // agent.Funds.list().then((data) => setFunds(data));
+
     console.log("Form submitted", data);
     // navigation.goBack();
   };
