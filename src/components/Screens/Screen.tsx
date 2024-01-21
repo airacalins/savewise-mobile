@@ -1,5 +1,4 @@
 import React from "react";
-import LottieView from "lottie-react-native";
 import {
   SafeAreaView,
   ScrollView,
@@ -8,11 +7,10 @@ import {
   View,
 } from "react-native";
 
-import { Body, Caption, Subtitle } from "./Typography";
-import { colors } from "../layouts/Colors";
-import { defaultStyles } from "../layouts/DefaultStyles";
-import { Padding } from "./Padding";
-import { VerticalSpace } from "./Spacer";
+import { Body, Caption, Subtitle } from "../Typography";
+import { colors } from "../../layouts/Colors";
+import { defaultStyles } from "../../layouts/DefaultStyles";
+import { Padding } from "../Padding";
 
 interface ScreenProps {
   title?: string;
@@ -43,33 +41,6 @@ export const Screen: React.FC<ScreenProps> = ({
     </SafeAreaView>
   );
 };
-
-export const ScrollableScreen: React.FC<ScreenProps> = ({ children }) => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      <ScrollView style={styles.screen}>{children}</ScrollView>
-    </SafeAreaView>
-  );
-};
-
-export const NewFeatureSceen = () => (
-  <>
-    <View style={[defaultStyles.center, { flex: 1 }]}>
-      <Body>This feature is building for you</Body>
-      <VerticalSpace spacer={8} />
-      <Caption>- Savewise -</Caption>
-      <VerticalSpace spacer={32} />
-    </View>
-    <LottieView
-      autoPlay
-      style={styles.lottie}
-      source={{
-        uri: "https://lottie.host/7885bfd9-c9ba-4419-8b5d-b8ad89765bd1/RlqXGOWk3v.json",
-      }}
-    />
-  </>
-);
 
 export const styles = StyleSheet.create({
   container: {

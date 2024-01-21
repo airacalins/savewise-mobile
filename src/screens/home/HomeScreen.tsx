@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Padding } from "../../components/Padding";
 import { SavingsList } from "./components/SavingsList";
 import { savingsMockData } from "../../data/SavingsMockData";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { VerticalSpace } from "../../components/Spacer";
 
 export const HomeScreen: React.FC = () => {

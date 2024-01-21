@@ -6,7 +6,7 @@ import { CustomButton } from "../../components/Button";
 import { FundsInputAccessory } from "../../components/InputAccessory";
 import { FundsStackProps } from "../../navigation/FundStackNavigator";
 import { Input } from "../../components/Input";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { ScrollView, StyleSheet } from "react-native";
 
 export const AllocateFundScreen = ({ navigation }: FundsStackProps) => {

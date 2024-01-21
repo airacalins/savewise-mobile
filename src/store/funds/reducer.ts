@@ -13,7 +13,7 @@ export const fundSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // Get fund
+    // Get funds
     builder.addCase(fetchFunds.pending, (state, _) => {
       state.isFetching = true;
     });

@@ -8,7 +8,7 @@ import { CustomButton } from "../../components/Button";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
 import { Input } from "../../components/Input";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity, View } from "react-native";
 

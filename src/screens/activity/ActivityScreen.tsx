@@ -1,11 +1,7 @@
 import React from "react";
 
-import { NewFeatureSceen, Screen } from "../../components/Screen";
+import { NewFeatureSceen } from "../../components/Screens/NewFeatureScreen";
 
 export const ActivityScreen = () => {
-  return (
-    <Screen>
-      <NewFeatureSceen />
-    </Screen>
-  );
+  return <NewFeatureSceen />;
 };

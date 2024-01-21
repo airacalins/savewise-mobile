@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import React, { useEffect, useMemo } from "react";
+import { ScrollView } from "react-native";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Caption, Header } from "../../components/Typography";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { OffsetContainer } from "../../components/Container";
 import { VerticalSpace } from "../../components/Spacer";
 import { Padding } from "../../components/Padding";
-import { MonthlyTransactions } from "../savings/components/MonthlyTransactions";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { IconButton } from "../../components/Button";
 import { FundsStackProps } from "../../navigation/FundStackNavigator";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchFunds } from "../../store/funds/action";
+import { Funds } from "./components/Funds";
+import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 
 export const FundsScreen = ({ navigation }: FundsStackProps) => {
   const dispatch = useAppDispatch();
   const { isFetching, funds } = useAppSelector((state) => state.fund);
+
   const handleNavigateToCashInScreen = () => navigation.navigate("CashIn");
   const handleNavigateToAllocateFundScreen = () =>
     navigation.navigate("AllocateFund");
@@ -26,10 +28,15 @@ export const FundsScreen = ({ navigation }: FundsStackProps) => {
   const handleNavigateToFundDetailsScreen = () => navigation.navigate("Funds");
 
   useEffect(() => {
-    dispatch(fetchFunds);
+    dispatch(fetchFunds());
   }, []);
 
-  if (isFetching) return <Text>Loading....</Text>;
+  const totalFunds = useMemo(
+    () => funds.reduce((accumulator, fund) => accumulator + fund.amount, 0),
+    [funds]
+  );
+
+  if (isFetching) return <LoadingScreen />;
 
   return (
     <Screen>
@@ -39,7 +46,7 @@ export const FundsScreen = ({ navigation }: FundsStackProps) => {
             <View>
               <Caption>Total Funds</Caption>
               <VerticalSpace spacer={8} />
-              <Header>₱ 420,000.00</Header>
+              <Header>₱ {totalFunds.toLocaleString()}</Header>
             </View>
 
             <TouchableOpacity onPress={handleNavigateToCashInScreen}>
@@ -82,9 +89,11 @@ export const FundsScreen = ({ navigation }: FundsStackProps) => {
 
         <VerticalSpace spacer={16} />
 
-        <Padding p={16}>
-          <MonthlyTransactions monthlyTransactions={funds} />
-        </Padding>
+        <ScrollView>
+          <Padding p={16}>
+            <Funds funds={funds} />
+          </Padding>
+        </ScrollView>
       </Padding>
     </Screen>
   );

@@ -7,7 +7,7 @@ import { FundsInputAccessory } from "../../components/InputAccessory";
 import { FundsStackProps } from "../../navigation/FundStackNavigator";
 import { Input } from "../../components/Input";
 import { Padding } from "../../components/Padding";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 
 export const CashOutScreen = ({ navigation }: FundsStackProps) => {
   const inputAccessoryViewID = "otherOptions";

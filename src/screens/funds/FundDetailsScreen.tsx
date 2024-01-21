@@ -12,7 +12,7 @@ import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Details } from "../../components/Details";
 import { IconButton } from "../../components/Button";
 import { FundDetailsStackProps } from "../../navigation/FundDetailsStackNavigator";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { Subtitle } from "../../components/Typography";
 import { StyleSheet, View } from "react-native";
 import { Padding } from "../../components/Padding";

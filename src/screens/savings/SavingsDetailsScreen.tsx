@@ -6,12 +6,12 @@ import { Body, Caption, Title } from "../../components/Typography";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
-import { MonthlyTransactions } from "./components/MonthlyTransactions";
 import { OffsetContainer } from "../../components/Container";
 import { Padding } from "../../components/Padding";
 import { savingsMockData } from "../../data/SavingsMockData";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { StyleSheet } from "react-native";
+import { Funds } from "../funds/components/Funds";
 
 export const SavingsDetailsScreen = () => {
   // TODO
@@ -59,10 +59,10 @@ export const SavingsDetailsScreen = () => {
 
       <VerticalSpace spacer={32} />
 
-      <Padding px={16}>
-        <MonthlyTransactions />
-        <MonthlyTransactions />
-      </Padding>
+      {/* <Padding px={16}> */}
+      {/* <Funds /> */}
+      {/* <Funds /> */}
+      {/* </Padding> */}
     </Screen>
   );
 };

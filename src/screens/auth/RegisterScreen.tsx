@@ -8,7 +8,7 @@ import { colors } from "../../layouts/Colors";
 import { CustomButton } from "../../components/Button";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Input } from "../../components/Input";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { VerticalSpace, HorizontalSpace } from "../../components/Spacer";
 
 export const RegisterScreen = ({ navigation }: AuthStackProps) => {

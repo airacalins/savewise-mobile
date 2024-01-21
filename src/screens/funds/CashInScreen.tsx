@@ -12,7 +12,7 @@ import { CustomButton } from "../../components/Button";
 import { InputAccessory } from "../../components/InputAccessory";
 import { Input } from "../../components/Input";
 import { Padding } from "../../components/Padding";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { TouchableOpacity } from "react-native";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 

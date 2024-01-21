@@ -9,7 +9,7 @@ import { ListTile } from "../../components/ListTile";
 import { OffsetContainer } from "../../components/Container";
 import { Padding } from "../../components/Padding";
 import { ProfileStackProps } from "../../navigation/ProfileStackNavigator";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { VerticalSpace } from "../../components/Spacer";
 
 export const ProfileScreen = ({ navigation }: ProfileStackProps) => {

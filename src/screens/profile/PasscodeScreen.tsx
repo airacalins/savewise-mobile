@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { ConfirmationModal } from "../../components/Modal";
 import { CustomButton } from "../../components/Button";
 import { PasscodeForm } from "./components/PasscodeForm";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../components/Screens/Screen";
 import { View } from "react-native";
 
 export const PasscodeScreen = () => {
