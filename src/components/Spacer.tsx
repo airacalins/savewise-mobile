@@ -6,9 +6,9 @@ interface SpacerProps {
 }
 
 export const HorizontalSpace: React.FC<SpacerProps> = ({ spacer }) => (
-  <View style={{ paddingRight: spacer }} />
+  <View style={{ width: spacer }} />
 );
 
 export const VerticalSpace: React.FC<SpacerProps> = ({ spacer }) => (
-  <View style={{ paddingBottom: spacer }} />
+  <View style={{ height: spacer }} />
 );

@@ -26,18 +26,16 @@ export const Screen: React.FC<ScreenProps> = ({
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <Padding py={16}>
-        <Padding pl={16} pr={8}>
-          <View style={defaultStyles.centerHorizontallyBetween}>
+      {title && (
+        <>
+          <View style={styles.headerContainer}>
             <Subtitle>{title}</Subtitle>
             {HeaderRightComponent}
           </View>
-        </Padding>
-
-        {title && <View style={defaultStyles.listTileSeparator} />}
-
-        <View style={styles.screen}>{children}</View>
-      </Padding>
+          <View style={defaultStyles.listTileSeparator} />
+        </>
+      )}
+      <View style={styles.content}>{children}</View>
     </SafeAreaView>
   );
 };
@@ -47,11 +45,14 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  screen: {
-    paddingVertical: 8,
+  headerContainer: {
+    padding: 16,
+    paddingRight: 8,
+    ...defaultStyles.centerHorizontallyBetween,
   },
-  lottie: {
-    width: "auto",
-    height: "75%",
+  content: {
+    flex: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
 });

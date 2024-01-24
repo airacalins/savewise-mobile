@@ -28,16 +28,14 @@ export const ProfileScreen = ({ navigation }: ProfileStackProps) => {
       <View>
         <Caption style={styles.sectionTitle}>Settings</Caption>
         <VerticalSpace spacer={8} />
-        <Padding px={8}>
-          <OffsetContainer padding={16}>
-            <ListTile
-              TitleComponent={<Subtitle>Aira Calingasan</Subtitle>}
-              SubtitleComponent={<Body>airacalins@gmail.com</Body>}
-              TrailingComponent={GreaterThanIcon}
-              onPress={() => navigation.navigate("Settings")}
-            />
-          </OffsetContainer>
-        </Padding>
+        <OffsetContainer padding={16}>
+          <ListTile
+            TitleComponent={<Subtitle>Aira Calingasan</Subtitle>}
+            SubtitleComponent={<Body>airacalins@gmail.com</Body>}
+            TrailingComponent={GreaterThanIcon}
+            onPress={() => navigation.navigate("Settings")}
+          />
+        </OffsetContainer>
       </View>
 
       <VerticalSpace spacer={32} />
@@ -45,21 +43,19 @@ export const ProfileScreen = ({ navigation }: ProfileStackProps) => {
       <View>
         <Caption style={styles.sectionTitle}>Preferences</Caption>
         <VerticalSpace spacer={8} />
-        <Padding px={8}>
-          <OffsetContainer padding={16}>
-            <ListTile
-              TitleComponent={<Subtitle>Notifications</Subtitle>}
-              TrailingComponent={GreaterThanIcon}
-              onPress={() => navigation.navigate("Notifications")}
-            />
-            <View style={defaultStyles.listTileSeparator} />
-            <ListTile
-              TitleComponent={<Subtitle>Passcode</Subtitle>}
-              TrailingComponent={GreaterThanIcon}
-              onPress={() => navigation.navigate("Passcode")}
-            />
-          </OffsetContainer>
-        </Padding>
+        <OffsetContainer padding={16}>
+          <ListTile
+            TitleComponent={<Subtitle>Notifications</Subtitle>}
+            TrailingComponent={GreaterThanIcon}
+            onPress={() => navigation.navigate("Notifications")}
+          />
+          <View style={defaultStyles.listTileSeparator} />
+          <ListTile
+            TitleComponent={<Subtitle>Passcode</Subtitle>}
+            TrailingComponent={GreaterThanIcon}
+            onPress={() => navigation.navigate("Passcode")}
+          />
+        </OffsetContainer>
       </View>
 
       <VerticalSpace spacer={32} />

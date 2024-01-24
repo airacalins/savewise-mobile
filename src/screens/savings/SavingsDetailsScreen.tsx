@@ -21,40 +21,38 @@ export const SavingsDetailsScreen = () => {
     <Screen>
       <OffsetContainer>
         <Image source={{ uri: saving.image }} style={styles.cardImage} />
-        <Padding p={16}>
-          <View style={defaultStyles.centerHorizontallyBetween}>
-            <Title>{saving.title}</Title>
-            <View style={defaultStyles.centerHorizontally}>
-              <AntDesign name="arrowup" size={16} color={colors.success} />
-              <HorizontalSpace spacer={4} />
-              <Body style={defaultStyles.fontWeight500}>
-                {saving.totalSavings}
-              </Body>
-            </View>
-          </View>
-
-          <VerticalSpace spacer={16} />
-
+        <View style={defaultStyles.centerHorizontallyBetween}>
+          <Title>{saving.title}</Title>
           <View style={defaultStyles.centerHorizontally}>
-            <SimpleLineIcons name="target" size={16} color={colors.dark} />
-            <HorizontalSpace spacer={8} />
-            <Body>Target amount: </Body>
-            <Caption style={defaultStyles.fontWeight500}>
-              {saving.targetSavings}
-            </Caption>
+            <AntDesign name="arrowup" size={16} color={colors.success} />
+            <HorizontalSpace spacer={4} />
+            <Body style={defaultStyles.fontWeight500}>
+              {saving.totalSavings}
+            </Body>
           </View>
+        </View>
 
-          <VerticalSpace spacer={8} />
+        <VerticalSpace spacer={16} />
 
-          <View style={defaultStyles.centerHorizontally}>
-            <AntDesign name="calendar" size={16} color={colors.dark} />
-            <HorizontalSpace spacer={8} />
-            <Body>Target date: </Body>
-            <Caption style={defaultStyles.fontWeight500}>
-              {saving.targetDate}
-            </Caption>
-          </View>
-        </Padding>
+        <View style={defaultStyles.centerHorizontally}>
+          <SimpleLineIcons name="target" size={16} color={colors.dark} />
+          <HorizontalSpace spacer={8} />
+          <Body>Target amount: </Body>
+          <Caption style={defaultStyles.fontWeight500}>
+            {saving.targetSavings}
+          </Caption>
+        </View>
+
+        <VerticalSpace spacer={8} />
+
+        <View style={defaultStyles.centerHorizontally}>
+          <AntDesign name="calendar" size={16} color={colors.dark} />
+          <HorizontalSpace spacer={8} />
+          <Body>Target date: </Body>
+          <Caption style={defaultStyles.fontWeight500}>
+            {saving.targetDate}
+          </Caption>
+        </View>
       </OffsetContainer>
 
       <VerticalSpace spacer={32} />

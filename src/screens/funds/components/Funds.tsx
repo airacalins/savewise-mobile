@@ -1,8 +1,5 @@
-import React, { useEffect, useMemo } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, { useMemo } from "react";
 
-import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Fund } from "../../../store/funds/types";
 import { MonthlyFund } from "./MonthlyFund";
 
@@ -32,8 +29,8 @@ export const Funds: React.FC<FundsProps> = ({ funds }) => {
 
   return (
     <>
-      {years.map((year) => (
-        <MonthlyFund key={year} year={year} funds={fundsByYear[year]} />
+      {years.map((year, index) => (
+        <MonthlyFund key={index} year={year} funds={fundsByYear[year]} />
       ))}
     </>
   );

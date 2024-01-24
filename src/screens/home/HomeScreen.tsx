@@ -28,36 +28,30 @@ export const HomeScreen: React.FC = () => {
 
           <VerticalSpace spacer={16} />
 
-          <Padding px={8}>
-            <View style={defaultStyles.centerHorizontally}>
-              <View style={styles.card}>
-                <Card
-                  title="Total Savings"
-                  subtitle="₱100,000"
-                  LeadingIconComponent={
-                    <MaterialCommunityIcons
-                      name="hand-coin-outline"
-                      size={24}
-                      color={colors.info}
-                    />
-                  }
-                />
-              </View>
-              <View style={styles.card}>
-                <Card
-                  title="Last month"
-                  subtitle="₱100,000"
-                  LeadingIconComponent={
-                    <AntDesign
-                      name="arrowup"
-                      size={24}
-                      color={colors.success}
-                    />
-                  }
-                />
-              </View>
+          <View style={defaultStyles.centerHorizontally}>
+            <View style={styles.card}>
+              <Card
+                title="Total Savings"
+                subtitle="₱100,000"
+                LeadingIconComponent={
+                  <MaterialCommunityIcons
+                    name="hand-coin-outline"
+                    size={24}
+                    color={colors.info}
+                  />
+                }
+              />
             </View>
-          </Padding>
+            <View style={styles.card}>
+              <Card
+                title="Last month"
+                subtitle="₱100,000"
+                LeadingIconComponent={
+                  <AntDesign name="arrowup" size={24} color={colors.success} />
+                }
+              />
+            </View>
+          </View>
 
           <VerticalSpace spacer={16} />
 

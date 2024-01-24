@@ -49,7 +49,7 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
   );
 
   return months.map((month) => (
-    <>
+    <View key={`${year}${month}`}>
       <Text>{`${getMonthName(+month)} ${year}`}</Text>
       {fundsByMonth[month].map((fund: Fund) => (
         <Swipeable
@@ -70,8 +70,8 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
           <ListTile
             LeadingComponent={
               <View style={styles.dateContainer}>
-                <Body>{moment().format("MMM")}</Body>
-                <Body>{moment().format("DD")}</Body>
+                <Body>{moment(fund.date).format("MMM")}</Body>
+                <Body>{moment(fund.date).format("DD")}</Body>
               </View>
             }
             IconComponent={
@@ -90,11 +90,19 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
               <Body style={[defaultStyles.textDark, { fontSize: 12 }]}>
                 {fund.amount > 0
                   ? `You added ${fund.amount.toLocaleString()} to your fund`
-                  : `Test`}
+                  : `You deducted ${Math.abs(
+                      fund.amount
+                    ).toLocaleString()} to your fund`}
               </Body>
             }
             TrailingComponent={
-              <Caption style={defaultStyles.textSuccess}>
+              <Caption
+                style={
+                  fund.amount < 0
+                    ? defaultStyles.textDanger
+                    : defaultStyles.textSuccess
+                }
+              >
                 {fund.amount.toLocaleString()}
               </Caption>
             }
@@ -104,7 +112,7 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
         </Swipeable>
       ))}
       <VerticalSpace spacer={16} />
-    </>
+    </View>
   ));
 };
 

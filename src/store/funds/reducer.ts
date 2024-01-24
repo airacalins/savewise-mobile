@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FundsState } from "./types";
-import { fetchFunds } from "./action";
+import { createFund, fetchFunds } from "./action";
 
 export const initialState: FundsState = {
   isFetching: false,
@@ -22,6 +22,17 @@ export const fundSlice = createSlice({
       state.funds = action.payload;
     });
     builder.addCase(fetchFunds.rejected, (state, _) => {
+      state.isFetching = false;
+    });
+
+    // Create fund
+    builder.addCase(createFund.pending, (state, _) => {
+      state.isFetching = true;
+    });
+    builder.addCase(createFund.fulfilled, (state, _) => {
+      state.isFetching = false;
+    });
+    builder.addCase(createFund.rejected, (state, _) => {
       state.isFetching = false;
     });
   },

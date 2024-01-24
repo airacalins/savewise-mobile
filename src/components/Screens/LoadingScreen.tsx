@@ -1,11 +1,7 @@
 import React from "react";
 import LottieView from "lottie-react-native";
 
-import { StyleSheet, View } from "react-native";
-import { defaultStyles } from "../../layouts/DefaultStyles";
-import { VerticalSpace } from "../Spacer";
-import { Body, Caption } from "../Typography";
-import { colors } from "../../layouts/Colors";
+import { StyleSheet } from "react-native";
 
 export const LoadingScreen = () => (
   <>

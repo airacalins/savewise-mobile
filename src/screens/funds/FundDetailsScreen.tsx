@@ -29,66 +29,64 @@ export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
 
   return (
     <Screen>
-      <Padding py={16}>
-        <View style={defaultStyles.centerHorizontallyBetween}>
-          <Padding pl={16}>
-            <Subtitle>Details</Subtitle>
-          </Padding>
-          <View style={[defaultStyles.centerHorizontally, { paddingRight: 8 }]}>
-            <IconButton
-              onPress={handleEdit}
-              size="S"
-              IconComponent={
-                <Octicons name="pencil" size={16} color={colors.info} />
-              }
-            />
-          </View>
-        </View>
-
-        <View style={defaultStyles.listTileSeparator} />
-
-        <VerticalSpace spacer={0} />
-
-        <Padding px={8}>
-          <Details
-            title="Savings for"
-            details="Car"
-            IconComponent={
-              <MaterialCommunityIcons
-                name="hand-coin-outline"
-                size={32}
-                color={colors.dark}
-              />
-            }
-          />
-
-          <Details
-            title="Transaction Date"
-            details="Dec 21, 2023"
-            IconComponent={
-              <MaterialCommunityIcons
-                name="calendar-blank-outline"
-                size={32}
-                color={colors.dark}
-              />
-            }
-          />
-
-          <Details
-            title="Description"
-            details="For the car because why not? For the car because why not? For
-                  the car because why not?"
-            IconComponent={<Entypo name="text" size={32} color={colors.dark} />}
-          />
-
-          <Details
-            title="Amount"
-            details="400.00"
-            IconComponent={
-              <MaterialIcons name="outbox" size={32} color={colors.dark} />
-            }
-          />
+      <View style={defaultStyles.centerHorizontallyBetween}>
+        <Padding pl={16}>
+          <Subtitle>Details</Subtitle>
         </Padding>
+        <View style={[defaultStyles.centerHorizontally, { paddingRight: 8 }]}>
+          <IconButton
+            onPress={handleEdit}
+            size="S"
+            IconComponent={
+              <Octicons name="pencil" size={16} color={colors.info} />
+            }
+          />
+        </View>
+      </View>
+
+      <View style={defaultStyles.listTileSeparator} />
+
+      <VerticalSpace spacer={0} />
+
+      <Padding px={8}>
+        <Details
+          title="Savings for"
+          details="Car"
+          IconComponent={
+            <MaterialCommunityIcons
+              name="hand-coin-outline"
+              size={32}
+              color={colors.dark}
+            />
+          }
+        />
+
+        <Details
+          title="Transaction Date"
+          details="Dec 21, 2023"
+          IconComponent={
+            <MaterialCommunityIcons
+              name="calendar-blank-outline"
+              size={32}
+              color={colors.dark}
+            />
+          }
+        />
+
+        <Details
+          title="Description"
+          details="For the car because why not? For the car because why not? For
+                  the car because why not?"
+          IconComponent={<Entypo name="text" size={32} color={colors.dark} />}
+        />
+
+        <Details
+          title="Amount"
+          details="400.00"
+          IconComponent={
+            <MaterialIcons name="outbox" size={32} color={colors.dark} />
+          }
+        />
       </Padding>
 
       <ConfirmationModal
