@@ -19,8 +19,13 @@ import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
   BottomSheetModal,
+  useBottomSheetModal,
 } from "@gorhom/bottom-sheet";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { createFund, fetchFunds } from "../../../store/funds/action";
+import { FundInput } from "../../../store/funds/types";
+import moment from "moment";
+import { useAppDispatch } from "../../../store/hooks";
 
 type FormValues = {
   title: string;
@@ -36,6 +41,8 @@ const cashInDefaultValues = {
 
 export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
   ({}, ref) => {
+    const dispatch = useAppDispatch();
+    const { dismiss } = useBottomSheetModal();
     const inputAccessoryViewID = "cashInInputAccessory";
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -43,12 +50,17 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
       defaultValues: cashInDefaultValues,
     });
 
-    const handleSave = (data: FormValues) => {
-      setIsSubmitting(true);
-      // agent.Funds.list().then((data) => setFunds(data));
+    const handleSave = async (data: FormValues) => {
+      const fund: FundInput = {
+        title: data.title,
+        amount: +data.amount,
+        date: moment(data.date).format(),
+      };
 
-      console.log("Form submitted", data);
-      // navigation.goBack();
+      await dispatch(createFund(fund));
+      await dispatch(fetchFunds());
+
+      dismiss();
     };
 
     const renderBackdrop = useCallback(

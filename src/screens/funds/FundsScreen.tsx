@@ -22,15 +22,16 @@ import { CashInBottomSheet } from "./components/CashInBottomSheet";
 export const FundsScreen = ({ navigation }: FundsStackProps) => {
   const dispatch = useAppDispatch();
   const { isFetching, funds } = useAppSelector((state) => state.fund);
-  const sheetRef = useRef<BottomSheetModalMethods>(null);
-  // const handleNavigateToCashInScreen = () => navigation.navigate("CashIn");
+
+  const cashInModalRef = useRef<BottomSheetModalMethods>(null);
+
   const handleNavigateToAllocateFundScreen = () =>
     navigation.navigate("AllocateFund");
   const handleNavigateToCashOutScreen = () => navigation.navigate("CashOut");
   const handleNavigateToFundDetailsScreen = () => navigation.navigate("Funds");
 
   useEffect(() => {
-    // dispatch(fetchFunds());
+    dispatch(fetchFunds());
   }, []);
 
   const totalFunds = useMemo(
@@ -51,7 +52,7 @@ export const FundsScreen = ({ navigation }: FundsStackProps) => {
               <Header>₱ {totalFunds.toLocaleString()}</Header>
             </View>
 
-            <TouchableOpacity onPress={() => sheetRef.current?.present()}>
+            <TouchableOpacity onPress={() => cashInModalRef.current?.present()}>
               <MaterialIcons
                 name="move-to-inbox"
                 size={32}
@@ -97,7 +98,8 @@ export const FundsScreen = ({ navigation }: FundsStackProps) => {
           </Padding>
         </ScrollView>
       </Padding>
-      <CashInBottomSheet ref={sheetRef} />
+
+      <CashInBottomSheet ref={cashInModalRef} />
     </Screen>
   );
 };
