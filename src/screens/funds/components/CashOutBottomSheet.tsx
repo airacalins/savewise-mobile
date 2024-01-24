@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
+import moment from "moment";
 import { Controller, useForm } from "react-hook-form";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import {
@@ -11,10 +12,13 @@ import { colors } from "../../../layouts/Colors";
 import { CustomButton } from "../../../components/Button";
 import { InputAccessory } from "../../../components/InputAccessory";
 import { Input } from "../../../components/Input";
-import { Padding } from "../../../components/Padding";
 import { Screen } from "../../../components/Screens/Screen";
 import { TouchableOpacity } from "react-native";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
+import { useAppDispatch } from "../../../store/hooks";
+import { FundInput } from "../../../store/funds/types";
+import { LoadingScreen } from "../../../components/Screens/LoadingScreen";
+import { createFund, fetchFunds } from "../../../store/funds/action";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -22,10 +26,6 @@ import {
   useBottomSheetModal,
 } from "@gorhom/bottom-sheet";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { createFund, fetchFunds } from "../../../store/funds/action";
-import { FundInput } from "../../../store/funds/types";
-import moment from "moment";
-import { useAppDispatch } from "../../../store/hooks";
 
 type FormValues = {
   title: string;
@@ -33,34 +33,37 @@ type FormValues = {
   date: Date;
 };
 
-const cashInDefaultValues = {
+const cashOutDefaultValues = {
   title: "",
   amount: "",
   date: new Date(),
 };
 
-export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
+export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
   ({}, ref) => {
     const dispatch = useAppDispatch();
     const { dismiss } = useBottomSheetModal();
-    const inputAccessoryViewID = "cashInInputAccessory";
+    const inputAccessoryViewID = "cashOutInputAccesory";
 
-    const { control, handleSubmit } = useForm<FormValues>({
-      defaultValues: cashInDefaultValues,
+    const { control, formState, handleSubmit } = useForm<FormValues>({
+      defaultValues: cashOutDefaultValues,
     });
 
-    const renderBackdrop = (backdropProps: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop
-        {...backdropProps}
-        appearsOnIndex={0}
-        disappearsOnIndex={-1}
-      />
+    const renderBackdrop = useCallback(
+      (backdropProps: BottomSheetBackdropProps) => (
+        <BottomSheetBackdrop
+          {...backdropProps}
+          appearsOnIndex={0}
+          disappearsOnIndex={-1}
+        />
+      ),
+      []
     );
 
     const handleSave = async (data: FormValues) => {
       const fund: FundInput = {
         title: data.title,
-        amount: +data.amount,
+        amount: +data.amount * -1,
         date: moment(data.date).format(),
       };
 
@@ -70,6 +73,8 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
       dismiss();
     };
 
+    if (formState.isSubmitting) return <LoadingScreen />;
+
     return (
       <BottomSheetModal
         ref={ref}
@@ -77,49 +82,47 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
         backdropComponent={renderBackdrop}
       >
         <Screen
-          title="Record a Cash-in"
+          title="Record a Cash-out"
           HeaderRightComponent={
             <CustomButton onPress={handleSubmit(handleSave)} title="Save" />
           }
         >
-          <Padding px={8}>
-            <Controller
-              control={control}
-              name="title"
-              render={({ field: { value, onChange, onBlur } }) => (
-                <Input
-                  label="Title"
-                  Icon={<Entypo name="text" size={24} color={colors.dark} />}
-                  inputAccessoryViewID={inputAccessoryViewID}
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                />
-              )}
-            />
+          <Controller
+            control={control}
+            name="title"
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Input
+                label="Title"
+                Icon={<Entypo name="text" size={24} color={colors.dark} />}
+                inputAccessoryViewID={inputAccessoryViewID}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+              />
+            )}
+          />
 
-            <Controller
-              control={control}
-              name="amount"
-              render={({ field: { value, onChange, onBlur } }) => (
-                <Input
-                  keyboardType="numeric"
-                  label="Amount"
-                  Icon={
-                    <MaterialIcons
-                      name="move-to-inbox"
-                      size={32}
-                      color={colors.dark}
-                    />
-                  }
-                  inputAccessoryViewID={inputAccessoryViewID}
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                />
-              )}
-            />
-          </Padding>
+          <Controller
+            control={control}
+            name="amount"
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Input
+                keyboardType="numeric"
+                label="Amount"
+                Icon={
+                  <MaterialIcons
+                    name="move-to-inbox"
+                    size={32}
+                    color={colors.dark}
+                  />
+                }
+                inputAccessoryViewID={inputAccessoryViewID}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+              />
+            )}
+          />
         </Screen>
 
         <InputAccessory

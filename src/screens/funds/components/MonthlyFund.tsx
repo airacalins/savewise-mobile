@@ -92,7 +92,7 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
                   ? `You added ${fund.amount.toLocaleString()} to your fund`
                   : `You deducted ${Math.abs(
                       fund.amount
-                    ).toLocaleString()} to your fund`}
+                    ).toLocaleString()} from your fund`}
               </Body>
             }
             TrailingComponent={

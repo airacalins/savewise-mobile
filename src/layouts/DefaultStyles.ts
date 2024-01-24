@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "./Colors";
+import { BottomSheetBackdropProps } from "@gorhom/bottom-sheet";
 
 export const defaultStyles = StyleSheet.create({
   listTileSeparator: {

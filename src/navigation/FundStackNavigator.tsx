@@ -1,8 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { AllocateFundScreen } from "../screens/funds/AllocateFundScreen";
-import { CashInBottomSheet } from "../screens/funds/components/CashInBottomSheet";
-import { CashOutScreen } from "../screens/funds/CashOutScreen";
 import { FundsScreen } from "../screens/funds/FundsScreen";
 import {
   FundDetailsStackNavigator,
@@ -14,7 +12,6 @@ import { NavigatorScreenParams } from "@react-navigation/native";
 export type FundsStackParamList = {
   Funds: undefined;
   FundDetailsStackNavigator: NavigatorScreenParams<FundDetailsStackParamList>;
-  // CashIn: undefined;
   CashOut: undefined;
   AllocateFund: undefined;
 };
@@ -26,16 +23,6 @@ const Stack = createStackNavigator<FundsStackParamList>();
 export const FundsStackNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Funds" component={FundsScreen} />
-    {/* <Stack.Screen
-      name="CashIn"
-      component={CashInScreen}
-      options={{ presentation: "modal" }}
-    /> */}
-    <Stack.Screen
-      name="CashOut"
-      component={CashOutScreen}
-      options={{ presentation: "modal" }}
-    />
     <Stack.Screen
       name="AllocateFund"
       component={AllocateFundScreen}
