@@ -1,24 +1,6 @@
 import React, { useCallback } from "react";
 import moment from "moment";
-import { Controller, useForm } from "react-hook-form";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import {
-  Entypo,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
-
-import { colors } from "../../../layouts/Colors";
-import { CustomButton } from "../../../components/Button";
-import { InputAccessory } from "../../../components/InputAccessory";
-import { Input } from "../../../components/Input";
-import { Screen } from "../../../components/Screens/Screen";
-import { TouchableOpacity } from "react-native";
-import { defaultStyles } from "../../../layouts/DefaultStyles";
-import { useAppDispatch } from "../../../store/hooks";
-import { FundInput } from "../../../store/funds/types";
-import { LoadingScreen } from "../../../components/Screens/LoadingScreen";
-import { createFund, fetchFunds } from "../../../store/funds/action";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -26,6 +8,24 @@ import {
   useBottomSheetModal,
 } from "@gorhom/bottom-sheet";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import {
+  Entypo,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import { Controller, useForm } from "react-hook-form";
+import { TouchableOpacity } from "react-native";
+
+import { colors } from "../../../layouts/Colors";
+import { createFund, fetchFunds } from "../../../store/funds/action";
+import { CustomButton } from "../../../components/Button";
+import { defaultStyles } from "../../../layouts/DefaultStyles";
+import { FundInput } from "../../../store/funds/types";
+import { Input } from "../../../components/Input";
+import { InputAccessory } from "../../../components/InputAccessory";
+import { LoadingScreen } from "../../../components/Screens/LoadingScreen";
+import { Screen } from "../../../components/Screens/Screen";
+import { useAppDispatch } from "../../../store/hooks";
 
 type FormValues = {
   title: string;

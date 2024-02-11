@@ -1,16 +1,9 @@
 import React from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
-} from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 
-import { Body, Caption, Subtitle } from "../Typography";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { Padding } from "../Padding";
+import { Subtitle } from "../Typography";
 
 interface ScreenProps {
   title?: string;

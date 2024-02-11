@@ -1,24 +1,23 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { ScrollView } from "react-native";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { StyleSheet, ScrollView, TouchableOpacity, View } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Caption, Header } from "../../components/Typography";
-import { Screen } from "../../components/Screens/Screen";
-import { OffsetContainer } from "../../components/Container";
-import { VerticalSpace } from "../../components/Spacer";
-import { Padding } from "../../components/Padding";
-import { colors } from "../../layouts/Colors";
-import { defaultStyles } from "../../layouts/DefaultStyles";
-import { IconButton } from "../../components/Button";
-import { FundsStackProps } from "../../navigation/FundStackNavigator";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { fetchFunds } from "../../store/funds/action";
-import { Funds } from "./components/Funds";
-import { LoadingScreen } from "../../components/Screens/LoadingScreen";
-import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { CashInBottomSheet } from "./components/CashInBottomSheet";
 import { CashOutBottomSheet } from "./components/CashOutBottomSheet";
+import { colors } from "../../layouts/Colors";
+import { defaultStyles } from "../../layouts/DefaultStyles";
+import { fetchFunds } from "../../store/funds/action";
+import { Funds } from "./components/Funds";
+import { FundsStackProps } from "../../navigation/FundStackNavigator";
+import { IconButton } from "../../components/Button";
+import { LoadingScreen } from "../../components/Screens/LoadingScreen";
+import { OffsetContainer } from "../../components/Container";
+import { Padding } from "../../components/Padding";
+import { Screen } from "../../components/Screens/Screen";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { VerticalSpace } from "../../components/Spacer";
 
 export const FundsScreen = ({ navigation }: FundsStackProps) => {
   const dispatch = useAppDispatch();

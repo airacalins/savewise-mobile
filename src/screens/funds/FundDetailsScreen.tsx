@@ -5,17 +5,17 @@ import {
   MaterialIcons,
   Octicons,
 } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
 
 import { colors } from "../../layouts/Colors";
 import { ConfirmationModal } from "../../components/Modal";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Details } from "../../components/Details";
-import { IconButton } from "../../components/Button";
 import { FundDetailsStackProps } from "../../navigation/FundDetailsStackNavigator";
+import { IconButton } from "../../components/Button";
+import { Padding } from "../../components/Padding";
 import { Screen } from "../../components/Screens/Screen";
 import { Subtitle } from "../../components/Typography";
-import { StyleSheet, View } from "react-native";
-import { Padding } from "../../components/Padding";
 import { VerticalSpace } from "../../components/Spacer";
 
 export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {

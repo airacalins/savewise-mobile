@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TextProps } from "react-native";
+
 import { colors } from "../layouts/Colors";
 
 const fontSize = {

@@ -3,10 +3,9 @@ import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
 
 import { Body } from "./Typography";
 import { colors } from "../layouts/Colors";
+import { defaultStyles } from "../layouts/DefaultStyles";
 import { HorizontalSpace } from "./Spacer";
 import { OffsetContainer } from "./Container";
-import { defaultStyles } from "../layouts/DefaultStyles";
-import { Controller } from "react-hook-form";
 
 interface InputProps extends TextInputProps {
   label?: string;

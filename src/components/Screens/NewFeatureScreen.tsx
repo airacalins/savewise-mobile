@@ -2,11 +2,11 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
 
-import { colors } from "../../layouts/Colors";
-import { Screen } from "../Screens/Screen";
-import { defaultStyles } from "../../layouts/DefaultStyles";
-import { VerticalSpace } from "../Spacer";
 import { Body, Caption } from "../Typography";
+import { colors } from "../../layouts/Colors";
+import { defaultStyles } from "../../layouts/DefaultStyles";
+import { Screen } from "../Screens/Screen";
+import { VerticalSpace } from "../Spacer";
 
 export const NewFeatureSceen = () => (
   <Screen>

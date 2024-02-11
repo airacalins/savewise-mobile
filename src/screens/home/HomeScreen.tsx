@@ -1,13 +1,11 @@
 import React from "react";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import { Banner } from "./components/Banner";
 import { Card } from "./components/Card";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Padding } from "../../components/Padding";
 import { SavingsList } from "./components/SavingsList";
 import { savingsMockData } from "../../data/SavingsMockData";
 import { Screen } from "../../components/Screens/Screen";

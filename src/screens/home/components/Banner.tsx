@@ -1,5 +1,8 @@
 import React from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { TouchableOpacity, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { Body, Header } from "../../../components/Typography";
 import { CircularImage } from "../../../components/Image";
@@ -7,9 +10,6 @@ import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HomeStackParamList } from "../../../navigation/HomeStackNavigator";
 import { HorizontalSpace } from "../../../components/Spacer";
-import { Ionicons } from "@expo/vector-icons";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
 
 interface BannerProps {
   image: string;

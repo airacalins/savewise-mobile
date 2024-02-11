@@ -1,13 +1,12 @@
 import React from "react";
 import { Entypo, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { ScrollView, StyleSheet } from "react-native";
 
 import { colors } from "../../layouts/Colors";
 import { CustomButton } from "../../components/Button";
-import { FundsInputAccessory } from "../../components/InputAccessory";
 import { FundsStackProps } from "../../navigation/FundStackNavigator";
 import { Input } from "../../components/Input";
 import { Screen } from "../../components/Screens/Screen";
-import { ScrollView, StyleSheet } from "react-native";
 
 export const AllocateFundScreen = ({ navigation }: FundsStackProps) => {
   const inputAccessoryViewID = "otherOptions";
@@ -42,7 +41,7 @@ export const AllocateFundScreen = ({ navigation }: FundsStackProps) => {
         </ScrollView>
       </Screen>
 
-      <FundsInputAccessory nativeID={inputAccessoryViewID} />
+      {/* <FundsInputAccessory nativeID={inputAccessoryViewID} /> */}
     </>
   );
 };

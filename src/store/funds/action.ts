@@ -18,9 +18,6 @@ export const fetchFunds = createAsyncThunk<Fund[]>(
 export const createFund = createAsyncThunk<boolean, FundInput>(
   "createFund",
   async (fund, thunkAPI) => {
-    console.log("title", fund.title);
-    console.log("amount", fund.amount);
-    console.log("date", fund.date);
     try {
       return await request.post(FUND_API, fund);
     } catch (error: any) {

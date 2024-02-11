@@ -3,6 +3,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { FlatList, Image, StyleSheet, View } from "react-native";
 import { format } from "date-fns";
 import { MaterialIcons } from "@expo/vector-icons";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 
 import { Body, Caption } from "../../../components/Typography";
@@ -11,7 +12,6 @@ import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HomeStackParamList } from "../../../navigation/HomeStackNavigator";
 import { HorizontalSpace } from "../../../components/Spacer";
 import { ListTile } from "../../../components/ListTile";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Saving } from "../../../interfaces/savings";
 
 interface SavingsListProps {

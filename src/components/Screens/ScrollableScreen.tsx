@@ -1,5 +1,5 @@
-import { SafeAreaView, StatusBar, StyleSheet, ScrollView } from "react-native";
 import { colors } from "../../layouts/Colors";
+import { SafeAreaView, StatusBar, StyleSheet, ScrollView } from "react-native";
 
 interface ScreenProps {
   title?: string;

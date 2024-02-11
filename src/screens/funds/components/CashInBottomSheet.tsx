@@ -1,20 +1,4 @@
-import React, { useCallback, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
-import {
-  Entypo,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
-
-import { colors } from "../../../layouts/Colors";
-import { CustomButton } from "../../../components/Button";
-import { InputAccessory } from "../../../components/InputAccessory";
-import { Input } from "../../../components/Input";
-import { Padding } from "../../../components/Padding";
-import { Screen } from "../../../components/Screens/Screen";
-import { TouchableOpacity } from "react-native";
-import { defaultStyles } from "../../../layouts/DefaultStyles";
+import React from "react";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -22,9 +6,25 @@ import {
   useBottomSheetModal,
 } from "@gorhom/bottom-sheet";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { createFund, fetchFunds } from "../../../store/funds/action";
-import { FundInput } from "../../../store/funds/types";
+import { Controller, useForm } from "react-hook-form";
 import moment from "moment";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import {
+  Entypo,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import { TouchableOpacity, View } from "react-native";
+
+import { colors } from "../../../layouts/Colors";
+import { createFund, fetchFunds } from "../../../store/funds/action";
+import { CustomButton } from "../../../components/Button";
+import { defaultStyles } from "../../../layouts/DefaultStyles";
+import { FundInput } from "../../../store/funds/types";
+import { InputAccessory } from "../../../components/InputAccessory";
+import { Input } from "../../../components/Input";
+import { Padding } from "../../../components/Padding";
+import { Screen } from "../../../components/Screens/Screen";
 import { useAppDispatch } from "../../../store/hooks";
 
 type FormValues = {

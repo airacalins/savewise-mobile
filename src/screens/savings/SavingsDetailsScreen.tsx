@@ -7,11 +7,9 @@ import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
 import { OffsetContainer } from "../../components/Container";
-import { Padding } from "../../components/Padding";
 import { savingsMockData } from "../../data/SavingsMockData";
 import { Screen } from "../../components/Screens/Screen";
 import { StyleSheet } from "react-native";
-import { Funds } from "../funds/components/Funds";
 
 export const SavingsDetailsScreen = () => {
   // TODO
@@ -67,9 +65,9 @@ export const SavingsDetailsScreen = () => {
 
 const styles = StyleSheet.create({
   cardImage: {
-    width: "100%",
     height: 150,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
+    width: "100%",
   },
 });
