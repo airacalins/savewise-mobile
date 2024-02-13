@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import moment from "moment";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import * as yup from "yup";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -26,18 +27,29 @@ import { InputAccessory } from "../../../components/InputAccessory";
 import { LoadingScreen } from "../../../components/Screens/LoadingScreen";
 import { Screen } from "../../../components/Screens/Screen";
 import { useAppDispatch } from "../../../store/hooks";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type FormValues = {
   title: string;
-  amount: string;
+  amount: number;
   date: Date;
 };
 
 const cashOutDefaultValues = {
   title: "",
-  amount: "",
+  amount: 0,
   date: new Date(),
 };
+
+const validationSchema = yup.object().shape({
+  title: yup.string().label("Title").required(),
+  date: yup.date().label("Date").required(),
+  amount: yup
+    .number()
+    .label("Amount")
+    .required()
+    .moreThan(0, "Amount must be greater than 0"),
+});
 
 export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
   ({}, ref) => {
@@ -45,19 +57,21 @@ export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
     const { dismiss } = useBottomSheetModal();
     const inputAccessoryViewID = "cashOutInputAccesory";
 
-    const { control, formState, handleSubmit } = useForm<FormValues>({
+    const {
+      control,
+      handleSubmit,
+      formState: { errors, isSubmitting },
+    } = useForm<FormValues>({
+      resolver: yupResolver(validationSchema),
       defaultValues: cashOutDefaultValues,
     });
 
-    const renderBackdrop = useCallback(
-      (backdropProps: BottomSheetBackdropProps) => (
-        <BottomSheetBackdrop
-          {...backdropProps}
-          appearsOnIndex={0}
-          disappearsOnIndex={-1}
-        />
-      ),
-      []
+    const renderBackdrop = (backdropProps: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop
+        {...backdropProps}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+      />
     );
 
     const handleSave = async (data: FormValues) => {
@@ -69,11 +83,10 @@ export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
 
       await dispatch(createFund(fund));
       await dispatch(fetchFunds());
-
       dismiss();
     };
 
-    if (formState.isSubmitting) return <LoadingScreen />;
+    if (isSubmitting) return <LoadingScreen />;
 
     return (
       <BottomSheetModal
@@ -98,6 +111,7 @@ export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
+                errorMessage={errors.title?.message}
               />
             )}
           />
@@ -117,9 +131,10 @@ export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
                   />
                 }
                 inputAccessoryViewID={inputAccessoryViewID}
-                value={value}
+                value={value.toString()}
                 onChangeText={onChange}
                 onBlur={onBlur}
+                errorMessage={errors.amount?.message}
               />
             )}
           />

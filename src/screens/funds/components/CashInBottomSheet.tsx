@@ -1,4 +1,5 @@
 import React from "react";
+import * as yup from "yup";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -16,7 +17,6 @@ import {
 } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 
 import { colors } from "../../../layouts/Colors";
 import { createFund, fetchFunds } from "../../../store/funds/action";
@@ -27,7 +27,7 @@ import { InputAccessory } from "../../../components/InputAccessory";
 import { Input } from "../../../components/Input";
 import { Screen } from "../../../components/Screens/Screen";
 import { useAppDispatch } from "../../../store/hooks";
-import { Caption } from "../../../components/Typography";
+import { LoadingScreen } from "../../../components/Screens/LoadingScreen";
 
 type FormValues = {
   title: string;
@@ -60,7 +60,7 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
     const {
       control,
       handleSubmit,
-      formState: { errors },
+      formState: { errors, isSubmitting },
     } = useForm<FormValues>({
       resolver: yupResolver(validationSchema),
       defaultValues: cashInDefaultValues,
@@ -83,9 +83,10 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
 
       await dispatch(createFund(fund));
       await dispatch(fetchFunds());
-
       dismiss();
     };
+
+    if (isSubmitting) return <LoadingScreen />;
 
     return (
       <BottomSheetModal
@@ -102,7 +103,6 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
           <Controller
             control={control}
             name="title"
-            rules={{ required: true }}
             render={({ field: { value, onChange, onBlur } }) => (
               <Input
                 label="Title"
@@ -111,7 +111,7 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                errorMessage={errors.title && errors.title.message}
+                errorMessage={errors.title?.message}
               />
             )}
           />
@@ -134,7 +134,7 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
                 value={value.toString()}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                errorMessage={errors.amount && errors.amount.message}
+                errorMessage={errors.amount?.message}
               />
             )}
           />
