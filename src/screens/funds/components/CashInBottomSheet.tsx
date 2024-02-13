@@ -47,6 +47,7 @@ const validationSchema = yup.object().shape({
   amount: yup
     .number()
     .label("Amount")
+    .typeError("Amount is required field")
     .required()
     .moreThan(0, "Amount must be greater than 0"),
 });
