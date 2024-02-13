@@ -47,7 +47,9 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
           <View>
             <Label>Total Funds</Label>
             <VerticalSpace spacer={8} />
-            <Header>₱ {totalFunds.toLocaleString()}</Header>
+            <Header color={totalFunds < 0 ? colors.danger : colors.dark}>
+              ₱ {Math.abs(totalFunds).toLocaleString()}
+            </Header>
           </View>
 
           <TouchableOpacity onPress={() => cashInModalRef.current?.present()}>

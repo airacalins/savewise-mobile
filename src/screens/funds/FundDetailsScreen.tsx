@@ -21,6 +21,7 @@ import { fetchFundById } from "../../store/funds/action";
 import { FundsStackParamList } from "../../navigation/FundStackNavigator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
+import moment from "moment";
 
 type FundStackProps = NativeStackScreenProps<
   FundsStackParamList,
@@ -45,7 +46,7 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
 
   const handleEdit = () => navigation.navigate("AllocateFund");
 
-  if (!fund) return <LoadingScreen />;
+  if (isFetching || !fund) return <LoadingScreen />;
 
   return (
     <Screen>
@@ -71,7 +72,7 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
       <Padding px={8}>
         <Details
           title="Savings for"
-          details={fund?.title}
+          details={fund.title}
           IconComponent={
             <MaterialCommunityIcons
               name="hand-coin-outline"
@@ -83,7 +84,7 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
 
         <Details
           title="Transaction Date"
-          details={fund.date}
+          details={moment(fund.date).format("MMMM DD, YYYY")}
           IconComponent={
             <MaterialCommunityIcons
               name="calendar-blank-outline"
@@ -102,7 +103,7 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
 
         <Details
           title="Amount"
-          details={Math.abs(fund.amount).toString()}
+          details={`₱ ${Math.abs(fund.amount).toLocaleString()}`}
           IconComponent={
             <MaterialIcons name="outbox" size={32} color={colors.dark} />
           }

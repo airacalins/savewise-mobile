@@ -107,7 +107,7 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
             }
             TrailingComponent={
               <Body color={fund.amount < 0 ? colors.danger : colors.success}>
-                {fund.amount.toLocaleString()}
+                {Math.abs(fund.amount).toLocaleString()}
               </Body>
             }
             verticalPadding={8}
