@@ -58,4 +58,7 @@ export const defaultStyles = StyleSheet.create({
   flex1: {
     flex: 1,
   },
+  textCenter: {
+    textAlign: "center",
+  },
 });

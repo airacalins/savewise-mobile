@@ -95,6 +95,10 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <ScrollView>
         <Padding p={8}>
           <Funds funds={funds} />
+          <VerticalSpace spacer={16} />
+          <Label color={colors.grey} style={defaultStyles.textCenter}>
+            - End of funds -
+          </Label>
         </Padding>
       </ScrollView>
 

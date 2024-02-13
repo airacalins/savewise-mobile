@@ -15,13 +15,14 @@ import { IconButton } from "../../components/Button";
 import { Padding } from "../../components/Padding";
 import { Screen } from "../../components/Screens/Screen";
 import { Subtitle } from "../../components/Typography";
-import { VerticalSpace } from "../../components/Spacer";
+import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchFundById } from "../../store/funds/action";
 import { FundsStackParamList } from "../../navigation/FundStackNavigator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import moment from "moment";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 type FundStackProps = NativeStackScreenProps<
   FundsStackParamList,
@@ -51,9 +52,13 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
   return (
     <Screen>
       <View style={defaultStyles.centerHorizontallyBetween}>
-        <Padding pl={16}>
+        <View style={styles.header}>
+          <TouchableWithoutFeedback onPress={navigation.goBack}>
+            <Octicons name="arrow-left" size={16} color={colors.dark} />
+          </TouchableWithoutFeedback>
+          <HorizontalSpace spacer={16} />
           <Subtitle>Details</Subtitle>
-        </Padding>
+        </View>
         <View style={[defaultStyles.centerHorizontally, { paddingRight: 8 }]}>
           <IconButton
             onPress={handleEdit}
@@ -67,48 +72,46 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
 
       <View style={defaultStyles.listTileSeparator} />
 
-      <VerticalSpace spacer={0} />
+      <VerticalSpace spacer={16} />
 
-      <Padding px={8}>
-        <Details
-          title="Savings for"
-          details={fund.title}
-          IconComponent={
-            <MaterialCommunityIcons
-              name="hand-coin-outline"
-              size={32}
-              color={colors.dark}
-            />
-          }
-        />
+      <Details
+        title="Savings for"
+        details={fund.title}
+        IconComponent={
+          <MaterialCommunityIcons
+            name="hand-coin-outline"
+            size={32}
+            color={colors.dark}
+          />
+        }
+      />
 
-        <Details
-          title="Transaction Date"
-          details={moment(fund.date).format("MMMM DD, YYYY")}
-          IconComponent={
-            <MaterialCommunityIcons
-              name="calendar-blank-outline"
-              size={32}
-              color={colors.dark}
-            />
-          }
-        />
+      <Details
+        title="Transaction Date"
+        details={moment(fund.date).format("MMMM DD, YYYY")}
+        IconComponent={
+          <MaterialCommunityIcons
+            name="calendar-blank-outline"
+            size={32}
+            color={colors.dark}
+          />
+        }
+      />
 
-        {/* <Details
+      {/* <Details
           title="Description"
           details="For the car because why not? For the car because why not? For
                   the car because why not?"
           IconComponent={<Entypo name="text" size={32} color={colors.dark} />}
         /> */}
 
-        <Details
-          title="Amount"
-          details={`₱ ${Math.abs(fund.amount).toLocaleString()}`}
-          IconComponent={
-            <MaterialIcons name="outbox" size={32} color={colors.dark} />
-          }
-        />
-      </Padding>
+      <Details
+        title="Amount"
+        details={`₱ ${Math.abs(fund.amount).toLocaleString()}`}
+        IconComponent={
+          <MaterialIcons name="outbox" size={32} color={colors.dark} />
+        }
+      />
 
       <ConfirmationModal
         title="Are you sure you want to delete?"
@@ -125,17 +128,8 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-  },
-  modal: {
-    backgroundColor: colors.background,
-    borderColor: colors.border,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 16,
+  header: {
+    paddingLeft: 8,
+    ...defaultStyles.centerAlignHorizontally,
   },
 });

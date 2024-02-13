@@ -97,7 +97,7 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
               </View>
             }
             SubtitleComponent={
-              <Caption color={colors.dark}>
+              <Caption>
                 {fund.amount > 0
                   ? `You added ${fund.amount.toLocaleString()} to your fund`
                   : `You deducted ${Math.abs(

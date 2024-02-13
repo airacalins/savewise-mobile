@@ -1,20 +1,22 @@
 import React from "react";
 import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
 
-import { Body } from "./Typography";
+import { Body, Caption } from "./Typography";
 import { colors } from "../layouts/Colors";
 import { defaultStyles } from "../layouts/DefaultStyles";
-import { HorizontalSpace } from "./Spacer";
+import { HorizontalSpace, VerticalSpace } from "./Spacer";
 import { OffsetContainer } from "./Container";
 
 interface InputProps extends TextInputProps {
   label?: string;
+  errorMessage?: string;
   Icon?: React.ReactNode;
   TrailingIcon?: React.ReactNode;
 }
 
 export const Input: React.FC<InputProps> = ({
   label,
+  errorMessage,
   Icon,
   TrailingIcon,
   ...props
@@ -45,6 +47,12 @@ export const Input: React.FC<InputProps> = ({
           </View>
         </View>
       </OffsetContainer>
+      <VerticalSpace spacer={4} />
+      {errorMessage && (
+        <Caption color={colors.danger} style={styles.errorMessage}>
+          {errorMessage}
+        </Caption>
+      )}
     </View>
   );
 };
@@ -74,5 +82,8 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 10,
     flex: 1,
+  },
+  errorMessage: {
+    paddingLeft: 8,
   },
 });

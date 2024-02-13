@@ -14,7 +14,9 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 import { colors } from "../../../layouts/Colors";
 import { createFund, fetchFunds } from "../../../store/funds/action";
@@ -23,21 +25,31 @@ import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { FundInput } from "../../../store/funds/types";
 import { InputAccessory } from "../../../components/InputAccessory";
 import { Input } from "../../../components/Input";
-import { Padding } from "../../../components/Padding";
 import { Screen } from "../../../components/Screens/Screen";
 import { useAppDispatch } from "../../../store/hooks";
+import { Caption } from "../../../components/Typography";
 
 type FormValues = {
   title: string;
-  amount: string;
   date: Date;
+  amount: number;
 };
 
 const cashInDefaultValues = {
   title: "",
-  amount: "",
+  amount: 0,
   date: new Date(),
 };
+
+const validationSchema = yup.object().shape({
+  title: yup.string().label("Title").required(),
+  date: yup.date().label("Date").required(),
+  amount: yup
+    .number()
+    .label("Amount")
+    .required()
+    .moreThan(0, "Amount must be greater than 0"),
+});
 
 export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
   ({}, ref) => {
@@ -45,7 +57,12 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
     const { dismiss } = useBottomSheetModal();
     const inputAccessoryViewID = "cashInInputAccessory";
 
-    const { control, handleSubmit } = useForm<FormValues>({
+    const {
+      control,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<FormValues>({
+      resolver: yupResolver(validationSchema),
       defaultValues: cashInDefaultValues,
     });
 
@@ -85,6 +102,7 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
           <Controller
             control={control}
             name="title"
+            rules={{ required: true }}
             render={({ field: { value, onChange, onBlur } }) => (
               <Input
                 label="Title"
@@ -93,6 +111,7 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
+                errorMessage={errors.title && errors.title.message}
               />
             )}
           />
@@ -112,9 +131,10 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
                   />
                 }
                 inputAccessoryViewID={inputAccessoryViewID}
-                value={value}
+                value={value.toString()}
                 onChangeText={onChange}
                 onBlur={onBlur}
+                errorMessage={errors.amount && errors.amount.message}
               />
             )}
           />
