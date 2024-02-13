@@ -13,7 +13,7 @@ import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { Fund } from "../../../store/funds/types";
 import { HorizontalSpace, VerticalSpace } from "../../../components/Spacer";
 import { ListTile } from "../../../components/ListTile";
-import { FundDetailsStackParamList } from "../../../navigation/FundDetailsStackNavigator";
+import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
 
 interface MonthlyFundProps {
   year: string;
@@ -22,7 +22,7 @@ interface MonthlyFundProps {
 
 export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<FundDetailsStackParamList>>();
+    useNavigation<NativeStackNavigationProp<FundsStackParamList>>();
 
   const groupByMonth = (input: Fund[]) => {
     return input.reduce((item: any, currentValue: any) => {
@@ -46,8 +46,8 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
     // navigation.navigate("Funds");
   };
 
-  const handleNavigateToFundDetails = () => {
-    navigation.navigate("FundDetails");
+  const handleNavigateToFundDetails = (fundId: string) => {
+    navigation.navigate("FundDetails", { fundId });
   };
 
   const fundsByMonth = useMemo(() => groupByMonth(funds), [funds]);
@@ -76,50 +76,42 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
             </View>
           )}
         >
-          <TouchableOpacity onPress={() => console.log("first")}>
-            <ListTile
-              LeadingComponent={
-                <View style={styles.dateContainer}>
-                  <Body>{moment(fund.date).format("MMM")}</Body>
-                  <Body>{moment(fund.date).format("DD")}</Body>
-                </View>
-              }
-              IconComponent={
-                <MaterialCommunityIcons
-                  name="file-image-outline"
-                  size={32}
-                  color={colors.dark}
-                />
-              }
-              TitleComponent={
-                <View>
-                  <Body>{fund.title}</Body>
-                </View>
-              }
-              SubtitleComponent={
-                <Body style={[defaultStyles.textDark, { fontSize: 12 }]}>
-                  {fund.amount > 0
-                    ? `You added ${fund.amount.toLocaleString()} to your fund`
-                    : `You deducted ${Math.abs(
-                        fund.amount
-                      ).toLocaleString()} from your fund`}
-                </Body>
-              }
-              TrailingComponent={
-                <Caption
-                  style={
-                    fund.amount < 0
-                      ? defaultStyles.textDanger
-                      : defaultStyles.textSuccess
-                  }
-                >
-                  {fund.amount.toLocaleString()}
-                </Caption>
-              }
-              verticalPadding={8}
-              onPress={() => {}}
-            />
-          </TouchableOpacity>
+          <ListTile
+            onPress={() => handleNavigateToFundDetails(fund.id)}
+            LeadingComponent={
+              <View style={styles.dateContainer}>
+                <Body>{moment(fund.date).format("MMM")}</Body>
+                <Body>{moment(fund.date).format("DD")}</Body>
+              </View>
+            }
+            IconComponent={
+              <MaterialCommunityIcons
+                name="file-image-outline"
+                size={32}
+                color={colors.dark}
+              />
+            }
+            TitleComponent={
+              <View>
+                <Body>{fund.title}</Body>
+              </View>
+            }
+            SubtitleComponent={
+              <Caption color={colors.dark}>
+                {fund.amount > 0
+                  ? `You added ${fund.amount.toLocaleString()} to your fund`
+                  : `You deducted ${Math.abs(
+                      fund.amount
+                    ).toLocaleString()} from your fund`}
+              </Caption>
+            }
+            TrailingComponent={
+              <Body color={fund.amount < 0 ? colors.danger : colors.success}>
+                {fund.amount.toLocaleString()}
+              </Body>
+            }
+            verticalPadding={8}
+          />
         </Swipeable>
       ))}
       <VerticalSpace spacer={16} />

@@ -55,7 +55,6 @@ export const defaultStyles = StyleSheet.create({
   textWhite: {
     color: colors.white,
   },
-
   flex1: {
     flex: 1,
   },

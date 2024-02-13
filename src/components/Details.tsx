@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { Caption, Body } from "./Typography";
+import { Caption, Body, Label } from "./Typography";
 import { defaultStyles } from "../layouts/DefaultStyles";
 import { OffsetContainer } from "./Container";
 import { VerticalSpace } from "./Spacer";
@@ -22,7 +22,7 @@ export const Details: React.FC<DetailsProps> = ({
       <View style={[defaultStyles.row]}>
         <View style={styles.icon}>{IconComponent}</View>
         <View style={styles.textsContainer}>
-          <Caption>{title}</Caption>
+          <Label>{title}</Label>
           <VerticalSpace spacer={8} />
           <Body>{details}</Body>
         </View>

@@ -2,6 +2,7 @@ export interface FundsState {
   isFetching: boolean;
   funds: Fund[];
   fund?: Fund;
+  selectedFund?: Fund;
 }
 
 export interface Fund {

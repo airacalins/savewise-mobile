@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Entypo,
   MaterialCommunityIcons,
@@ -11,21 +11,41 @@ import { colors } from "../../layouts/Colors";
 import { ConfirmationModal } from "../../components/Modal";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Details } from "../../components/Details";
-import { FundDetailsStackProps } from "../../navigation/FundDetailsStackNavigator";
 import { IconButton } from "../../components/Button";
 import { Padding } from "../../components/Padding";
 import { Screen } from "../../components/Screens/Screen";
 import { Subtitle } from "../../components/Typography";
 import { VerticalSpace } from "../../components/Spacer";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { fetchFundById } from "../../store/funds/action";
+import { FundsStackParamList } from "../../navigation/FundStackNavigator";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 
-export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
+type FundStackProps = NativeStackScreenProps<
+  FundsStackParamList,
+  "FundDetails"
+>;
+
+export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
+  const dispatch = useAppDispatch();
+  const { isFetching, selectedFund: fund } = useAppSelector(
+    (state) => state.fund
+  );
+
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchFundById(route.params?.fundId));
+  }, []);
 
   const handleDelete = () => {
     setIsDeleteModalVisible(true);
   };
 
   const handleEdit = () => navigation.navigate("AllocateFund");
+
+  if (!fund) return <LoadingScreen />;
 
   return (
     <Screen>
@@ -51,7 +71,7 @@ export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
       <Padding px={8}>
         <Details
           title="Savings for"
-          details="Car"
+          details={fund?.title}
           IconComponent={
             <MaterialCommunityIcons
               name="hand-coin-outline"
@@ -63,7 +83,7 @@ export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
 
         <Details
           title="Transaction Date"
-          details="Dec 21, 2023"
+          details={fund.date}
           IconComponent={
             <MaterialCommunityIcons
               name="calendar-blank-outline"
@@ -73,16 +93,16 @@ export const FundDetailsScreen = ({ navigation }: FundDetailsStackProps) => {
           }
         />
 
-        <Details
+        {/* <Details
           title="Description"
           details="For the car because why not? For the car because why not? For
                   the car because why not?"
           IconComponent={<Entypo name="text" size={32} color={colors.dark} />}
-        />
+        /> */}
 
         <Details
           title="Amount"
-          details="400.00"
+          details={Math.abs(fund.amount).toString()}
           IconComponent={
             <MaterialIcons name="outbox" size={32} color={colors.dark} />
           }

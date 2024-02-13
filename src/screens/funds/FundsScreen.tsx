@@ -3,14 +3,14 @@ import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/typ
 import { StyleSheet, ScrollView, TouchableOpacity, View } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { Caption, Header } from "../../components/Typography";
+import { Header, Label } from "../../components/Typography";
 import { CashInBottomSheet } from "./components/CashInBottomSheet";
 import { CashOutBottomSheet } from "./components/CashOutBottomSheet";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { fetchFunds } from "../../store/funds/action";
 import { Funds } from "./components/Funds";
-import { FundsStackProps } from "../../navigation/FundStackNavigator";
+import { FundStackProps } from "../../navigation/FundStackNavigator";
 import { IconButton } from "../../components/Button";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { OffsetContainer } from "../../components/Container";
@@ -19,7 +19,7 @@ import { Screen } from "../../components/Screens/Screen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { VerticalSpace } from "../../components/Spacer";
 
-export const FundsScreen = ({ navigation }: FundsStackProps) => {
+export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
   const { isFetching, funds } = useAppSelector((state) => state.fund);
 
@@ -45,7 +45,7 @@ export const FundsScreen = ({ navigation }: FundsStackProps) => {
       <OffsetContainer padding={16}>
         <View style={defaultStyles.centerHorizontallyBetween}>
           <View>
-            <Caption>Total Funds</Caption>
+            <Label>Total Funds</Label>
             <VerticalSpace spacer={8} />
             <Header>₱ {totalFunds.toLocaleString()}</Header>
           </View>

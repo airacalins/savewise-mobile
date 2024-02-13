@@ -6,7 +6,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 
-import { Body, Caption } from "../../../components/Typography";
+import { Body, Caption, Label } from "../../../components/Typography";
 import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HomeStackParamList } from "../../../navigation/HomeStackNavigator";
@@ -26,7 +26,7 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
   return (
     <View>
       <View style={defaultStyles.horizontalPadding}>
-        <Caption>{title}</Caption>
+        <Label>{title}</Label>
       </View>
       <FlatList
         style={styles.listContainer}

@@ -4,11 +4,11 @@ import { ScrollView, StyleSheet } from "react-native";
 
 import { colors } from "../../layouts/Colors";
 import { CustomButton } from "../../components/Button";
-import { FundsStackProps } from "../../navigation/FundStackNavigator";
+import { FundStackProps } from "../../navigation/FundStackNavigator";
 import { Input } from "../../components/Input";
 import { Screen } from "../../components/Screens/Screen";
 
-export const AllocateFundScreen = ({ navigation }: FundsStackProps) => {
+export const AllocateFundScreen = ({ navigation }: FundStackProps) => {
   const inputAccessoryViewID = "otherOptions";
 
   const handleSave = () => navigation.goBack();

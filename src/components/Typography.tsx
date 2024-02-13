@@ -9,38 +9,70 @@ const fontSize = {
   subtitle: 16,
   body: 14,
   caption: 11,
+  label: 11,
 };
 
 interface TypographyProps extends TextProps {
   children: React.ReactNode;
+  color?: string;
 }
 
-export const Header: React.FC<TypographyProps> = ({ children, ...props }) => (
-  <Text style={[styles.header]} {...props}>
+export const Header: React.FC<TypographyProps> = ({
+  children,
+  color = colors.dark,
+  ...props
+}) => (
+  <Text style={[styles.header, { color }]} {...props}>
     {children}
   </Text>
 );
 
-export const Title: React.FC<TypographyProps> = ({ children, ...props }) => (
-  <Text style={[styles.title]} {...props}>
+export const Title: React.FC<TypographyProps> = ({
+  children,
+  color = colors.dark,
+  ...props
+}) => (
+  <Text style={[styles.title, { color }]} {...props}>
     {children}
   </Text>
 );
 
-export const Subtitle: React.FC<TypographyProps> = ({ children, ...props }) => (
-  <Text style={[styles.subtitle]} {...props}>
+export const Subtitle: React.FC<TypographyProps> = ({
+  children,
+  color = colors.dark,
+  ...props
+}) => (
+  <Text style={[styles.subtitle, { color }]} {...props}>
     {children}
   </Text>
 );
 
-export const Body: React.FC<TypographyProps> = ({ children, ...props }) => (
-  <Text style={[styles.body]} {...props}>
+export const Body: React.FC<TypographyProps> = ({
+  children,
+  color = colors.dark,
+  ...props
+}) => (
+  <Text style={[styles.body, { color }]} {...props}>
     {children}
   </Text>
 );
 
-export const Caption: React.FC<TypographyProps> = ({ children, ...props }) => (
-  <Text style={[styles.caption]} {...props}>
+export const Caption: React.FC<TypographyProps> = ({
+  children,
+  color = colors.dark,
+  ...props
+}) => (
+  <Text style={[styles.caption, { color }]} {...props}>
+    {children}
+  </Text>
+);
+
+export const Label: React.FC<TypographyProps> = ({
+  children,
+  color = colors.dark,
+  ...props
+}) => (
+  <Text style={[styles.label, { color }]} {...props}>
     {children}
   </Text>
 );
@@ -70,6 +102,12 @@ const styles = StyleSheet.create({
   caption: {
     color: colors.dark,
     fontSize: fontSize.caption,
+    fontWeight: "400",
+    letterSpacing: 0.5,
+  },
+  label: {
+    color: colors.dark,
+    fontSize: fontSize.label,
     fontWeight: "400",
     letterSpacing: 0.5,
     textTransform: "uppercase",

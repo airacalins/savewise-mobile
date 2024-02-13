@@ -82,44 +82,42 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
             <CustomButton onPress={handleSubmit(handleSave)} title="Save" />
           }
         >
-          <Padding px={8}>
-            <Controller
-              control={control}
-              name="title"
-              render={({ field: { value, onChange, onBlur } }) => (
-                <Input
-                  label="Title"
-                  Icon={<Entypo name="text" size={24} color={colors.dark} />}
-                  inputAccessoryViewID={inputAccessoryViewID}
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                />
-              )}
-            />
+          <Controller
+            control={control}
+            name="title"
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Input
+                label="Title"
+                Icon={<Entypo name="text" size={24} color={colors.dark} />}
+                inputAccessoryViewID={inputAccessoryViewID}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+              />
+            )}
+          />
 
-            <Controller
-              control={control}
-              name="amount"
-              render={({ field: { value, onChange, onBlur } }) => (
-                <Input
-                  keyboardType="numeric"
-                  label="Amount"
-                  Icon={
-                    <MaterialIcons
-                      name="move-to-inbox"
-                      size={32}
-                      color={colors.dark}
-                    />
-                  }
-                  inputAccessoryViewID={inputAccessoryViewID}
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                />
-              )}
-            />
-          </Padding>
+          <Controller
+            control={control}
+            name="amount"
+            render={({ field: { value, onChange, onBlur } }) => (
+              <Input
+                keyboardType="numeric"
+                label="Amount"
+                Icon={
+                  <MaterialIcons
+                    name="move-to-inbox"
+                    size={32}
+                    color={colors.dark}
+                  />
+                }
+                inputAccessoryViewID={inputAccessoryViewID}
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+              />
+            )}
+          />
         </Screen>
 
         <InputAccessory

@@ -50,14 +50,10 @@ export const HomeScreen: React.FC = () => {
               />
             </View>
           </View>
-
-          <VerticalSpace spacer={16} />
-
           <VerticalSpace spacer={16} />
           <SavingsList title="Personal" data={personalSavings} />
-          <VerticalSpace spacer={32} />
-          <SavingsList title="Shared" data={sharedSavings} />
           <VerticalSpace spacer={16} />
+          <SavingsList title="Shared" data={sharedSavings} />
         </ScrollView>
       }
     />

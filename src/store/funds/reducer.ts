@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FundsState } from "./types";
-import { createFund, fetchFunds } from "./action";
+import { createFund, fetchFundById, fetchFunds } from "./action";
 
 export const initialState: FundsState = {
   isFetching: false,
   funds: [],
   fund: undefined,
+  selectedFund: undefined,
 };
 
 export const fundSlice = createSlice({
@@ -33,6 +34,18 @@ export const fundSlice = createSlice({
       state.isFetching = false;
     });
     builder.addCase(createFund.rejected, (state, _) => {
+      state.isFetching = false;
+    });
+
+    // Selected fund
+    builder.addCase(fetchFundById.pending, (state, _) => {
+      state.isFetching = true;
+    });
+    builder.addCase(fetchFundById.fulfilled, (state, action) => {
+      state.isFetching = false;
+      state.selectedFund = action.payload;
+    });
+    builder.addCase(fetchFundById.rejected, (state, _) => {
       state.isFetching = false;
     });
   },
