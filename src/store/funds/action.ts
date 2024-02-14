@@ -45,3 +45,14 @@ export const updateFund = createAsyncThunk<boolean, UpdateFundInput>(
     }
   }
 );
+
+export const deleteFund = createAsyncThunk<boolean, string>(
+  "deleteFund",
+  async (id, thunkAPI) => {
+    try {
+      return await request.del(`/funds/${id}`);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ errror: error.data });
+    }
+  }
+);

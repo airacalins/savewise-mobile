@@ -7,7 +7,7 @@ import { FundDetailsScreen } from "../screens/funds/FundDetailsScreen";
 
 export type FundsStackParamList = {
   Funds: undefined;
-  FundDetails: { fundId: string };
+  FundDetails: { id: string };
   AllocateFund: undefined;
 };
 

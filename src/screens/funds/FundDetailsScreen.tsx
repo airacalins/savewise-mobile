@@ -38,7 +38,7 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchFundById(route.params?.fundId));
+    dispatch(fetchFundById(route.params?.id));
   }, []);
 
   const handleDelete = () => {

@@ -26,17 +26,17 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   const cashInModalRef = useRef<BottomSheetModalMethods>(null);
   const cashOutModalRef = useRef<BottomSheetModalMethods>(null);
 
+  const totalFunds = useMemo(
+    () => funds.reduce((accumulator, fund) => accumulator + fund.amount, 0),
+    [funds]
+  );
+
   const handleNavigateToAllocateFundScreen = () =>
     navigation.navigate("AllocateFund");
 
   useEffect(() => {
     dispatch(fetchFunds());
   }, []);
-
-  const totalFunds = useMemo(
-    () => funds.reduce((accumulator, fund) => accumulator + fund.amount, 0),
-    [funds]
-  );
 
   if (isFetching) return <LoadingScreen />;
 
