@@ -55,16 +55,17 @@ const validationSchema = yup.object().shape({
 export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
   ({}, ref) => {
     const dispatch = useAppDispatch();
-    const { dismiss } = useBottomSheetModal();
     const inputAccessoryViewID = "cashInInputAccessory";
 
     const {
       control,
       handleSubmit,
-      formState: { errors, isSubmitting },
+      formState: { errors, isSubmitting, isValid },
+      reset,
     } = useForm<FormValues>({
       resolver: yupResolver(validationSchema),
       defaultValues: cashInDefaultValues,
+      mode: "onChange",
     });
 
     const renderBackdrop = (backdropProps: BottomSheetBackdropProps) => (
@@ -84,7 +85,6 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
 
       await dispatch(createFund(fund));
       await dispatch(fetchFunds());
-      dismiss();
     };
 
     if (isSubmitting) return <LoadingScreen />;
@@ -94,11 +94,17 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
         ref={ref}
         snapPoints={["90%"]}
         backdropComponent={renderBackdrop}
+        onDismiss={() => reset()}
       >
         <Screen
           title="Record a Cash-in"
           HeaderRightComponent={
-            <CustomButton onPress={handleSubmit(handleSave)} title="Save" />
+            <CustomButton
+              onPress={handleSubmit(handleSave)}
+              title="Save"
+              isValid={isValid}
+              disabled={!isValid}
+            />
           }
         >
           <Controller
@@ -107,7 +113,9 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
             render={({ field: { value, onChange, onBlur } }) => (
               <Input
                 label="Title"
+                placeholder="Ex. Allowance"
                 Icon={<Entypo name="text" size={24} color={colors.dark} />}
+                autoFocus
                 inputAccessoryViewID={inputAccessoryViewID}
                 value={value}
                 onChangeText={onChange}
@@ -124,6 +132,7 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
               <Input
                 keyboardType="numeric"
                 label="Amount"
+                placeholder="Ex. 100"
                 Icon={
                   <MaterialIcons
                     name="move-to-inbox"
@@ -132,7 +141,7 @@ export const CashInBottomSheet = React.forwardRef<BottomSheetModalMethods>(
                   />
                 }
                 inputAccessoryViewID={inputAccessoryViewID}
-                value={value.toString()}
+                value={value > 0 ? value.toString() : ""}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 errorMessage={errors.amount?.message}

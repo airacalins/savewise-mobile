@@ -14,8 +14,7 @@ import { Fund } from "../../../store/funds/types";
 import { HorizontalSpace, VerticalSpace } from "../../../components/Spacer";
 import { ListTile } from "../../../components/ListTile";
 import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
-import { useDispatch } from "react-redux";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppDispatch } from "../../../store/hooks";
 import { deleteFund, fetchFunds } from "../../../store/funds/action";
 
 interface MonthlyFundProps {
@@ -57,6 +56,16 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
 
   const fundsByMonth = useMemo(() => groupByMonth(funds), [funds]);
 
+  let swipeableRef: Array<Swipeable | undefined | null> = [];
+  let previousSwipeableRef: Swipeable | undefined | null;
+
+  const onClose = (index: number) => {
+    if (previousSwipeableRef && previousSwipeableRef !== swipeableRef[index]) {
+      previousSwipeableRef.close();
+    }
+    previousSwipeableRef = swipeableRef[index];
+  };
+
   const months = useMemo(
     () => Object.getOwnPropertyNames(fundsByMonth).reverse(),
     [fundsByMonth]
@@ -65,21 +74,25 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
   return months.map((month) => (
     <View key={`${year}${month}`}>
       <Text>{`${getMonthName(+month)} ${year}`}</Text>
-      {fundsByMonth[month].map((fund: Fund) => {
+      {fundsByMonth[month].map((fund: Fund, index: number) => {
         const { id, title, date, amount } = fund;
+
+        console.log(index);
 
         return (
           <Swipeable
             key={id}
+            ref={(ref) => (swipeableRef[index] = ref)}
+            onSwipeableWillOpen={() => onClose(index)}
             renderRightActions={() => (
               <View style={[defaultStyles.center, styles.rightSwipeAction]}>
                 <TouchableOpacity
                   onPress={() => handleDelete(id)}
-                  style={defaultStyles.row}
+                  style={defaultStyles.centerAlignHorizontally}
                 >
                   <Feather name="trash" size={16} color={colors.white} />
                   <HorizontalSpace spacer={8} />
-                  <Caption style={defaultStyles.textWhite}>Delete</Caption>
+                  <Body style={defaultStyles.textWhite}>Delete</Body>
                 </TouchableOpacity>
               </View>
             )}

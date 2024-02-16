@@ -50,6 +50,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
 interface CustomButtonProps extends TouchableOpacityProps {
   size?: "S" | "M";
   title: string;
+  isValid: boolean;
   bgColor?: "dark" | "danger";
   isFullWidth?: boolean;
 }
@@ -57,6 +58,7 @@ interface CustomButtonProps extends TouchableOpacityProps {
 export const CustomButton: React.FC<CustomButtonProps> = ({
   size,
   title,
+  isValid,
   bgColor,
   isFullWidth,
   ...props
@@ -71,6 +73,8 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
         return colors.background;
     }
   };
+
+  const buttonTextColor = () => (!!bgColor ? colors.white : colors.dark);
 
   const buttonTitle = () => {
     switch (size) {
@@ -98,7 +102,7 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
           <Caption
             style={{
               ...buttonTitle(),
-              color: !!bgColor ? colors.white : colors.dark,
+              color: !isValid ? colors.grey : buttonTextColor(),
             }}
           >
             {title}

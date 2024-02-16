@@ -61,10 +61,12 @@ export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
     const {
       control,
       handleSubmit,
-      formState: { errors, isSubmitting },
+      formState: { errors, isSubmitting, isValid },
+      reset,
     } = useForm<FormValues>({
       resolver: yupResolver(validationSchema),
       defaultValues: cashOutDefaultValues,
+      mode: "onChange",
     });
 
     const renderBackdrop = (backdropProps: BottomSheetBackdropProps) => (
@@ -94,11 +96,17 @@ export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
         ref={ref}
         snapPoints={["90%"]}
         backdropComponent={renderBackdrop}
+        onDismiss={() => reset()}
       >
         <Screen
           title="Record a Cash-out"
           HeaderRightComponent={
-            <CustomButton onPress={handleSubmit(handleSave)} title="Save" />
+            <CustomButton
+              onPress={handleSubmit(handleSave)}
+              title="Save"
+              isValid={isValid}
+              disabled={!isValid}
+            />
           }
         >
           <Controller
@@ -108,6 +116,7 @@ export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
               <Input
                 label="Title"
                 Icon={<Entypo name="text" size={24} color={colors.dark} />}
+                placeholder="Ex. Allowance"
                 inputAccessoryViewID={inputAccessoryViewID}
                 value={value}
                 onChangeText={onChange}
@@ -122,7 +131,6 @@ export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
             name="amount"
             render={({ field: { value, onChange, onBlur } }) => (
               <Input
-                keyboardType="numeric"
                 label="Amount"
                 Icon={
                   <MaterialIcons
@@ -131,8 +139,10 @@ export const CashOutBottomSheet = React.forwardRef<BottomSheetModalMethods>(
                     color={colors.dark}
                   />
                 }
+                placeholder="Ex. 100"
+                keyboardType="numeric"
                 inputAccessoryViewID={inputAccessoryViewID}
-                value={value.toString()}
+                value={value > 0 ? value.toString() : ""}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 errorMessage={errors.amount?.message}

@@ -19,7 +19,7 @@ export const Funds: React.FC<FundsProps> = ({ funds }) => {
       return item;
     }, {});
   };
-
+  0;
   const fundsByYear = useMemo(() => groupByYear(funds), [funds]);
 
   const years = useMemo(

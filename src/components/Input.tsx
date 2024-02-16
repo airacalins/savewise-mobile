@@ -33,12 +33,7 @@ export const Input: React.FC<InputProps> = ({
             </>
           )}
           <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              autoFocus
-              returnKeyType="next"
-              {...props}
-            />
+            <TextInput style={styles.input} returnKeyType="next" {...props} />
             {TrailingIcon && (
               <View style={defaultStyles.horizontalPadding}>
                 {TrailingIcon}
