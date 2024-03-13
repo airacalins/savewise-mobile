@@ -21,12 +21,7 @@ export const Banner: React.FC<BannerProps> = ({ name, image }) => {
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
 
   return (
-    <View
-      style={[
-        defaultStyles.centerHorizontallyBetween,
-        defaultStyles.horizontalPadding,
-      ]}
-    >
+    <View style={[defaultStyles.centerHorizontallyBetween]}>
       <View style={defaultStyles.centerHorizontally}>
         <CircularImage source={image} />
         <HorizontalSpace spacer={16} />

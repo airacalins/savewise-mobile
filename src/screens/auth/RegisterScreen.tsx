@@ -5,11 +5,11 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { AuthStackProps } from "../../navigation/AuthStackNavigator";
 import { Body, Header } from "../../components/Typography";
 import { colors } from "../../layouts/Colors";
-import { CustomButton } from "../../components/Button";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Input } from "../../components/Input";
 import { Screen } from "../../components/Screens/Screen";
 import { VerticalSpace, HorizontalSpace } from "../../components/Spacer";
+import { Button } from "../../components/Buttons/Button";
 
 export const RegisterScreen = ({ navigation }: AuthStackProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -61,7 +61,7 @@ export const RegisterScreen = ({ navigation }: AuthStackProps) => {
         </View>
 
         <View style={defaultStyles.fullWidth}>
-          <CustomButton title="Register" size="M" bgColor="dark" />
+          <Button title="Register" size="M" bgColor="dark" isValid={false} />
         </View>
 
         <VerticalSpace spacer={16} />

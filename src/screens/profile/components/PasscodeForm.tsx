@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { Body } from "../../../components/Typography";
-import { CustomButton } from "../../../components/Button";
+import { Button } from "../../../components/Buttons/Button";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { Input } from "../../../components/Input";
 import { VerticalSpace } from "../../../components/Spacer";
@@ -25,7 +25,7 @@ export const PasscodeForm = () => (
         <Input keyboardType="numeric" textAlign="center" />
       </View>
     </View>
-    <CustomButton size="M" bgColor="dark" title="Submit" />
+    <Button size="M" bgColor="dark" title="Submit" isValid={false} />
   </>
 );
 

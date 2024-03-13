@@ -4,13 +4,13 @@ import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 import { AuthStackProps } from "../../navigation/AuthStackNavigator";
 import { Body, Header } from "../../components/Typography";
 import { colors } from "../../layouts/Colors";
-import { CustomButton } from "../../components/Button";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
 import { Input } from "../../components/Input";
 import { Screen } from "../../components/Screens/Screen";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity, View } from "react-native";
+import { Button } from "../../components/Buttons/Button";
 
 export const LoginScreen = ({ navigation }: AuthStackProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -54,7 +54,7 @@ export const LoginScreen = ({ navigation }: AuthStackProps) => {
         </View>
 
         <View style={defaultStyles.fullWidth}>
-          <CustomButton title="Login" size="M" bgColor="dark" />
+          <Button title="Login" size="M" bgColor="dark" isValid={false} />
         </View>
 
         <VerticalSpace spacer={16} />

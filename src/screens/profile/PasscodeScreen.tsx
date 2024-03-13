@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { ConfirmationModal } from "../../components/Modal";
-import { CustomButton } from "../../components/Button";
+import { Button } from "../../components/Buttons/Button";
 import { PasscodeForm } from "./components/PasscodeForm";
 import { Screen } from "../../components/Screens/Screen";
 import { View } from "react-native";
@@ -24,16 +24,18 @@ export const PasscodeScreen = () => {
           <PasscodeForm />
         ) : (
           <>
-            <CustomButton
+            <Button
               onPress={() => setIsPasswordChanged(true)}
               title={"Change Password"}
               size="M"
+              isValid={false}
             />
-            <CustomButton
+            <Button
               onPress={() => setIsRemovePasswordModalVisible(true)}
               title={"Remove Password"}
               size="M"
               bgColor="danger"
+              isValid={false}
             />
           </>
         )}

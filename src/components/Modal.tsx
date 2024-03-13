@@ -9,8 +9,8 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 
 import { colors } from "../layouts/Colors";
-import { CustomButton } from "./Button";
-import { Padding } from "./Padding";
+import { defaultStyles } from "../layouts/DefaultStyles";
+import { Button } from "./Buttons/Button";
 import { Subtitle } from "./Typography";
 import { VerticalSpace } from "./Spacer";
 
@@ -38,14 +38,15 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             </TouchableOpacity>
           </View>
           <VerticalSpace spacer={32} />
-          <Padding px={16}>
+          <View style={defaultStyles.px8}>
             <Subtitle>{title}</Subtitle>
-          </Padding>
+          </View>
           <VerticalSpace spacer={16} />
-          <CustomButton
+          <Button
             onPress={onConfirm}
             title={confirmButtonTitle}
             size="M"
+            isValid={false}
           />
         </View>
       </View>

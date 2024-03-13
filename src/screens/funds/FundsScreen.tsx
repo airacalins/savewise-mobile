@@ -1,38 +1,83 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { StyleSheet, ScrollView, TouchableOpacity, View } from "react-native";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
 
-import { Header, Label } from "../../components/Typography";
-import { CashInBottomSheet } from "./components/CashInBottomSheet";
-import { CashOutBottomSheet } from "./components/CashOutBottomSheet";
+import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { fetchFunds } from "../../store/funds/action";
-import { Funds } from "./components/Funds";
 import { FundStackProps } from "../../navigation/FundStackNavigator";
-import { IconButton } from "../../components/Button";
+import { Header, Subtitle } from "../../components/Typography";
+import { IncomeSourcesActionBottomSheet } from "./components/IncomeSourcesActionBottomSheet";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
+import { MonthlyDetailsCard } from "./components/MonthlyDetailsCard";
+import { MoreActionBottomSheet } from "./components/MoreActionBottomSheet";
 import { OffsetContainer } from "../../components/Container";
-import { Padding } from "../../components/Padding";
-import { Screen } from "../../components/Screens/Screen";
+import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { VerticalSpace } from "../../components/Spacer";
+
+export interface IncomeSource {
+  title: string;
+  amount: number;
+}
+
+const incomeSourcesMockData: IncomeSource[] = [
+  { title: "Salary", amount: 5000 },
+  { title: "Freelancing", amount: 1500 },
+  { title: "Investments", amount: 300 },
+  { title: "Rental Income", amount: 700 },
+];
+
+const expensesMockData = [
+  { title: "Groceries", amount: 50.25 },
+  { title: "Gasoline", amount: 35.5 },
+  { title: "Dinner with friends", amount: 75.8 },
+  { title: "Utilities", amount: 120 },
+  { title: "Entertainment", amount: 45 },
+];
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
   const { isFetching, funds } = useAppSelector((state) => state.fund);
-
-  const cashInModalRef = useRef<BottomSheetModalMethods>(null);
-  const cashOutModalRef = useRef<BottomSheetModalMethods>(null);
+  const moreActionsModalRef = useRef<BottomSheetModalMethods>(null);
+  const incomeSourcesActionModalRef = useRef<BottomSheetModalMethods>(null);
 
   const totalFunds = useMemo(
     () => funds.reduce((accumulator, fund) => accumulator + fund.amount, 0),
     [funds]
   );
 
-  const handleNavigateToAllocateFundScreen = () =>
-    navigation.navigate("AllocateFund");
+  const handlePresentMoreActionModal = () =>
+    moreActionsModalRef.current?.present();
+
+  const handleShowIncomeSourcesActionModal = () =>
+    incomeSourcesActionModalRef.current?.present();
+
+  const handleHideMoreActionModal = () =>
+    moreActionsModalRef.current?.dismiss();
+
+  const handleHideIncomeSourcesActionModalal = () =>
+    incomeSourcesActionModalRef.current?.dismiss();
+
+  const handleNavigateToIncomeSourcesScreen = () => {
+    incomeSourcesActionModalRef.current?.dismiss();
+    navigation.navigate("IncomeSources");
+  };
+
+  const handleNavigateToCashInScreen = () => {
+    moreActionsModalRef.current?.dismiss();
+    navigation.navigate("CashIn");
+  };
+
+  const handleNavigateToCashOutScreen = () => {
+    moreActionsModalRef.current?.dismiss();
+    navigation.navigate("CashOut");
+  };
+
+  const handleNavigateToIncomeSourceDetails = () => {
+    navigation.navigate("IncomeSourceDetails");
+  };
 
   useEffect(() => {
     dispatch(fetchFunds());
@@ -41,70 +86,56 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   if (isFetching) return <LoadingScreen />;
 
   return (
-    <Screen>
-      <OffsetContainer padding={16}>
-        <View style={defaultStyles.centerHorizontallyBetween}>
-          <View>
-            <Label>Total Funds</Label>
-            <VerticalSpace spacer={8} />
-            <Header color={totalFunds < 0 ? colors.danger : colors.dark}>
-              ₱ {Math.abs(totalFunds).toLocaleString()}
-            </Header>
-          </View>
-
-          <TouchableOpacity onPress={() => cashInModalRef.current?.present()}>
-            <MaterialIcons
-              name="move-to-inbox"
-              size={32}
-              color={colors.success}
-            />
-          </TouchableOpacity>
+    <ScrollableScreen>
+      <View style={defaultStyles.centerHorizontallyBetween}>
+        <View style={defaultStyles.px8}>
+          <Subtitle>Total Funds</Subtitle>
         </View>
+        <Button
+          title="Add / Manage"
+          uppercase
+          isValid={true}
+          onPress={handlePresentMoreActionModal}
+        />
+      </View>
+      <OffsetContainer padding={16} backgroundColor={colors.dark}>
+        <Header color={colors.white}>
+          ₱ {Math.abs(totalFunds).toLocaleString()}
+        </Header>
       </OffsetContainer>
-
       <VerticalSpace spacer={16} />
 
-      <View style={defaultStyles.centerHorizontally}>
-        <View style={styles.iconContainer}>
-          <IconButton
-            onPress={handleNavigateToAllocateFundScreen}
-            title="Allocate"
-            IconComponent={
-              <MaterialCommunityIcons
-                name="hand-coin-outline"
-                size={24}
-                color={colors.info}
-              />
-            }
-          />
-        </View>
+      <MonthlyDetailsCard
+        title="Income"
+        incomeSources={incomeSourcesMockData}
+        onShowIncomeSourcesActionModal={handleShowIncomeSourcesActionModal}
+        onNavigateToIncomeSourceDetailsScreen={
+          handleNavigateToIncomeSourceDetails
+        }
+      />
+      <VerticalSpace spacer={16} />
+      <MonthlyDetailsCard
+        title="Expenses"
+        incomeSources={expensesMockData}
+        onShowIncomeSourcesActionModal={handleShowIncomeSourcesActionModal}
+        onNavigateToIncomeSourceDetailsScreen={
+          handleNavigateToIncomeSourceDetails
+        }
+      />
+      <VerticalSpace spacer={16} />
+      <MoreActionBottomSheet
+        ref={moreActionsModalRef}
+        onClose={handleHideMoreActionModal}
+        onCashInPress={handleNavigateToCashInScreen}
+        onCashOutPress={handleNavigateToCashOutScreen}
+      />
 
-        <View style={styles.iconContainer}>
-          <IconButton
-            onPress={() => cashOutModalRef.current?.present()}
-            title="Cash out"
-            IconComponent={
-              <MaterialIcons name="outbox" size={24} color={colors.danger} />
-            }
-          />
-        </View>
-      </View>
-
-      <VerticalSpace spacer={8} />
-
-      <ScrollView>
-        <Padding p={8}>
-          <Funds funds={funds} />
-          <VerticalSpace spacer={16} />
-          <Label color={colors.grey} style={defaultStyles.textCenter}>
-            - End of funds -
-          </Label>
-        </Padding>
-      </ScrollView>
-
-      <CashInBottomSheet ref={cashInModalRef} />
-      <CashOutBottomSheet ref={cashOutModalRef} />
-    </Screen>
+      <IncomeSourcesActionBottomSheet
+        ref={incomeSourcesActionModalRef}
+        onClose={handleHideIncomeSourcesActionModalal}
+        onAdd={handleNavigateToIncomeSourcesScreen}
+      />
+    </ScrollableScreen>
   );
 };
 

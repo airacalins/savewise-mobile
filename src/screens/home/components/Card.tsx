@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 
-import { Caption, Title } from "../../../components/Typography";
+import { Body, Caption, Label, Title } from "../../../components/Typography";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HorizontalSpace, VerticalSpace } from "../../../components/Spacer";
 import { OffsetContainer } from "../../../components/Container";
@@ -18,12 +18,12 @@ export const Card: React.FC<CardProps> = ({
   subtitle,
 }) => {
   return (
-    <OffsetContainer>
-      <View style={[defaultStyles.centerHorizontally, { padding: 16 }]}>
+    <OffsetContainer padding={16}>
+      <View style={defaultStyles.centerHorizontally}>
         {LeadingIconComponent}
         <HorizontalSpace spacer={16} />
         <View>
-          <Caption>{title}</Caption>
+          <Label>{title}</Label>
           <VerticalSpace spacer={8} />
           <Title>{subtitle}</Title>
         </View>

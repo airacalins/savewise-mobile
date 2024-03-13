@@ -9,6 +9,11 @@ export const defaultStyles = StyleSheet.create({
     marginVertical: 4,
     width: "100%",
   },
+
+  // Alignments
+  flex1: {
+    flex: 1,
+  },
   center: {
     alignItems: "center",
     justifyContent: "center",
@@ -34,31 +39,29 @@ export const defaultStyles = StyleSheet.create({
   fullWidth: {
     width: "100%",
   },
-  horizontalPadding: {
-    paddingHorizontal: 16,
+
+  // Separator
+  dottedSeparator: {
+    borderStyle: "dotted",
+    borderWidth: 0.5,
+    borderRadius: 1,
+    borderColor: colors.border,
   },
-  fontWeight500: {
-    fontWeight: "500",
-  },
-  textDanger: {
-    color: colors.danger,
-  },
-  textDark: {
-    color: colors.dark,
-  },
-  textInfo: {
-    color: colors.info,
-  },
-  textSuccess: {
-    color: colors.success,
-  },
-  textWhite: {
-    color: colors.white,
-  },
-  flex1: {
-    flex: 1,
-  },
-  textCenter: {
-    textAlign: "center",
-  },
+
+  // Text
+  fontWeight500: { fontWeight: "500" },
+  textDanger: { color: colors.danger },
+  textDark: { color: colors.dark },
+  textInfo: { color: colors.info },
+  textSuccess: { color: colors.success },
+  textWhite: { color: colors.white },
+  textCenter: { textAlign: "center" },
+
+  // Padding
+  p8: { padding: 8 },
+  p16: { padding: 16 },
+  px8: { paddingHorizontal: 8 },
+  px16: { paddingHorizontal: 16 },
+  py16: { paddingVertical: 16 },
+  pl16: { paddingLeft: 16 },
 });

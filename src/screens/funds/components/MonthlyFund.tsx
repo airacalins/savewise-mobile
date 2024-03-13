@@ -10,12 +10,12 @@ import { useNavigation } from "@react-navigation/native";
 import { Caption, Body } from "../../../components/Typography";
 import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
+import { deleteFund, fetchFunds } from "../../../store/funds/action";
 import { Fund } from "../../../store/funds/types";
+import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
 import { HorizontalSpace, VerticalSpace } from "../../../components/Spacer";
 import { ListTile } from "../../../components/ListTile";
-import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
 import { useAppDispatch } from "../../../store/hooks";
-import { deleteFund, fetchFunds } from "../../../store/funds/action";
 
 interface MonthlyFundProps {
   year: string;
@@ -74,6 +74,8 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
   return months.map((month) => (
     <View key={`${year}${month}`}>
       <Text>{`${getMonthName(+month)} ${year}`}</Text>
+
+      <VerticalSpace spacer={8} />
       {fundsByMonth[month].map((fund: Fund, index: number) => {
         const { id, title, date, amount } = fund;
 

@@ -7,7 +7,6 @@ import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { ListTile } from "../../components/ListTile";
 import { OffsetContainer } from "../../components/Container";
-import { Padding } from "../../components/Padding";
 import { ProfileStackProps } from "../../navigation/ProfileStackNavigator";
 import { Screen } from "../../components/Screens/Screen";
 import { VerticalSpace } from "../../components/Spacer";
@@ -63,7 +62,7 @@ export const ProfileScreen = ({ navigation }: ProfileStackProps) => {
       <View>
         <Caption style={styles.sectionTitle}>Feedback</Caption>
         <VerticalSpace spacer={8} />
-        <Padding px={8}>
+        <View style={defaultStyles.px8}>
           <OffsetContainer padding={16}>
             <ListTile
               TitleComponent={<Subtitle>Rate Savewise</Subtitle>}
@@ -77,7 +76,7 @@ export const ProfileScreen = ({ navigation }: ProfileStackProps) => {
               onPress={() => navigation.navigate("ContactUs")}
             />
           </OffsetContainer>
-        </Padding>
+        </View>
       </View>
     </Screen>
   );

@@ -1,5 +1,6 @@
-import { colors } from "../../layouts/Colors";
 import { SafeAreaView, StatusBar, StyleSheet, ScrollView } from "react-native";
+
+import { colors } from "../../layouts/Colors";
 
 interface ScreenProps {
   title?: string;
@@ -21,7 +22,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   screen: {
-    paddingVertical: 8,
+    padding: 8,
   },
   lottie: {
     width: "auto",

@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import {
-  Entypo,
   MaterialCommunityIcons,
   MaterialIcons,
   Octicons,
 } from "@expo/vector-icons";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StyleSheet, View } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { colors } from "../../layouts/Colors";
 import { ConfirmationModal } from "../../components/Modal";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Details } from "../../components/Details";
-import { IconButton } from "../../components/Button";
-import { Padding } from "../../components/Padding";
-import { Screen } from "../../components/Screens/Screen";
-import { Subtitle } from "../../components/Typography";
-import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchFundById } from "../../store/funds/action";
 import { FundsStackParamList } from "../../navigation/FundStackNavigator";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
+import { IconButton } from "../../components/Buttons/IconButton";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
-import moment from "moment";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { Screen } from "../../components/Screens/Screen";
+import { Subtitle } from "../../components/Typography";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 type FundStackProps = NativeStackScreenProps<
   FundsStackParamList,
@@ -45,8 +43,6 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
     setIsDeleteModalVisible(true);
   };
 
-  const handleEdit = () => navigation.navigate("AllocateFund");
-
   if (isFetching || !fund) return <LoadingScreen />;
 
   return (
@@ -61,7 +57,7 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
         </View>
         <View style={[defaultStyles.centerHorizontally, { paddingRight: 8 }]}>
           <IconButton
-            onPress={handleEdit}
+            onPress={() => {}}
             size="S"
             IconComponent={
               <Octicons name="pencil" size={16} color={colors.info} />

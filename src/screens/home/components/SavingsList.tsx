@@ -25,7 +25,7 @@ export const SavingsList: React.FC<SavingsListProps> = ({ title, data }) => {
 
   return (
     <View>
-      <View style={defaultStyles.horizontalPadding}>
+      <View>
         <Label>{title}</Label>
       </View>
       <FlatList
