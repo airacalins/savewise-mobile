@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { Body } from "../../../components/Typography";
 import { Button } from "../../../components/Buttons/Button";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
-import { Input } from "../../../components/Input";
+import { Input } from "../../../components/Inputs/Input";
 import { VerticalSpace } from "../../../components/Spacer";
 
 export const PasscodeForm = () => (

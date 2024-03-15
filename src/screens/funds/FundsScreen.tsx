@@ -8,6 +8,7 @@ import { defaultStyles } from "../../layouts/DefaultStyles";
 import { fetchFunds } from "../../store/funds/action";
 import { FundStackProps } from "../../navigation/FundStackNavigator";
 import { Header, Subtitle } from "../../components/Typography";
+import { incomeMockData } from "../../data/IncomeMockData";
 import { IncomeSourcesActionBottomSheet } from "./components/IncomeSourcesActionBottomSheet";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { MonthlyDetailsCard } from "./components/MonthlyDetailsCard";
@@ -16,26 +17,7 @@ import { OffsetContainer } from "../../components/Container";
 import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { VerticalSpace } from "../../components/Spacer";
-
-export interface IncomeSource {
-  title: string;
-  amount: number;
-}
-
-const incomeSourcesMockData: IncomeSource[] = [
-  { title: "Salary", amount: 5000 },
-  { title: "Freelancing", amount: 1500 },
-  { title: "Investments", amount: 300 },
-  { title: "Rental Income", amount: 700 },
-];
-
-const expensesMockData = [
-  { title: "Groceries", amount: 50.25 },
-  { title: "Gasoline", amount: 35.5 },
-  { title: "Dinner with friends", amount: 75.8 },
-  { title: "Utilities", amount: 120 },
-  { title: "Entertainment", amount: 45 },
-];
+import { expensesMockData } from "../../data/ExpensesMockData";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
@@ -65,14 +47,14 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     navigation.navigate("IncomeSources");
   };
 
-  const handleNavigateToCashInScreen = () => {
+  const handleNavigateToAddIncomeScreen = () => {
     moreActionsModalRef.current?.dismiss();
-    navigation.navigate("CashIn");
+    navigation.navigate("AddIncome");
   };
 
-  const handleNavigateToCashOutScreen = () => {
+  const handleNavigateToAddExpenseScreen = () => {
     moreActionsModalRef.current?.dismiss();
-    navigation.navigate("CashOut");
+    navigation.navigate("AddExpense");
   };
 
   const handleNavigateToIncomeSourceDetails = () => {
@@ -104,10 +86,9 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
         </Header>
       </OffsetContainer>
       <VerticalSpace spacer={16} />
-
       <MonthlyDetailsCard
         title="Income"
-        incomeSources={incomeSourcesMockData}
+        financialActivities={incomeMockData}
         onShowIncomeSourcesActionModal={handleShowIncomeSourcesActionModal}
         onNavigateToIncomeSourceDetailsScreen={
           handleNavigateToIncomeSourceDetails
@@ -116,7 +97,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <VerticalSpace spacer={16} />
       <MonthlyDetailsCard
         title="Expenses"
-        incomeSources={expensesMockData}
+        financialActivities={expensesMockData}
         onShowIncomeSourcesActionModal={handleShowIncomeSourcesActionModal}
         onNavigateToIncomeSourceDetailsScreen={
           handleNavigateToIncomeSourceDetails
@@ -126,8 +107,8 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <MoreActionBottomSheet
         ref={moreActionsModalRef}
         onClose={handleHideMoreActionModal}
-        onCashInPress={handleNavigateToCashInScreen}
-        onCashOutPress={handleNavigateToCashOutScreen}
+        onCashInPress={handleNavigateToAddIncomeScreen}
+        onCashOutPress={handleNavigateToAddExpenseScreen}
       />
 
       <IncomeSourcesActionBottomSheet

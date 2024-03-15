@@ -63,5 +63,7 @@ export const defaultStyles = StyleSheet.create({
   px8: { paddingHorizontal: 8 },
   px16: { paddingHorizontal: 16 },
   py16: { paddingVertical: 16 },
+  pb24: { paddingBottom: 24 },
+  pl8: { paddingLeft: 8 },
   pl16: { paddingLeft: 16 },
 });

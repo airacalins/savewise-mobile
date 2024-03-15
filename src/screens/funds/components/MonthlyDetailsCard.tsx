@@ -7,24 +7,24 @@ import { Caption, Subtitle, Title } from "../../../components/Typography";
 import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HorizontalSpace } from "../../../components/Spacer";
-import { IncomeSource } from "../FundsScreen";
 import { OffsetContainer } from "../../../components/Container";
 import { Separator } from "../../../components/Separator/Separator";
+import { FinancialActivity } from "../../../data/types";
 
 interface MonthlyDetailsCardProps {
   title: string;
-  incomeSources: IncomeSource[];
+  financialActivities: FinancialActivity[];
   onShowIncomeSourcesActionModal: () => void;
   onNavigateToIncomeSourceDetailsScreen: () => void;
 }
 
 export const MonthlyDetailsCard: React.FC<MonthlyDetailsCardProps> = ({
   title,
-  incomeSources,
+  financialActivities,
   onShowIncomeSourcesActionModal,
   onNavigateToIncomeSourceDetailsScreen,
 }) => {
-  const renderItem = ({ item }: { item: IncomeSource }) => (
+  const renderItem = ({ item }: { item: FinancialActivity }) => (
     <TouchableOpacity
       onPress={onNavigateToIncomeSourceDetailsScreen}
       style={styles.item}
@@ -64,7 +64,7 @@ export const MonthlyDetailsCard: React.FC<MonthlyDetailsCardProps> = ({
         </View>
 
         <FlatList
-          data={incomeSources}
+          data={financialActivities}
           keyExtractor={(item) => item.title}
           renderItem={renderItem}
           ItemSeparatorComponent={Separator}

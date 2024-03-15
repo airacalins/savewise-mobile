@@ -11,23 +11,10 @@ interface ScreenProps {
   HeaderRightComponent?: React.ReactNode;
 }
 
-export const Screen: React.FC<ScreenProps> = ({
-  title,
-  children,
-  HeaderRightComponent,
-}) => {
+export const Screen: React.FC<ScreenProps> = ({ children }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {title && (
-        <>
-          <View style={styles.headerContainer}>
-            <Subtitle>{title}</Subtitle>
-            {HeaderRightComponent}
-          </View>
-          <View style={defaultStyles.listTileSeparator} />
-        </>
-      )}
       <View style={styles.content}>{children}</View>
     </SafeAreaView>
   );
@@ -46,6 +33,6 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 8,
-    paddingVertical: 8,
+    paddingVertical: 16,
   },
 });

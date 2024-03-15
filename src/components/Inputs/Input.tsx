@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
 
-import { Body, Caption } from "./Typography";
-import { colors } from "../layouts/Colors";
-import { defaultStyles } from "../layouts/DefaultStyles";
-import { HorizontalSpace, VerticalSpace } from "./Spacer";
-import { OffsetContainer } from "./Container";
+import { Body, Caption } from "../Typography";
+import { colors } from "../../layouts/Colors";
+import { defaultStyles } from "../../layouts/DefaultStyles";
+import { HorizontalSpace, VerticalSpace } from "../Spacer";
+import { OffsetContainer } from "../Container";
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -22,8 +22,12 @@ export const Input: React.FC<InputProps> = ({
   ...props
 }) => {
   return (
-    <View style={styles.root}>
-      {label && <Body style={styles.label}>{label}</Body>}
+    <View style={defaultStyles.pb24}>
+      {label && (
+        <Body fontWeight="500" style={defaultStyles.px8}>
+          {label}
+        </Body>
+      )}
       <OffsetContainer>
         <View style={defaultStyles.centerHorizontally}>
           {Icon && (
@@ -32,19 +36,17 @@ export const Input: React.FC<InputProps> = ({
               <HorizontalSpace spacer={4} />
             </>
           )}
-          <View style={styles.inputContainer}>
+          <View
+            style={[defaultStyles.centerAlignHorizontally, defaultStyles.flex1]}
+          >
             <TextInput style={styles.input} returnKeyType="next" {...props} />
-            {TrailingIcon && (
-              <View style={defaultStyles.horizontalPadding}>
-                {TrailingIcon}
-              </View>
-            )}
+            {TrailingIcon && TrailingIcon}
           </View>
         </View>
       </OffsetContainer>
       <VerticalSpace spacer={4} />
       {errorMessage && (
-        <Caption color={colors.danger} style={styles.errorMessage}>
+        <Caption color={colors.danger} style={defaultStyles.pl8}>
           {errorMessage}
         </Caption>
       )}
@@ -53,12 +55,6 @@ export const Input: React.FC<InputProps> = ({
 };
 
 const styles = StyleSheet.create({
-  root: {
-    paddingBottom: 24,
-  },
-  label: {
-    paddingHorizontal: 8,
-  },
   icon: {
     alignItems: "center",
     borderBottomLeftRadius: 8,
@@ -69,16 +65,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 50,
   },
-  inputContainer: {
-    ...defaultStyles.centerAlignHorizontally,
-    flex: 1,
-  },
   input: {
     height: 50,
     padding: 10,
     flex: 1,
-  },
-  errorMessage: {
-    paddingLeft: 8,
+    fontWeight: "300",
+    color: colors.dark,
   },
 });

@@ -21,7 +21,7 @@ import { colors } from "../../layouts/Colors";
 import { createFund, fetchFunds } from "../../store/funds/action";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { FundInput } from "../../store/funds/types";
-import { Input } from "../../components/Input";
+import { Input } from "../../components/Inputs/Input";
 import { InputAccessory } from "../../components/InputAccessory";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { Screen } from "../../components/Screens/Screen";
@@ -50,7 +50,7 @@ const validationSchema = yup.object().shape({
     .moreThan(0, "Amount must be greater than 0"),
 });
 
-export const CashOutScreen = () => {
+export const AddExpenseScreen = () => {
   const dispatch = useAppDispatch();
   const { dismiss } = useBottomSheetModal();
   const inputAccessoryViewID = "cashOutInputAccesory";

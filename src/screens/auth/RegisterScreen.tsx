@@ -6,7 +6,7 @@ import { AuthStackProps } from "../../navigation/AuthStackNavigator";
 import { Body, Header } from "../../components/Typography";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { Input } from "../../components/Input";
+import { Input } from "../../components/Inputs/Input";
 import { Screen } from "../../components/Screens/Screen";
 import { VerticalSpace, HorizontalSpace } from "../../components/Spacer";
 import { Button } from "../../components/Buttons/Button";

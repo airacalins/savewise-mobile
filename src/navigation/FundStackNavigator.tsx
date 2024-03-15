@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { CashInScreen } from "../screens/funds/CashInScreen";
-import { CashOutScreen } from "../screens/funds/CashOutScreen";
+import { AddIncomeScreen } from "../screens/funds/AddIncomeScreen";
+import { AddExpenseScreen } from "../screens/funds/AddExpenseScreen";
 import { colors } from "../layouts/Colors";
 import { FundDetailsScreen } from "../screens/funds/FundDetailsScreen";
 import { FundsScreen } from "../screens/funds/FundsScreen";
@@ -12,8 +12,8 @@ import { IncomeSourceDetailsScreen } from "../screens/funds/IncomeSourceDetailsS
 export type FundsStackParamList = {
   Funds: undefined;
   FundDetails: { id: string };
-  CashIn: undefined;
-  CashOut: undefined;
+  AddIncome: undefined;
+  AddExpense: undefined;
   IncomeSources: undefined;
   IncomeSourceDetails: undefined;
 };
@@ -37,9 +37,21 @@ export const FundsStackNavigator = () => (
       options={{ headerTitle: "Fund Details" }}
       component={FundDetailsScreen}
     />
-    <Stack.Screen name="CashIn" component={CashInScreen} />
-    <Stack.Screen name="CashOut" component={CashOutScreen} />
-    <Stack.Screen name="IncomeSources" component={IncomeSourcesScreen} />
+    <Stack.Screen
+      name="AddIncome"
+      options={{ headerTitle: "Add Income" }}
+      component={AddIncomeScreen}
+    />
+    <Stack.Screen
+      name="AddExpense"
+      options={{ headerTitle: "Add Expenses" }}
+      component={AddExpenseScreen}
+    />
+    <Stack.Screen
+      name="IncomeSources"
+      options={{ headerTitle: "Income Sources" }}
+      component={IncomeSourcesScreen}
+    />
     <Stack.Screen
       name="IncomeSourceDetails"
       options={{ headerTitle: "Source Details" }}

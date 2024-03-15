@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 import { colors } from "../layouts/Colors";
 
@@ -8,6 +8,7 @@ interface OffsetContainerProps {
   padding?: number;
   backgroundColor?: string;
   borderColor?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 export const OffsetContainer: React.FC<OffsetContainerProps> = ({
@@ -15,6 +16,7 @@ export const OffsetContainer: React.FC<OffsetContainerProps> = ({
   padding,
   backgroundColor,
   borderColor = colors.border,
+  style,
 }) => {
   return (
     <View style={styles.container}>
@@ -27,6 +29,7 @@ export const OffsetContainer: React.FC<OffsetContainerProps> = ({
             borderColor,
           },
           styles.offset,
+          style,
         ]}
       >
         {children}

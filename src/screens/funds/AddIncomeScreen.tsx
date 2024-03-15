@@ -1,18 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
 } from "@gorhom/bottom-sheet";
 import { Controller, useForm } from "react-hook-form";
-import {
-  Entypo,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button } from "../../components/Buttons/Button";
@@ -21,10 +17,13 @@ import { createFund, fetchFunds } from "../../store/funds/action";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { FundInput } from "../../store/funds/types";
 import { InputAccessory } from "../../components/InputAccessory";
-import { Input } from "../../components/Input";
+import { Input } from "../../components/Inputs/Input";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { Screen } from "../../components/Screens/Screen";
 import { useAppDispatch } from "../../store/hooks";
+import { FundStackProps } from "../../navigation/FundStackNavigator";
+import { incomeMockData } from "../../data/IncomeMockData";
+import DropDownPicker from "../../components/Inputs/DropDownPicker";
 
 type FormValues = {
   title: string;
@@ -49,7 +48,9 @@ const validationSchema = yup.object().shape({
     .moreThan(0, "Amount must be greater than 0"),
 });
 
-export const CashInScreen = () => {
+export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
+  const [openIncomeSourceDropdown, setOpenIncomeSourceDropdown] =
+    useState(false);
   const dispatch = useAppDispatch();
   const inputAccessoryViewID = "cashInInputAccessory";
 
@@ -57,7 +58,6 @@ export const CashInScreen = () => {
     control,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
-    reset,
   } = useForm<FormValues>({
     resolver: yupResolver(validationSchema),
     defaultValues: cashInDefaultValues,
@@ -72,6 +72,10 @@ export const CashInScreen = () => {
     />
   );
 
+  const handleAddIncomeLabel = () => {
+    navigation.navigate("IncomeSources");
+  };
+
   const handleSave = async (data: FormValues) => {
     const fund: FundInput = {
       title: data.title,
@@ -85,58 +89,72 @@ export const CashInScreen = () => {
 
   if (isSubmitting) return <LoadingScreen />;
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={handleSubmit(handleSave)}
+          title="Save"
+          isValid={isValid}
+          disabled={!isValid}
+        />
+      ),
+    });
+  }, [navigation]);
+
   return (
     <>
-      <Screen
-        title="Record a Cash-in"
-        HeaderRightComponent={
-          <Button
-            onPress={handleSubmit(handleSave)}
-            title="Save"
-            isValid={isValid}
-            disabled={!isValid}
+      <Screen>
+        <View>
+          <Controller
+            control={control}
+            name="title"
+            render={({ field: { value, onChange, onBlur } }) => (
+              <DropDownPicker
+                title="Title"
+                placeholder="Choose..."
+                addItem={{
+                  label: "Add Income Source",
+                  value: "addIncomeSource",
+                }}
+                items={incomeMockData.map((income) => ({
+                  label: income.title,
+                  value: income.title,
+                }))}
+                defaultValue={value}
+                onSelect={(value) =>
+                  value === "add"
+                    ? navigation.navigate("IncomeSources")
+                    : onChange(value)
+                }
+              />
+            )}
           />
-        }
-      >
-        <Controller
-          control={control}
-          name="title"
-          render={({ field: { value, onChange, onBlur } }) => (
-            <Input
-              label="Title"
-              placeholder="Ex. Allowance"
-              Icon={<Entypo name="text" size={24} color={colors.dark} />}
-              autoFocus
-              inputAccessoryViewID={inputAccessoryViewID}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              errorMessage={errors.title?.message}
-            />
-          )}
-        />
+        </View>
 
         <Controller
           control={control}
           name="amount"
           render={({ field: { value, onChange, onBlur } }) => (
-            <Input
-              keyboardType="numeric"
-              label="Amount"
-              placeholder="Ex. 100"
-              Icon={
-                <MaterialIcons
-                  name="move-to-inbox"
-                  size={32}
-                  color={colors.dark}
-                />
-              }
-              inputAccessoryViewID={inputAccessoryViewID}
-              value={value > 0 ? value.toString() : ""}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              errorMessage={errors.amount?.message}
-            />
+            <View style={{ zIndex: -999 }}>
+              <Input
+                keyboardType="numeric"
+                label="Amount"
+                placeholder="Ex. 100"
+                Icon={
+                  <MaterialIcons
+                    name="move-to-inbox"
+                    size={32}
+                    color={colors.dark}
+                  />
+                }
+                inputAccessoryViewID={inputAccessoryViewID}
+                value={value > 0 ? value.toString() : ""}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                errorMessage={errors.amount?.message}
+              />
+            </View>
           )}
         />
       </Screen>
@@ -167,3 +185,20 @@ export const CashInScreen = () => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dropdownContainer: {
+    width: 200,
+  },
+  dropdown: {
+    backgroundColor: "#fafafa",
+  },
+  dropdownItems: {
+    backgroundColor: "#ffffff",
+  },
+});
