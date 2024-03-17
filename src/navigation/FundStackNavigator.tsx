@@ -7,7 +7,7 @@ import { colors } from "../layouts/Colors";
 import { FundDetailsScreen } from "../screens/funds/FundDetailsScreen";
 import { FundsScreen } from "../screens/funds/FundsScreen";
 import { IncomeSourcesScreen } from "../screens/funds/IncomeSourcesScreen";
-import { IncomeSourceDetailsScreen } from "../screens/funds/IncomeSourceDetailsScreen";
+import { IncomeDetailsScreenScreen } from "../screens/funds/IncomeDetailsScreen";
 
 export type FundsStackParamList = {
   Funds: undefined;
@@ -15,7 +15,7 @@ export type FundsStackParamList = {
   AddIncome: undefined;
   AddExpense: undefined;
   IncomeSources: undefined;
-  IncomeSourceDetails: undefined;
+  IncomeDetails: undefined;
 };
 
 export type FundStackProps = NativeStackScreenProps<FundsStackParamList>;
@@ -53,9 +53,9 @@ export const FundsStackNavigator = () => (
       component={IncomeSourcesScreen}
     />
     <Stack.Screen
-      name="IncomeSourceDetails"
+      name="IncomeDetails"
       options={{ headerTitle: "Source Details" }}
-      component={IncomeSourceDetailsScreen}
+      component={IncomeDetailsScreenScreen}
     />
   </Stack.Navigator>
 );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Caption } from "../../components/Typography";
 import { defaultStyles } from "../../layouts/DefaultStyles";
@@ -6,26 +6,31 @@ import { FlatList, View } from "react-native";
 import { OffsetContainer } from "../../components/Container";
 import { Screen } from "../../components/Screens/Screen";
 import { Separator } from "../../components/Separator/Separator";
+import { FundStackProps } from "../../navigation/FundStackNavigator";
+import { Button } from "../../components/Buttons/Button";
+import {
+  SourceDetailsHistory,
+  sourceDetailHistoryMockData,
+} from "../../data/IncomeDetailsMockData";
 
-interface SourceDetailsHistory {
-  date: Date;
-  amount: number;
-}
+export const IncomeDetailsScreenScreen: React.FC<FundStackProps> = ({
+  navigation,
+}) => {
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={{ paddingRight: 8 }}>
+          <Button
+            onPress={() => navigation.navigate("AddIncome")}
+            title="Add"
+            isValid={true}
+            disabled={false}
+          />
+        </View>
+      ),
+    });
+  }, [navigation]);
 
-const sourceDetailHistoryMockData: SourceDetailsHistory[] = [
-  { date: new Date(2024, 2, 1), amount: 100 },
-  { date: new Date(2024, 2, 2), amount: 150 },
-  { date: new Date(2024, 2, 3), amount: 200 },
-  { date: new Date(2024, 2, 4), amount: 120 },
-  { date: new Date(2024, 2, 5), amount: 180 },
-  { date: new Date(2024, 2, 6), amount: 220 },
-  { date: new Date(2024, 2, 7), amount: 130 },
-  { date: new Date(2024, 2, 8), amount: 170 },
-  { date: new Date(2024, 2, 9), amount: 190 },
-  { date: new Date(2024, 2, 10), amount: 210 },
-];
-
-export const IncomeSourceDetailsScreen = () => {
   const renderItem = ({ item }: { item: SourceDetailsHistory }) => (
     <View style={[defaultStyles.centerHorizontallyBetween, defaultStyles.p16]}>
       <Caption>

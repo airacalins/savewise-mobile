@@ -47,7 +47,7 @@ export const IncomeSourcesScreen = () => {
         inactiveDotOpacity={0.5}
         inactiveDotScale={0.8}
       />
-      <View style={{ width: "100%", paddingHorizontal: 32 }}>
+      <View style={defaultStyles.fullWidth}>
         <Button
           title="Select this income source"
           uppercase
@@ -56,7 +56,6 @@ export const IncomeSourcesScreen = () => {
           isValid={true}
         />
       </View>
-      <VerticalSpace spacer={32} />
     </View>
   );
 };
@@ -67,6 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.background,
+    padding: 16,
   },
   paginationContainer: {
     width: 50,

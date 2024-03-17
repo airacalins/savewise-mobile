@@ -49,10 +49,21 @@ const validationSchema = yup.object().shape({
 });
 
 export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
-  const [openIncomeSourceDropdown, setOpenIncomeSourceDropdown] =
-    useState(false);
   const dispatch = useAppDispatch();
   const inputAccessoryViewID = "cashInInputAccessory";
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={handleSubmit(handleSaveIncome)}
+          title="Save"
+          isValid={isValid}
+          disabled={!isValid}
+        />
+      ),
+    });
+  }, [navigation]);
 
   const {
     control,
@@ -64,19 +75,11 @@ export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
     mode: "onChange",
   });
 
-  const renderBackdrop = (backdropProps: BottomSheetBackdropProps) => (
-    <BottomSheetBackdrop
-      {...backdropProps}
-      appearsOnIndex={0}
-      disappearsOnIndex={-1}
-    />
-  );
-
-  const handleAddIncomeLabel = () => {
+  const handleNavigateToIncomeSources = () => {
     navigation.navigate("IncomeSources");
   };
 
-  const handleSave = async (data: FormValues) => {
+  const handleSaveIncome = async (data: FormValues) => {
     const fund: FundInput = {
       title: data.title,
       amount: +data.amount,
@@ -89,19 +92,6 @@ export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
 
   if (isSubmitting) return <LoadingScreen />;
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Button
-          onPress={handleSubmit(handleSave)}
-          title="Save"
-          isValid={isValid}
-          disabled={!isValid}
-        />
-      ),
-    });
-  }, [navigation]);
-
   return (
     <>
       <Screen>
@@ -113,20 +103,14 @@ export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
               <DropDownPicker
                 title="Title"
                 placeholder="Choose..."
-                addItem={{
-                  label: "Add Income Source",
-                  value: "addIncomeSource",
-                }}
+                addItemLabel="Add Income Source"
                 items={incomeMockData.map((income) => ({
                   label: income.title,
                   value: income.title,
                 }))}
                 defaultValue={value}
-                onSelect={(value) =>
-                  value === "add"
-                    ? navigation.navigate("IncomeSources")
-                    : onChange(value)
-                }
+                onSelectAdd={handleNavigateToIncomeSources}
+                onSelect={onChange}
               />
             )}
           />

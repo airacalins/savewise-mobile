@@ -15,18 +15,20 @@ interface Item {
 interface DropDownPickerProps {
   title: string;
   placeholder?: string;
-  addItem?: Item;
+  addItemLabel?: string;
   items: Item[];
   defaultValue: string;
+  onSelectAdd?: () => void;
   onSelect: (value: string) => void;
 }
 
 const DropDownPicker: React.FC<DropDownPickerProps> = ({
   title,
   placeholder,
-  addItem,
+  addItemLabel,
   items,
   defaultValue,
+  onSelectAdd,
   onSelect,
 }) => {
   const [open, setOpen] = useState(false);
@@ -54,14 +56,14 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
 
       {open && (
         <OffsetContainer padding={8} style={styles.dropdownItems}>
-          {addItem && (
-            <TouchableOpacity
-              key={addItem.value}
-              onPress={() => handleSelectItem(addItem.value)}
-              style={defaultStyles.p8}
-            >
-              <Body>{addItem.label}</Body>
-            </TouchableOpacity>
+          {addItemLabel && onSelectAdd && (
+            <View style={[defaultStyles.p8, defaultStyles.fullWidth]}>
+              <TextButton
+                onPress={onSelectAdd}
+                style={defaultStyles.p8}
+                title={addItemLabel}
+              />
+            </View>
           )}
           {items.map((item) => (
             <TouchableOpacity

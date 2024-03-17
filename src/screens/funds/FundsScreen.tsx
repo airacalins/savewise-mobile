@@ -58,7 +58,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   };
 
   const handleNavigateToIncomeSourceDetails = () => {
-    navigation.navigate("IncomeSourceDetails");
+    navigation.navigate("IncomeDetails");
   };
 
   useEffect(() => {
