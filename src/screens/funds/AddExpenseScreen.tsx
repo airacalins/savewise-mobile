@@ -20,7 +20,7 @@ import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
 import { createFund, fetchFunds } from "../../store/funds/action";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { FundInput } from "../../store/funds/types";
+import { CreateFundInput } from "../../store/funds/types";
 import { Input } from "../../components/Inputs/Input";
 import { InputAccessory } from "../../components/InputAccessory";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
@@ -75,7 +75,7 @@ export const AddExpenseScreen = () => {
   );
 
   const handleSave = async (data: FormValues) => {
-    const fund: FundInput = {
+    const fund: CreateFundInput = {
       title: data.title,
       amount: +data.amount * -1,
       date: moment(data.date).format(),

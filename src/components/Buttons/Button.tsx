@@ -1,7 +1,12 @@
 import React from "react";
-import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View,
+} from "react-native";
 
-import { Caption } from "../Typography";
+import { Body, Caption, Label } from "../Typography";
 import { colors } from "../../layouts/Colors";
 import { OffsetContainer } from "../Container";
 
@@ -24,55 +29,61 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const buttonBgColor = () => {
-    switch (bgColor) {
-      case "dark":
-        return colors.dark;
-      case "danger":
-        return colors.danger;
-      case "success":
-        return colors.success;
-      default:
-        return colors.background;
-    }
+    const colorMap = {
+      dark: colors.dark,
+      danger: colors.danger,
+      success: colors.success,
+      default: colors.background,
+    };
+
+    return !isValid ? colors.grey : colorMap[bgColor ?? "default"];
   };
 
-  const buttonTextColor = () => (!!bgColor ? colors.white : colors.dark);
-
-  const buttonTitle = () => {
-    switch (size) {
-      case "S":
-        return {
-          paddingHorizontal: 8,
-          paddingVertical: 6,
-        };
-      case "M":
-        return {
-          padding: 16,
-        };
-      default:
-        return {
-          paddingHorizontal: 8,
-          paddingVertical: 6,
-        };
+  const buttonTextColor = () => {
+    if (!isValid) {
+      return colors.background;
     }
+    if (!bgColor) {
+      return colors.dark;
+    }
+    return colors.white;
+  };
+
+  const buttonTitleStyles = () =>
+    size === "M" ? styles.mediumButtonContainer : styles.smallButtonContainer;
+
+  const buttonText = () => {
+    const TextComponent = size === "M" ? Body : Label;
+
+    return (
+      <TextComponent
+        color={buttonTextColor()}
+        fontWeight={size === "M" ? "500" : "400"}
+        style={{
+          ...buttonTitleStyles(),
+          textTransform: uppercase ? "uppercase" : "none",
+        }}
+      >
+        {title}
+      </TextComponent>
+    );
   };
 
   return (
     <TouchableOpacity {...props}>
       <OffsetContainer backgroundColor={buttonBgColor()}>
-        <View style={{ alignSelf: "center" }}>
-          <Caption
-            fontWeight="400"
-            style={{
-              ...buttonTitle(),
-              color: !isValid ? colors.grey : buttonTextColor(),
-              textTransform: uppercase ? "uppercase" : "none",
-            }}
-          >
-            {title}
-          </Caption>
-        </View>
+        <View style={{ alignSelf: "center" }}>{buttonText()}</View>
       </OffsetContainer>
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  smallButtonContainer: {
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+  },
+  mediumButtonContainer: {
+    padding: 16,
+  },
+});

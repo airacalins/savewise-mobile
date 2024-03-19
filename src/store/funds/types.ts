@@ -14,8 +14,8 @@ export interface Fund {
   createdAt: string;
 }
 
-export interface FundInput {
-  title: string;
+export interface CreateFundInput {
+  fundLabelId: string;
   amount: number;
   date: string;
 }

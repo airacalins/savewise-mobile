@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import * as yup from "yup";
-import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-} from "@gorhom/bottom-sheet";
 import { Controller, useForm } from "react-hook-form";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
@@ -15,30 +11,32 @@ import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
 import { createFund, fetchFunds } from "../../store/funds/action";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { FundInput } from "../../store/funds/types";
 import { InputAccessory } from "../../components/InputAccessory";
 import { Input } from "../../components/Inputs/Input";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { Screen } from "../../components/Screens/Screen";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FundStackProps } from "../../navigation/FundStackNavigator";
 import { incomeMockData } from "../../data/IncomeMockData";
 import DropDownPicker from "../../components/Inputs/DropDownPicker";
+import { AddIncomeLabelModal } from "./components/AddIncomeLabelModal";
+import { CreateFundInput } from "../../store/funds/types";
+import { fetchFundLabels } from "../../store/fundLabels/action";
 
 type FormValues = {
-  title: string;
+  fundLabelId: string;
   date: Date;
   amount: number;
 };
 
-const cashInDefaultValues = {
-  title: "",
+const fundDefaultValues = {
+  fundLabelId: "",
   amount: 0,
   date: new Date(),
 };
 
 const validationSchema = yup.object().shape({
-  title: yup.string().label("Title").required(),
+  fundLabelId: yup.string().label("Label").required(),
   date: yup.date().label("Date").required(),
   amount: yup
     .number()
@@ -50,20 +48,29 @@ const validationSchema = yup.object().shape({
 
 export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
+  const { incomeLabels: fundLabels } = useAppSelector(
+    (state) => state.fundLabel
+  );
+  const [isCreateFundLabelModalVisible, setIsCreateFundLabelModalVisible] =
+    useState(false);
   const inputAccessoryViewID = "cashInInputAccessory";
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <Button
-          onPress={handleSubmit(handleSaveIncome)}
           title="Save"
           isValid={isValid}
           disabled={!isValid}
+          onPress={handleSubmit(handleSaveFund)}
         />
       ),
     });
   }, [navigation]);
+
+  useEffect(() => {
+    dispatch(fetchFundLabels());
+  }, [fundLabels]);
 
   const {
     control,
@@ -71,17 +78,21 @@ export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
     formState: { errors, isSubmitting, isValid },
   } = useForm<FormValues>({
     resolver: yupResolver(validationSchema),
-    defaultValues: cashInDefaultValues,
+    defaultValues: fundDefaultValues,
     mode: "onChange",
   });
 
-  const handleNavigateToIncomeSources = () => {
-    navigation.navigate("IncomeSources");
+  const handleOpenCreateFundLabelModal = () => {
+    setIsCreateFundLabelModalVisible(true);
   };
 
-  const handleSaveIncome = async (data: FormValues) => {
-    const fund: FundInput = {
-      title: data.title,
+  const handleCloseCreateFundLabelModal = () => {
+    setIsCreateFundLabelModalVisible(false);
+  };
+
+  const handleSaveFund = async (data: FormValues) => {
+    const fund: CreateFundInput = {
+      fundLabelId: data.fundLabelId,
       amount: +data.amount,
       date: moment(data.date).format(),
     };
@@ -98,18 +109,18 @@ export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
         <View>
           <Controller
             control={control}
-            name="title"
+            name="fundLabelId"
             render={({ field: { value, onChange, onBlur } }) => (
               <DropDownPicker
                 title="Title"
                 placeholder="Choose..."
                 addItemLabel="Add Income Source"
-                items={incomeMockData.map((income) => ({
+                items={fundLabels.map((income) => ({
                   label: income.title,
                   value: income.title,
                 }))}
                 defaultValue={value}
-                onSelectAdd={handleNavigateToIncomeSources}
+                onSelectAdd={handleOpenCreateFundLabelModal}
                 onSelect={onChange}
               />
             )}
@@ -140,6 +151,11 @@ export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
               />
             </View>
           )}
+        />
+
+        <AddIncomeLabelModal
+          isVisible={isCreateFundLabelModalVisible}
+          onClose={handleCloseCreateFundLabelModal}
         />
       </Screen>
 

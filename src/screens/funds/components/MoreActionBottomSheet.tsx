@@ -61,11 +61,11 @@ export const MoreActionBottomSheet = React.forwardRef<
         </View>
         <VerticalSpace spacer={16} />
         <TouchableOpacity onPress={onCashInPress} style={defaultStyles.p16}>
-          <Body>Cash-In</Body>
+          <Body>Add Income</Body>
         </TouchableOpacity>
         <View style={defaultStyles.dottedSeparator} />
         <TouchableOpacity onPress={onCashOutPress} style={defaultStyles.p16}>
-          <Body>Cash-Out</Body>
+          <Body>Add Expense</Body>
         </TouchableOpacity>
         <View style={defaultStyles.dottedSeparator} />
         <TouchableOpacity onPress={onCashOutPress} style={defaultStyles.p16}>

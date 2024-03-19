@@ -35,7 +35,7 @@ export const Modal: React.FC<ModalProps> = ({
               name="close"
               size={20}
             />
-            <View style={{ width: "100%" }}>{contents}</View>
+            <View style={styles.contents}>{contents}</View>
           </TouchableOpacity>
         </View>
       </RNModal>
@@ -48,10 +48,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   centeredView: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.2)",
+    flex: 1,
+    justifyContent: "center",
+    padding: 16,
+  },
+  contents: {
+    padding: 16,
+    width: "100%",
   },
   modalView: {
     backgroundColor: colors.background,
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    width: "75%",
+    width: "90%",
   },
   closeIcon: {
     alignSelf: "flex-end",

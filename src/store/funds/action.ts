@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { request } from "../../api/agent";
-import { FundInput, Fund, UpdateFundInput } from "./types";
+import { CreateFundInput, Fund, UpdateFundInput } from "./types";
 
 export const fetchFunds = createAsyncThunk<Fund[]>(
   "fetchFunds",
@@ -24,7 +24,7 @@ export const fetchFundById = createAsyncThunk<Fund, string>(
   }
 );
 
-export const createFund = createAsyncThunk<boolean, FundInput>(
+export const createFund = createAsyncThunk<boolean, CreateFundInput>(
   "createFund",
   async (fund, thunkAPI) => {
     try {

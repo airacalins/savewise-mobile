@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { StyleSheet, View } from "react-native";
 
@@ -18,9 +18,13 @@ import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { VerticalSpace } from "../../components/Spacer";
 import { expensesMockData } from "../../data/ExpensesMockData";
+import { Modal } from "../../components/Modal/Modal";
+import { Input } from "../../components/Inputs/Input";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
+  const [isCreateFundLabelModalVisible, setIsCreateFundLabelModalVisible] =
+    useState(false);
   const { isFetching, funds } = useAppSelector((state) => state.fund);
   const moreActionsModalRef = useRef<BottomSheetModalMethods>(null);
   const incomeSourcesActionModalRef = useRef<BottomSheetModalMethods>(null);
@@ -110,11 +114,20 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
         onCashInPress={handleNavigateToAddIncomeScreen}
         onCashOutPress={handleNavigateToAddExpenseScreen}
       />
-
       <IncomeSourcesActionBottomSheet
         ref={incomeSourcesActionModalRef}
         onClose={handleHideIncomeSourcesActionModalal}
         onAdd={handleNavigateToIncomeSourcesScreen}
+      />
+      <Modal
+        modalVisible={isCreateFundLabelModalVisible}
+        contents={
+          <View>
+            <Input label="Name" />
+            <Button title={"Save"} size="M" bgColor="dark" isValid={false} />
+          </View>
+        }
+        onClose={() => setIsCreateFundLabelModalVisible(false)}
       />
     </ScrollableScreen>
   );

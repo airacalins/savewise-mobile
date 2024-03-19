@@ -22,7 +22,7 @@ export const Input: React.FC<InputProps> = ({
   ...props
 }) => {
   return (
-    <View style={defaultStyles.pb24}>
+    <View style={defaultStyles.pb16}>
       {label && (
         <Body fontWeight="500" style={defaultStyles.px8}>
           {label}

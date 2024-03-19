@@ -2,10 +2,12 @@
 
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import { fundReducer } from "./funds/reducer";
+import { fundLabelReducer } from "./fundLabels/reducer";
 
 export const store = configureStore({
   reducer: {
     fund: fundReducer,
+    fundLabel: fundLabelReducer,
   },
 });
 
