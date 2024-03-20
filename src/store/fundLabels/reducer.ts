@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { FundLabel, FundLabelType, FundLabelsState } from "./types";
+import { createSlice } from "@reduxjs/toolkit";
+import { FundLabelType, FundLabelsState } from "./types";
 import {
   createFundLabel,
   deleteFundLabel,
@@ -11,8 +11,7 @@ export const initialState: FundLabelsState = {
   isFetching: false,
   incomeLabels: [],
   expenseLabels: [],
-  fundLabel: undefined,
-  selectedFund: undefined,
+  selectedFundLabel: undefined,
 };
 
 export const fundLabelsSlice = createSlice({
@@ -41,7 +40,8 @@ export const fundLabelsSlice = createSlice({
     builder.addCase(createFundLabel.pending, (state, _) => {
       state.isFetching = true;
     });
-    builder.addCase(createFundLabel.fulfilled, (state, _) => {
+    builder.addCase(createFundLabel.fulfilled, (state, action) => {
+      state.selectedFundLabel = action.payload;
       state.isFetching = false;
     });
     builder.addCase(createFundLabel.rejected, (state, _) => {

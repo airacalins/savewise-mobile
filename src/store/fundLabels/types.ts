@@ -2,8 +2,7 @@ export interface FundLabelsState {
   isFetching: boolean;
   incomeLabels: FundLabel[];
   expenseLabels: FundLabel[];
-  fundLabel?: FundLabel;
-  selectedFund?: FundLabel;
+  selectedFundLabel?: FundLabel;
 }
 
 export enum FundLabelType {

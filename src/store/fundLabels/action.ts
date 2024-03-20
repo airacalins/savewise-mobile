@@ -25,16 +25,16 @@ export const fetchFundLabelById = createAsyncThunk<FundLabel, string>(
   }
 );
 
-export const createFundLabel = createAsyncThunk<boolean, CreateFundLabelInput>(
-  "createFundLabel",
-  async (FundLabel, thunkAPI) => {
-    try {
-      return await request.post("/FundLabels", FundLabel);
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue({ error: error.data });
-    }
+export const createFundLabel = createAsyncThunk<
+  FundLabel,
+  CreateFundLabelInput
+>("createFundLabel", async (FundLabel, thunkAPI) => {
+  try {
+    return await request.post("/FundLabels", FundLabel);
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue({ error: error.data });
   }
-);
+});
 
 export const updateFundLabel = createAsyncThunk<boolean, UpdateFundLabelInput>(
   "updateFundLabel",

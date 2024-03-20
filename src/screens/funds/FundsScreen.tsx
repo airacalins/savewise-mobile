@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 import { FundLabelFormModal } from "./components/FundLabelFormModal";
 import { AddFundLabelActionBottomSheet } from "./components/AddFundLabelActionBottomSheet";
@@ -132,7 +132,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
             ? "Income Name"
             : "Expense Name"
         }
-        type={fundLabelType}
+        fundLabelType={fundLabelType}
         isVisible={isAddIncomeModalVisible}
         onClose={handleHideFundLabelModal}
       />

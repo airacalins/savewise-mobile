@@ -23,6 +23,7 @@ import { fetchFundLabels } from "../../store/fundLabels/action";
 import { FundLabelType } from "../../store/fundLabels/types";
 import { FundLabelFormModal } from "./components/FundLabelFormModal";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Body } from "../../components/Typography";
 
 type FormValues = {
   fundLabelId: string;
@@ -52,7 +53,7 @@ type FundStackProps = NativeStackScreenProps<FundsStackParamList, "FundForm">;
 export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
   const fundLabelType = route.params?.fundLabelType;
   const dispatch = useAppDispatch();
-  const { incomeLabels: fundLabels } = useAppSelector(
+  const { incomeLabels, selectedFundLabel } = useAppSelector(
     (state) => state.fundLabel
   );
   const [isCreateFundLabelModalVisible, setIsCreateFundLabelModalVisible] =
@@ -76,7 +77,7 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
 
   useEffect(() => {
     dispatch(fetchFundLabels());
-  }, [fundLabels]);
+  }, [incomeLabels]);
 
   const {
     control,
@@ -88,13 +89,11 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
     mode: "onChange",
   });
 
-  const handleOpenCreateFundLabelModal = () => {
+  const handleOpenCreateFundLabelModal = () =>
     setIsCreateFundLabelModalVisible(true);
-  };
 
-  const handleCloseCreateFundLabelModal = () => {
+  const handleCloseCreateFundLabelModal = () =>
     setIsCreateFundLabelModalVisible(false);
-  };
 
   const handleSaveFund = async (data: FormValues) => {
     const fund: CreateFundInput = {
@@ -116,14 +115,15 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
           <Controller
             control={control}
             name="fundLabelId"
-            render={({ field: { value, onChange, onBlur } }) => (
+            render={({ field: { value, onChange } }) => (
               <DropDownPicker
                 title="Title"
                 placeholder="Choose..."
                 addItemLabel="Add Income Source"
-                items={fundLabels.map((income) => ({
-                  label: income.title,
-                  value: income.title,
+                items={incomeLabels.map(({ id, title }) => ({
+                  id: id,
+                  value: title,
+                  label: title,
                 }))}
                 defaultValue={value}
                 onSelectAdd={handleOpenCreateFundLabelModal}
@@ -159,10 +159,10 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
           )}
         />
         <FundLabelFormModal
-          type={FundLabelType.Income}
+          fundLabelType={FundLabelType.Income}
           isVisible={isCreateFundLabelModalVisible}
           onClose={handleCloseCreateFundLabelModal}
-          label={"Fund name"}
+          label="Name"
         />
       </Screen>
 

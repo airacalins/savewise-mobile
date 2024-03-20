@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 
 import { Body } from "../Typography";
@@ -6,8 +6,10 @@ import { defaultStyles } from "../../layouts/DefaultStyles";
 import { OffsetContainer } from "../Container";
 import { VerticalSpace } from "../Spacer";
 import { TextButton } from "../Buttons/TextButton";
+import { useAppSelector } from "../../store/hooks";
 
 interface Item {
+  id: string;
   label: string;
   value: string;
 }
@@ -31,8 +33,16 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
   onSelectAdd,
   onSelect,
 }) => {
+  const { selectedFundLabel } = useAppSelector((state) => state.fundLabel);
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(defaultValue);
+
+  useEffect(() => {
+    if (selectedFundLabel != null) {
+      setSelectedItem(selectedFundLabel?.title);
+      setOpen(false);
+    }
+  }, [selectedFundLabel]);
 
   const handleSelectItem = (value: string) => {
     setSelectedItem(value);
@@ -67,7 +77,7 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
           )}
           {items.map((item) => (
             <TouchableOpacity
-              key={item.value}
+              key={item.id}
               onPress={() => handleSelectItem(item.value)}
               style={defaultStyles.p8}
             >

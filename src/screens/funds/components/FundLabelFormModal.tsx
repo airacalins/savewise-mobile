@@ -29,14 +29,14 @@ const validationSchema = yup.object().shape({
 
 interface FundLabelFormModalProps {
   label: string;
-  type: FundLabelType;
+  fundLabelType: FundLabelType;
   isVisible: boolean;
   onClose: () => void;
 }
 
 export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
   label,
-  type,
+  fundLabelType,
   isVisible,
   onClose,
 }) => {
@@ -55,7 +55,7 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
   const handleSaveFundLabel = async (data: FormValues) => {
     const fundLabel: CreateFundLabelInput = {
       title: data.title,
-      fundLabelType: type,
+      fundLabelType,
     };
 
     await dispatch(createFundLabel(fundLabel));
