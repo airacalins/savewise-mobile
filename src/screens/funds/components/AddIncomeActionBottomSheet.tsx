@@ -14,15 +14,15 @@ import { Subtitle, Body } from "../../../components/Typography";
 import { VerticalSpace } from "../../../components/Spacer";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 
-interface IncomeSourcesActionBottomSheetProps {
+interface AddIncomeActionBottomSheetProps {
   onClose: () => void;
-  onAdd: () => void;
+  onAddIncomeLabel: () => void;
 }
 
-export const IncomeSourcesActionBottomSheet = React.forwardRef<
+export const AddIncomeActionBottomSheet = React.forwardRef<
   BottomSheetModalMethods,
-  IncomeSourcesActionBottomSheetProps
->(({ onClose, onAdd }, ref) => {
+  AddIncomeActionBottomSheetProps
+>(({ onClose, onAddIncomeLabel }, ref) => {
   const snapPoints = useMemo(() => ["10%", "25%"], []);
 
   const renderBackdrop = useCallback(
@@ -60,7 +60,7 @@ export const IncomeSourcesActionBottomSheet = React.forwardRef<
         </View>
         <VerticalSpace spacer={16} />
         <View style={defaultStyles.p16}>
-          <TouchableOpacity onPress={onAdd}>
+          <TouchableOpacity onPress={onAddIncomeLabel}>
             <Body>Add</Body>
           </TouchableOpacity>
         </View>

@@ -27,12 +27,14 @@ const validationSchema = yup.object().shape({
   title: yup.string().label("Title").required(),
 });
 
-interface AddIncomeLabelModalProps {
+interface AddFundLabelModalProps {
+  type: FundLabelType;
   isVisible: boolean;
   onClose: () => void;
 }
 
-export const AddIncomeLabelModal: React.FC<AddIncomeLabelModalProps> = ({
+export const AddFundLabelModal: React.FC<AddFundLabelModalProps> = ({
+  type,
   isVisible,
   onClose,
 }) => {
@@ -51,7 +53,7 @@ export const AddIncomeLabelModal: React.FC<AddIncomeLabelModalProps> = ({
   const handleSaveFundLabel = async (data: FormValues) => {
     const fundLabel: CreateFundLabelInput = {
       title: data.title,
-      fundLabelType: FundLabelType.Income,
+      fundLabelType: type,
     };
 
     await dispatch(createFundLabel(fundLabel));
@@ -80,7 +82,6 @@ export const AddIncomeLabelModal: React.FC<AddIncomeLabelModalProps> = ({
               />
             )}
           />
-
           <Button
             title={"Save"}
             size="M"

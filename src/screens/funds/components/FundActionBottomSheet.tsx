@@ -14,16 +14,16 @@ import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { VerticalSpace } from "../../../components/Spacer";
 import { Subtitle, Body } from "../../../components/Typography";
 
-interface MoreActionBottomSheetProps {
+interface FundActionBottomSheetProps {
   onClose: () => void;
-  onCashInPress: () => void;
-  onCashOutPress: () => void;
+  onAddIncome: () => void;
+  onAddExpense: () => void;
 }
 
-export const MoreActionBottomSheet = React.forwardRef<
+export const FundActionBottomSheet = React.forwardRef<
   BottomSheetModalMethods,
-  MoreActionBottomSheetProps
->(({ onClose, onCashInPress, onCashOutPress }, ref) => {
+  FundActionBottomSheetProps
+>(({ onClose, onAddIncome, onAddExpense }, ref) => {
   const snapPoints = useMemo(() => ["15%", "30%"], []);
 
   const renderBackdrop = useCallback(
@@ -60,15 +60,15 @@ export const MoreActionBottomSheet = React.forwardRef<
           <Subtitle>Select Action</Subtitle>
         </View>
         <VerticalSpace spacer={16} />
-        <TouchableOpacity onPress={onCashInPress} style={defaultStyles.p16}>
+        <TouchableOpacity onPress={onAddIncome} style={defaultStyles.p16}>
           <Body>Add Income</Body>
         </TouchableOpacity>
         <View style={defaultStyles.dottedSeparator} />
-        <TouchableOpacity onPress={onCashOutPress} style={defaultStyles.p16}>
+        <TouchableOpacity onPress={onAddExpense} style={defaultStyles.p16}>
           <Body>Add Expense</Body>
         </TouchableOpacity>
         <View style={defaultStyles.dottedSeparator} />
-        <TouchableOpacity onPress={onCashOutPress} style={defaultStyles.p16}>
+        <TouchableOpacity onPress={onAddExpense} style={defaultStyles.p16}>
           <Body>View History</Body>
         </TouchableOpacity>
       </BottomSheetView>

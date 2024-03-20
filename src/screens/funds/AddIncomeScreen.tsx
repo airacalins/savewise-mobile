@@ -17,11 +17,11 @@ import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { Screen } from "../../components/Screens/Screen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FundStackProps } from "../../navigation/FundStackNavigator";
-import { incomeMockData } from "../../data/IncomeMockData";
 import DropDownPicker from "../../components/Inputs/DropDownPicker";
-import { AddIncomeLabelModal } from "./components/AddIncomeLabelModal";
 import { CreateFundInput } from "../../store/funds/types";
 import { fetchFundLabels } from "../../store/fundLabels/action";
+import { AddFundLabelModal } from "./components/AddFundLabelModal";
+import { FundLabelType } from "../../store/fundLabels/types";
 
 type FormValues = {
   fundLabelId: string;
@@ -152,8 +152,8 @@ export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
             </View>
           )}
         />
-
-        <AddIncomeLabelModal
+        <AddFundLabelModal
+          type={FundLabelType.Income}
           isVisible={isCreateFundLabelModalVisible}
           onClose={handleCloseCreateFundLabelModal}
         />
