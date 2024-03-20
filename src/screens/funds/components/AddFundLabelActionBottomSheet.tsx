@@ -14,14 +14,14 @@ import { Subtitle, Body } from "../../../components/Typography";
 import { VerticalSpace } from "../../../components/Spacer";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 
-interface AddIncomeActionBottomSheetProps {
+interface AddFundLabelActionBottomSheetProps {
   onClose: () => void;
   onAddIncomeLabel: () => void;
 }
 
-export const AddIncomeActionBottomSheet = React.forwardRef<
+export const AddFundLabelActionBottomSheet = React.forwardRef<
   BottomSheetModalMethods,
-  AddIncomeActionBottomSheetProps
+  AddFundLabelActionBottomSheetProps
 >(({ onClose, onAddIncomeLabel }, ref) => {
   const snapPoints = useMemo(() => ["10%", "25%"], []);
 

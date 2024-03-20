@@ -27,13 +27,15 @@ const validationSchema = yup.object().shape({
   title: yup.string().label("Title").required(),
 });
 
-interface AddFundLabelModalProps {
+interface FundLabelFormModalProps {
+  label: string;
   type: FundLabelType;
   isVisible: boolean;
   onClose: () => void;
 }
 
-export const AddFundLabelModal: React.FC<AddFundLabelModalProps> = ({
+export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
+  label,
   type,
   isVisible,
   onClose,
@@ -73,7 +75,7 @@ export const AddFundLabelModal: React.FC<AddFundLabelModalProps> = ({
             name="title"
             render={({ field: { value, onChange, onBlur } }) => (
               <Input
-                label="Title"
+                label={label}
                 value={value}
                 placeholder="Ex: Business Income"
                 onChangeText={onChange}

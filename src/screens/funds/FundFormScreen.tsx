@@ -16,12 +16,13 @@ import { Input } from "../../components/Inputs/Input";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { Screen } from "../../components/Screens/Screen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { FundStackProps } from "../../navigation/FundStackNavigator";
+import { FundsStackParamList } from "../../navigation/FundStackNavigator";
 import DropDownPicker from "../../components/Inputs/DropDownPicker";
 import { CreateFundInput } from "../../store/funds/types";
 import { fetchFundLabels } from "../../store/fundLabels/action";
-import { AddFundLabelModal } from "./components/AddFundLabelModal";
 import { FundLabelType } from "../../store/fundLabels/types";
+import { FundLabelFormModal } from "./components/FundLabelFormModal";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type FormValues = {
   fundLabelId: string;
@@ -46,7 +47,10 @@ const validationSchema = yup.object().shape({
     .moreThan(0, "Amount must be greater than 0"),
 });
 
-export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
+type FundStackProps = NativeStackScreenProps<FundsStackParamList, "FundForm">;
+
+export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
+  const fundLabelType = route.params?.fundLabelType;
   const dispatch = useAppDispatch();
   const { incomeLabels: fundLabels } = useAppSelector(
     (state) => state.fundLabel
@@ -57,6 +61,8 @@ export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
 
   useEffect(() => {
     navigation.setOptions({
+      title:
+        fundLabelType === FundLabelType.Income ? "Add Income" : "Add Expense",
       headerRight: () => (
         <Button
           title="Save"
@@ -152,10 +158,11 @@ export const AddIncomeScreen = ({ navigation }: FundStackProps) => {
             </View>
           )}
         />
-        <AddFundLabelModal
+        <FundLabelFormModal
           type={FundLabelType.Income}
           isVisible={isCreateFundLabelModalVisible}
           onClose={handleCloseCreateFundLabelModal}
+          label={"Fund name"}
         />
       </Screen>
 

@@ -2,69 +2,69 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { StyleSheet, View } from "react-native";
 
+import { FundLabelFormModal } from "./components/FundLabelFormModal";
+import { AddFundLabelActionBottomSheet } from "./components/AddFundLabelActionBottomSheet";
 import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
+import { expensesMockData } from "../../data/ExpensesMockData";
 import { fetchFunds } from "../../store/funds/action";
+import { FundActionBottomSheet } from "./components/FundActionBottomSheet";
+import { FundLabelType } from "../../store/fundLabels/types";
 import { FundStackProps } from "../../navigation/FundStackNavigator";
 import { Header, Subtitle } from "../../components/Typography";
 import { incomeMockData } from "../../data/IncomeMockData";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { MonthlyDetailsCard } from "./components/MonthlyDetailsCard";
-import { FundActionBottomSheet } from "./components/FundActionBottomSheet";
 import { OffsetContainer } from "../../components/Container";
 import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { VerticalSpace } from "../../components/Spacer";
-import { expensesMockData } from "../../data/ExpensesMockData";
-import { Modal } from "../../components/Modal/Modal";
-import { Input } from "../../components/Inputs/Input";
-import { AddIncomeActionBottomSheet } from "./components/AddIncomeActionBottomSheet";
-import { AddFundLabelModal } from "./components/AddFundLabelModal";
-import { FundLabelType } from "../../store/fundLabels/types";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
-  const [isAddIncomeModalVisible, setIsAddIncomeModalVisible] = useState(false);
-  const [isAddExpenseModalVisible, setIsAddExpenseModalVisible] =
-    useState(false);
   const { isFetching, funds } = useAppSelector((state) => state.fund);
+  const [isAddIncomeModalVisible, setIsAddIncomeModalVisible] = useState(false);
   const fundsActionBottomSheetRef = useRef<BottomSheetModalMethods>(null);
-  const addIncomeActionBottomSheetRef = useRef<BottomSheetModalMethods>(null);
-  const addExpenseActionBottomSheetRef = useRef<BottomSheetModalMethods>(null);
+  const createFundLabelActionBottomSheetRef =
+    useRef<BottomSheetModalMethods>(null);
+  const [fundLabelType, setFundLabelType] = useState(FundLabelType.Income);
 
   const totalFunds = useMemo(
     () => funds.reduce((accumulator, fund) => accumulator + fund.amount, 0),
     [funds]
   );
 
-  const handleShowFundsActionBottomSheet = () =>
+  const handleShowFundActionBottomSheet = () =>
     fundsActionBottomSheetRef.current?.present();
+
+  const handleNavigateToFundFormScreen = (fundLabelType: FundLabelType) => {
+    fundsActionBottomSheetRef.current?.dismiss();
+    navigation.navigate("FundForm", { fundLabelType });
+  };
 
   const handleHideFundActionBottomSheet = () =>
     fundsActionBottomSheetRef.current?.dismiss();
 
-  const handleShowAddIncomeBottomSheet = () =>
-    addIncomeActionBottomSheetRef.current?.present();
+  const handleAddIncomeActionBottomSheet = () => {
+    setFundLabelType(FundLabelType.Income);
+    createFundLabelActionBottomSheetRef.current?.present();
+  };
 
-  const handleHideAddIncomeBottomSheet = () =>
-    addIncomeActionBottomSheetRef.current?.dismiss();
+  const handleAddExpenseActionBottomSheet = () => {
+    setFundLabelType(FundLabelType.Expense);
+    createFundLabelActionBottomSheetRef.current?.present();
+  };
 
-  const handleShowAddExpenseActionBottomSheet = () =>
-    addExpenseActionBottomSheetRef.current?.present();
-
-  const handleHideAddExpenseBottomSheet = () =>
-    addExpenseActionBottomSheetRef.current?.dismiss();
-
-  const handleShowIncomeLabelModal = () => {
-    addIncomeActionBottomSheetRef.current?.dismiss();
+  const handleShowFundLabelFormModal = () => {
+    createFundLabelActionBottomSheetRef.current?.dismiss();
     setIsAddIncomeModalVisible(true);
   };
 
-  const handleNavigateToAddIncomeScreen = () => {
-    fundsActionBottomSheetRef.current?.dismiss();
-    navigation.navigate("AddIncome");
-  };
+  const handleHideFundLabelActionBottomSheet = () =>
+    createFundLabelActionBottomSheetRef.current?.dismiss();
+
+  const handleHideFundLabelModal = () => setIsAddIncomeModalVisible(false);
 
   const handleNavigateToIncomeSourceDetails = () => {
     navigation.navigate("IncomeDetails");
@@ -86,7 +86,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
           title="Add / Manage"
           uppercase
           isValid={true}
-          onPress={handleShowFundsActionBottomSheet}
+          onPress={handleShowFundActionBottomSheet}
         />
       </View>
       <OffsetContainer padding={16} backgroundColor={colors.dark}>
@@ -98,7 +98,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <MonthlyDetailsCard
         title="Income"
         financialActivities={incomeMockData}
-        onShowIncomeSourcesActionModal={handleShowAddIncomeBottomSheet}
+        onCreateFundLabel={handleAddIncomeActionBottomSheet}
         onNavigateToIncomeSourceDetailsScreen={
           handleNavigateToIncomeSourceDetails
         }
@@ -107,7 +107,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <MonthlyDetailsCard
         title="Expenses"
         financialActivities={expensesMockData}
-        onShowIncomeSourcesActionModal={handleShowAddIncomeBottomSheet}
+        onCreateFundLabel={handleAddExpenseActionBottomSheet}
         onNavigateToIncomeSourceDetailsScreen={
           handleNavigateToIncomeSourceDetails
         }
@@ -116,30 +116,26 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <FundActionBottomSheet
         ref={fundsActionBottomSheetRef}
         onClose={handleHideFundActionBottomSheet}
-        onAddIncome={handleNavigateToAddIncomeScreen}
-        onAddExpense={() => {}}
+        onAddIncome={() => handleNavigateToFundFormScreen(FundLabelType.Income)}
+        onAddExpense={() =>
+          handleNavigateToFundFormScreen(FundLabelType.Expense)
+        }
       />
-      <AddIncomeActionBottomSheet
-        ref={addIncomeActionBottomSheetRef}
-        onAddIncomeLabel={handleShowIncomeLabelModal}
-        onClose={handleHideAddIncomeBottomSheet}
+      <AddFundLabelActionBottomSheet
+        ref={createFundLabelActionBottomSheetRef}
+        onAddIncomeLabel={handleShowFundLabelFormModal}
+        onClose={handleHideFundLabelActionBottomSheet}
       />
-      <AddFundLabelModal
-        type={FundLabelType.Income}
+      <FundLabelFormModal
+        label={
+          fundLabelType === FundLabelType.Income
+            ? "Income Name"
+            : "Expense Name"
+        }
+        type={fundLabelType}
         isVisible={isAddIncomeModalVisible}
-        onClose={() => setIsAddIncomeModalVisible(false)}
-      />
-      <AddFundLabelModal
-        type={FundLabelType.Expense}
-        isVisible={isAddExpenseModalVisible}
-        onClose={() => setIsAddExpenseModalVisible(false)}
+        onClose={handleHideFundLabelModal}
       />
     </ScrollableScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  iconContainer: {
-    flex: 1,
-  },
-});

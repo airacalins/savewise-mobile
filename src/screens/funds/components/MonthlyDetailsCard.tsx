@@ -14,14 +14,14 @@ import { FinancialActivity } from "../../../data/types";
 interface MonthlyDetailsCardProps {
   title: string;
   financialActivities: FinancialActivity[];
-  onShowIncomeSourcesActionModal: () => void;
+  onCreateFundLabel: () => void;
   onNavigateToIncomeSourceDetailsScreen: () => void;
 }
 
 export const MonthlyDetailsCard: React.FC<MonthlyDetailsCardProps> = ({
   title,
   financialActivities,
-  onShowIncomeSourcesActionModal,
+  onCreateFundLabel: onCreateNewIncomeLabel,
   onNavigateToIncomeSourceDetailsScreen,
 }) => {
   const renderItem = ({ item }: { item: FinancialActivity }) => (
@@ -54,7 +54,7 @@ export const MonthlyDetailsCard: React.FC<MonthlyDetailsCardProps> = ({
           title="Manage"
           uppercase
           isValid={true}
-          onPress={onShowIncomeSourcesActionModal}
+          onPress={onCreateNewIncomeLabel}
         />
       </View>
 
