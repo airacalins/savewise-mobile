@@ -1,12 +1,18 @@
+import { FundLabel } from "../fundLabels/types";
+
 export interface FundsState {
   isFetching: boolean;
   funds: Fund[];
+  incomeFunds: Fund[];
+  expenseFunds: Fund[];
+  fundsPerLabel: Fund[];
   fund?: Fund;
   selectedFund?: Fund;
 }
 
 export interface Fund {
   id: string;
+  fundLabel: FundLabel;
   image: string;
   title: string;
   amount: number;

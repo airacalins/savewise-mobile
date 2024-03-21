@@ -53,7 +53,7 @@ type FundStackProps = NativeStackScreenProps<FundsStackParamList, "FundForm">;
 export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
   const fundLabelType = route.params?.fundLabelType;
   const dispatch = useAppDispatch();
-  const { incomeLabels, selectedFundLabel } = useAppSelector(
+  const { incomeLabels, expenseLabels } = useAppSelector(
     (state) => state.fundLabel
   );
   const [isCreateFundLabelModalVisible, setIsCreateFundLabelModalVisible] =
@@ -77,7 +77,7 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
 
   useEffect(() => {
     dispatch(fetchFundLabels());
-  }, [incomeLabels]);
+  }, [incomeLabels, expenseLabels]);
 
   const {
     control,
@@ -120,7 +120,10 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
                 title="Title"
                 placeholder="Choose..."
                 addItemLabel="Add Income Source"
-                items={incomeLabels.map(({ id, title }) => ({
+                items={(fundLabelType === FundLabelType.Income
+                  ? incomeLabels
+                  : expenseLabels
+                ).map(({ id, title }) => ({
                   id: id,
                   value: title,
                   label: title,

@@ -24,26 +24,38 @@ import { fetchFundLabels } from "../../store/fundLabels/action";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
-  const { isFetching, funds } = useAppSelector((state) => state.fund);
+  const { isFetching, funds, incomeFunds, expenseFunds } = useAppSelector(
+    (state) => state.fund
+  );
   const {
     isFetching: isFetchingFundLabels,
     incomeLabels,
     expenseLabels,
   } = useAppSelector((state) => state.fundLabel);
-  const [isAddIncomeModalVisible, setIsAddIncomeModalVisible] = useState(false);
   const fundsActionBottomSheetRef = useRef<BottomSheetModalMethods>(null);
   const createFundLabelActionBottomSheetRef =
     useRef<BottomSheetModalMethods>(null);
+  const [isAddIncomeModalVisible, setIsAddIncomeModalVisible] = useState(false);
   const [fundLabelType, setFundLabelType] = useState(FundLabelType.Income);
 
-  const totalFunds = useMemo(
-    () => funds.reduce((accumulator, fund) => accumulator + fund.amount, 0),
+  useEffect(() => {
+    dispatch(fetchFunds());
+    dispatch(fetchFundLabels());
+  }, []);
+
+  const totalIncome = useMemo(
+    () =>
+      incomeFunds.reduce((accumulator, fund) => accumulator + fund.amount, 0),
     [funds]
   );
 
-  useEffect(() => {
-    dispatch(fetchFundLabels());
-  }, [incomeLabels, expenseLabels]);
+  const totalExpense = useMemo(
+    () =>
+      expenseFunds.reduce((accumulator, fund) => accumulator + fund.amount, 0),
+    [funds]
+  );
+
+  const totalFunds = totalIncome - totalExpense;
 
   if (isFetching) return <LoadingScreen />;
 
@@ -99,13 +111,17 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <VerticalSpace spacer={16} />
       <FundLabelsCard
         title="Income"
+        total={totalIncome}
         labels={incomeLabels}
+        funds={incomeFunds}
         onCreateFundLabel={handleAddIncomeActionBottomSheet}
       />
       <VerticalSpace spacer={16} />
       <FundLabelsCard
         title="Expenses"
+        total={totalExpense}
         labels={expenseLabels}
+        funds={expenseFunds}
         onCreateFundLabel={handleAddExpenseActionBottomSheet}
       />
       <VerticalSpace spacer={16} />

@@ -14,31 +14,24 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import {
-  fetchFunds,
-  fetchFundsByFundLabelId,
-} from "../../../store/funds/action";
+import { Fund } from "../../../store/funds/types";
 
 interface FundLabelsCardProps {
   title: string;
+  total: number;
   labels: FundLabel[];
+  funds: Fund[];
   onCreateFundLabel: () => void;
 }
 
 export const FundLabelsCard: React.FC<FundLabelsCardProps> = ({
   title,
+  total,
   labels,
+  funds,
   onCreateFundLabel: onCreateNewIncomeLabel,
 }) => {
   const navigation = useNavigation<StackNavigationProp<FundsStackParamList>>();
-  const dispatch = useAppDispatch();
-  const { isFetching, funds } = useAppSelector((state) => state.fund);
-
-  // const totalFundsPerLabel = (fundLabelId: string) => {
-  //   dispatch(fetchFundsByFundLabelId(fundLabelId));
-  //   if (!isFetching)
-  //     return funds.reduce((accumulator, fund) => accumulator + fund.amount, 0);
-  // };
 
   const handleNavigateToFundDetails = (
     fundLabelName: string,
@@ -47,23 +40,35 @@ export const FundLabelsCard: React.FC<FundLabelsCardProps> = ({
     navigation.navigate("FundDetails", { fundLabelName, fundLabelId });
   };
 
-  const renderItem = ({ item }: { item: FundLabel }) => (
-    <TouchableOpacity
-      onPress={() => handleNavigateToFundDetails(item.title, item.id)}
-      style={styles.item}
-    >
-      <Caption>{item.title}</Caption>
-      <View style={defaultStyles.centerHorizontally}>
-        <Caption fontWeight="500">PHP {1000}</Caption>
-        <HorizontalSpace spacer={8} />
-        <MaterialCommunityIcons
-          name="greater-than"
-          size={16}
-          color={colors.success}
-        />
-      </View>
-    </TouchableOpacity>
-  );
+  const renderItem = ({ item }: { item: FundLabel }) => {
+    const fundsByFundLabelId = funds.filter(
+      (fund) => fund.fundLabel.id === item.id
+    );
+    const totalFundsByFundLabel = fundsByFundLabelId.reduce(
+      (accumulator, fund) => accumulator + fund.amount,
+      0
+    );
+
+    return (
+      <TouchableOpacity
+        onPress={() => handleNavigateToFundDetails(item.title, item.id)}
+        style={styles.item}
+      >
+        <Caption>{item.title}</Caption>
+        <View style={defaultStyles.centerHorizontally}>
+          <Caption fontWeight="500">
+            PHP {totalFundsByFundLabel.toLocaleString()}
+          </Caption>
+          <HorizontalSpace spacer={8} />
+          <MaterialCommunityIcons
+            name="greater-than"
+            size={16}
+            color={colors.success}
+          />
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <>
@@ -78,12 +83,10 @@ export const FundLabelsCard: React.FC<FundLabelsCardProps> = ({
           onPress={onCreateNewIncomeLabel}
         />
       </View>
-
       <OffsetContainer>
         <View style={styles.headerContainer}>
-          <Title>₱ {1000}</Title>
+          <Title>₱ {total.toLocaleString()}</Title>
         </View>
-
         <FlatList
           data={labels}
           keyExtractor={(label) => label.id}

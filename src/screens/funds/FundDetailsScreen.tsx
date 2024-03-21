@@ -14,7 +14,7 @@ import {
 } from "../../data/IncomeDetailsMockData";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { fetchFundsByFundLabelId } from "../../store/funds/action";
+import { fetchFunds, fetchFundsByFundLabelId } from "../../store/funds/action";
 import { Fund } from "../../store/funds/types";
 import { format } from "date-fns";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
@@ -26,7 +26,7 @@ type FundStackProps = NativeStackScreenProps<
 export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
   const { fundLabelId, fundLabelName } = route.params;
   const dispatch = useAppDispatch();
-  const { isFetching, funds } = useAppSelector((state) => state.fund);
+  const { isFetching, fundsPerLabel } = useAppSelector((state) => state.fund);
 
   useEffect(() => {
     navigation.setOptions({
@@ -61,7 +61,7 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
     <Screen>
       <OffsetContainer>
         <FlatList
-          data={funds}
+          data={fundsPerLabel}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           ItemSeparatorComponent={Separator}

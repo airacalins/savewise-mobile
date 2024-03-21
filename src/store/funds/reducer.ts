@@ -8,10 +8,14 @@ import {
   fetchFundsByFundLabelId,
 } from "./action";
 import { fetchFundLabelById } from "../fundLabels/action";
+import { FundLabelType } from "../fundLabels/types";
 
 export const initialState: FundsState = {
   isFetching: false,
   funds: [],
+  incomeFunds: [],
+  expenseFunds: [],
+  fundsPerLabel: [],
   fund: undefined,
   selectedFund: undefined,
 };
@@ -28,6 +32,14 @@ export const fundSlice = createSlice({
     builder.addCase(fetchFunds.fulfilled, (state, action) => {
       state.isFetching = false;
       state.funds = action.payload;
+      state.incomeFunds = action.payload.filter(
+        (incomeFund) =>
+          incomeFund.fundLabel.fundLabelType === FundLabelType.Income
+      );
+      state.expenseFunds = action.payload.filter(
+        (incomeFund) =>
+          incomeFund.fundLabel.fundLabelType === FundLabelType.Expense
+      );
     });
     builder.addCase(fetchFunds.rejected, (state, _) => {
       state.isFetching = false;
@@ -39,7 +51,7 @@ export const fundSlice = createSlice({
     });
     builder.addCase(fetchFundsByFundLabelId.fulfilled, (state, action) => {
       state.isFetching = false;
-      state.funds = action.payload;
+      state.fundsPerLabel = action.payload;
     });
     builder.addCase(fetchFundsByFundLabelId.rejected, (state, _) => {
       state.isFetching = false;

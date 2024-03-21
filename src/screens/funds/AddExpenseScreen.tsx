@@ -76,7 +76,7 @@ export const AddExpenseScreen = () => {
 
   const handleSave = async (data: FormValues) => {
     const fund: CreateFundInput = {
-      title: data.title,
+      fundLabelId: data.title,
       amount: +data.amount * -1,
       date: moment(data.date).format(),
     };
