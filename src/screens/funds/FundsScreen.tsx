@@ -15,15 +15,21 @@ import { FundStackProps } from "../../navigation/FundStackNavigator";
 import { Header, Subtitle } from "../../components/Typography";
 import { incomeMockData } from "../../data/IncomeMockData";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
-import { MonthlyDetailsCard } from "./components/MonthlyDetailsCard";
+import { FundLabelsCard } from "./components/FundLabelsCard";
 import { OffsetContainer } from "../../components/Container";
 import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { VerticalSpace } from "../../components/Spacer";
+import { fetchFundLabels } from "../../store/fundLabels/action";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
   const { isFetching, funds } = useAppSelector((state) => state.fund);
+  const {
+    isFetching: isFetchingFundLabels,
+    incomeLabels,
+    expenseLabels,
+  } = useAppSelector((state) => state.fundLabel);
   const [isAddIncomeModalVisible, setIsAddIncomeModalVisible] = useState(false);
   const fundsActionBottomSheetRef = useRef<BottomSheetModalMethods>(null);
   const createFundLabelActionBottomSheetRef =
@@ -34,6 +40,12 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     () => funds.reduce((accumulator, fund) => accumulator + fund.amount, 0),
     [funds]
   );
+
+  useEffect(() => {
+    dispatch(fetchFundLabels());
+  }, [incomeLabels, expenseLabels]);
+
+  if (isFetching) return <LoadingScreen />;
 
   const handleShowFundActionBottomSheet = () =>
     fundsActionBottomSheetRef.current?.present();
@@ -66,16 +78,6 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
 
   const handleHideFundLabelModal = () => setIsAddIncomeModalVisible(false);
 
-  const handleNavigateToIncomeSourceDetails = () => {
-    navigation.navigate("IncomeDetails");
-  };
-
-  useEffect(() => {
-    dispatch(fetchFunds());
-  }, []);
-
-  if (isFetching) return <LoadingScreen />;
-
   return (
     <ScrollableScreen>
       <View style={defaultStyles.centerHorizontallyBetween}>
@@ -95,22 +97,16 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
         </Header>
       </OffsetContainer>
       <VerticalSpace spacer={16} />
-      <MonthlyDetailsCard
+      <FundLabelsCard
         title="Income"
-        financialActivities={incomeMockData}
+        labels={incomeLabels}
         onCreateFundLabel={handleAddIncomeActionBottomSheet}
-        onNavigateToIncomeSourceDetailsScreen={
-          handleNavigateToIncomeSourceDetails
-        }
       />
       <VerticalSpace spacer={16} />
-      <MonthlyDetailsCard
+      <FundLabelsCard
         title="Expenses"
-        financialActivities={expensesMockData}
+        labels={expenseLabels}
         onCreateFundLabel={handleAddExpenseActionBottomSheet}
-        onNavigateToIncomeSourceDetailsScreen={
-          handleNavigateToIncomeSourceDetails
-        }
       />
       <VerticalSpace spacer={16} />
       <FundActionBottomSheet

@@ -2,14 +2,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { colors } from "../layouts/Colors";
-import { FundDetailsScreen } from "../screens/funds/FundDetailsScreen";
 import { FundsScreen } from "../screens/funds/FundsScreen";
 import { FundFormScreen } from "../screens/funds/FundFormScreen";
 import { FundLabelType } from "../store/fundLabels/types";
+import { FundDetailsScreen } from "../screens/funds/FundDetailsScreen";
 
 export type FundsStackParamList = {
   Funds: undefined;
-  FundDetails: { id: string };
+  FundDetails: { fundLabelName: string; fundLabelId: string };
   FundForm: undefined | { fundLabelType: FundLabelType };
   IncomeSources: undefined;
   IncomeDetails: undefined;
@@ -29,11 +29,7 @@ export const FundsStackNavigator = () => (
     }}
   >
     <Stack.Screen name="Funds" component={FundsScreen} />
-    <Stack.Screen
-      name="FundDetails"
-      options={{ headerTitle: "Fund Details" }}
-      component={FundDetailsScreen}
-    />
+    <Stack.Screen name="FundDetails" component={FundDetailsScreen} />
     <Stack.Screen name="FundForm" component={FundFormScreen} />
   </Stack.Navigator>
 );

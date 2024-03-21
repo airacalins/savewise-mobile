@@ -1,131 +1,73 @@
-import React, { useEffect, useState } from "react";
-import moment from "moment";
-import {
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Octicons,
-} from "@expo/vector-icons";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { StyleSheet, View } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import React, { useEffect } from "react";
 
-import { colors } from "../../layouts/Colors";
-import { ConfirmationModal } from "../../components/Modal";
+import { Caption } from "../../components/Typography";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { Details } from "../../components/Details";
-import { fetchFundById } from "../../store/funds/action";
-import { FundsStackParamList } from "../../navigation/FundStackNavigator";
-import { HorizontalSpace, VerticalSpace } from "../../components/Spacer";
-import { IconButton } from "../../components/Buttons/IconButton";
-import { LoadingScreen } from "../../components/Screens/LoadingScreen";
+import { FlatList, View } from "react-native";
+import { OffsetContainer } from "../../components/Container";
 import { Screen } from "../../components/Screens/Screen";
-import { Subtitle } from "../../components/Typography";
+import { Separator } from "../../components/Separator/Separator";
+import { FundsStackParamList } from "../../navigation/FundStackNavigator";
+import { Button } from "../../components/Buttons/Button";
+import {
+  SourceDetailsHistory,
+  sourceDetailHistoryMockData,
+} from "../../data/IncomeDetailsMockData";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { fetchFundsByFundLabelId } from "../../store/funds/action";
+import { Fund } from "../../store/funds/types";
+import { format } from "date-fns";
+import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 
 type FundStackProps = NativeStackScreenProps<
   FundsStackParamList,
   "FundDetails"
 >;
-
 export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
+  const { fundLabelId, fundLabelName } = route.params;
   const dispatch = useAppDispatch();
-  const { isFetching, selectedFund: fund } = useAppSelector(
-    (state) => state.fund
-  );
-
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const { isFetching, funds } = useAppSelector((state) => state.fund);
 
   useEffect(() => {
-    dispatch(fetchFundById(route.params?.id));
-  }, []);
+    navigation.setOptions({
+      title: fundLabelName,
+      headerRight: () => (
+        <View style={{ paddingRight: 8 }}>
+          <Button
+            // onPress={() => navigation.navigate("AddIncome")}
+            title="Add"
+            isValid={true}
+            disabled={false}
+          />
+        </View>
+      ),
+    });
+  }, [navigation]);
 
-  const handleDelete = () => {
-    setIsDeleteModalVisible(true);
-  };
+  useEffect(() => {
+    dispatch(fetchFundsByFundLabelId(fundLabelId));
+  }, [fundLabelId]);
 
-  if (isFetching || !fund) return <LoadingScreen />;
+  const renderItem = ({ item }: { item: Fund }) => (
+    <View style={[defaultStyles.centerHorizontallyBetween, defaultStyles.p16]}>
+      <Caption>{format(new Date(item.date), "MMMM d, yyyy")}</Caption>
+      <Caption fontWeight="500">PHP {item.amount}</Caption>
+    </View>
+  );
+
+  if (isFetching) return <LoadingScreen />;
 
   return (
     <Screen>
-      <View style={defaultStyles.centerHorizontallyBetween}>
-        <View style={styles.header}>
-          <TouchableWithoutFeedback onPress={navigation.goBack}>
-            <Octicons name="arrow-left" size={16} color={colors.dark} />
-          </TouchableWithoutFeedback>
-          <HorizontalSpace spacer={16} />
-          <Subtitle>Details</Subtitle>
-        </View>
-        <View style={[defaultStyles.centerHorizontally, { paddingRight: 8 }]}>
-          <IconButton
-            onPress={() => {}}
-            size="S"
-            IconComponent={
-              <Octicons name="pencil" size={16} color={colors.info} />
-            }
-          />
-        </View>
-      </View>
-
-      <View style={defaultStyles.listTileSeparator} />
-
-      <VerticalSpace spacer={16} />
-
-      <Details
-        title="Savings for"
-        details={fund.title}
-        IconComponent={
-          <MaterialCommunityIcons
-            name="hand-coin-outline"
-            size={32}
-            color={colors.dark}
-          />
-        }
-      />
-
-      <Details
-        title="Transaction Date"
-        details={moment(fund.date).format("MMMM DD, YYYY")}
-        IconComponent={
-          <MaterialCommunityIcons
-            name="calendar-blank-outline"
-            size={32}
-            color={colors.dark}
-          />
-        }
-      />
-
-      {/* <Details
-          title="Description"
-          details="For the car because why not? For the car because why not? For
-                  the car because why not?"
-          IconComponent={<Entypo name="text" size={32} color={colors.dark} />}
-        /> */}
-
-      <Details
-        title="Amount"
-        details={`₱ ${Math.abs(fund.amount).toLocaleString()}`}
-        IconComponent={
-          <MaterialIcons name="outbox" size={32} color={colors.dark} />
-        }
-      />
-
-      <ConfirmationModal
-        title="Are you sure you want to delete?"
-        confirmButtonTitle="Yes, I'm sure!"
-        visible={isDeleteModalVisible}
-        onConfirm={() => {
-          setIsDeleteModalVisible(false);
-          navigation.goBack();
-        }}
-        onClose={() => setIsDeleteModalVisible(false)}
-      />
+      <OffsetContainer>
+        <FlatList
+          data={funds}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          ItemSeparatorComponent={Separator}
+          scrollEnabled={false}
+        />
+      </OffsetContainer>
     </Screen>
   );
 };
-
-const styles = StyleSheet.create({
-  header: {
-    paddingLeft: 8,
-    ...defaultStyles.centerAlignHorizontally,
-  },
-});

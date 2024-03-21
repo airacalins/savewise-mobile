@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -9,31 +9,52 @@ import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HorizontalSpace } from "../../../components/Spacer";
 import { OffsetContainer } from "../../../components/Container";
 import { Separator } from "../../../components/Separator/Separator";
-import { FinancialActivity } from "../../../data/types";
+import { FundLabel } from "../../../store/fundLabels/types";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import {
+  fetchFunds,
+  fetchFundsByFundLabelId,
+} from "../../../store/funds/action";
 
-interface MonthlyDetailsCardProps {
+interface FundLabelsCardProps {
   title: string;
-  financialActivities: FinancialActivity[];
+  labels: FundLabel[];
   onCreateFundLabel: () => void;
-  onNavigateToIncomeSourceDetailsScreen: () => void;
 }
 
-export const MonthlyDetailsCard: React.FC<MonthlyDetailsCardProps> = ({
+export const FundLabelsCard: React.FC<FundLabelsCardProps> = ({
   title,
-  financialActivities,
+  labels,
   onCreateFundLabel: onCreateNewIncomeLabel,
-  onNavigateToIncomeSourceDetailsScreen,
 }) => {
-  const renderItem = ({ item }: { item: FinancialActivity }) => (
+  const navigation = useNavigation<StackNavigationProp<FundsStackParamList>>();
+  const dispatch = useAppDispatch();
+  const { isFetching, funds } = useAppSelector((state) => state.fund);
+
+  // const totalFundsPerLabel = (fundLabelId: string) => {
+  //   dispatch(fetchFundsByFundLabelId(fundLabelId));
+  //   if (!isFetching)
+  //     return funds.reduce((accumulator, fund) => accumulator + fund.amount, 0);
+  // };
+
+  const handleNavigateToFundDetails = (
+    fundLabelName: string,
+    fundLabelId: string
+  ) => {
+    navigation.navigate("FundDetails", { fundLabelName, fundLabelId });
+  };
+
+  const renderItem = ({ item }: { item: FundLabel }) => (
     <TouchableOpacity
-      onPress={onNavigateToIncomeSourceDetailsScreen}
+      onPress={() => handleNavigateToFundDetails(item.title, item.id)}
       style={styles.item}
     >
       <Caption>{item.title}</Caption>
       <View style={defaultStyles.centerHorizontally}>
-        <Caption fontWeight="500">
-          PHP {Math.abs(item.amount).toLocaleString()}
-        </Caption>
+        <Caption fontWeight="500">PHP {1000}</Caption>
         <HorizontalSpace spacer={8} />
         <MaterialCommunityIcons
           name="greater-than"
@@ -64,8 +85,8 @@ export const MonthlyDetailsCard: React.FC<MonthlyDetailsCardProps> = ({
         </View>
 
         <FlatList
-          data={financialActivities}
-          keyExtractor={(item) => item.title}
+          data={labels}
+          keyExtractor={(label) => label.id}
           renderItem={renderItem}
           ItemSeparatorComponent={Separator}
           scrollEnabled={false}

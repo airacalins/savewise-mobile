@@ -13,6 +13,17 @@ export const fetchFunds = createAsyncThunk<Fund[]>(
   }
 );
 
+export const fetchFundsByFundLabelId = createAsyncThunk<Fund[], string>(
+  "fetchFundsByFundLabelId",
+  async (fundLabelId, thunkAPI) => {
+    try {
+      return await request.get(`/funds/fundLabels/${fundLabelId}`);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
+  }
+);
+
 export const fetchFundById = createAsyncThunk<Fund, string>(
   "fetchFundById",
   async (id, thunkAPI) => {
