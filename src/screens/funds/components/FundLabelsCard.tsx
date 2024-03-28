@@ -76,12 +76,7 @@ export const FundLabelsCard: React.FC<FundLabelsCardProps> = ({
         <View style={defaultStyles.px8}>
           <Subtitle>{title}</Subtitle>
         </View>
-        <Button
-          title="Manage"
-          uppercase
-          isValid={true}
-          onPress={onCreateNewIncomeLabel}
-        />
+        <Button title="Manage" uppercase onPress={onCreateNewIncomeLabel} />
       </View>
       <OffsetContainer>
         <View style={styles.headerContainer}>

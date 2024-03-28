@@ -36,7 +36,6 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
           <Button
             // onPress={() => navigation.navigate("AddIncome")}
             title="Add"
-            isValid={true}
             disabled={false}
           />
         </View>

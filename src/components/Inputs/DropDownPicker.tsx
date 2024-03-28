@@ -11,7 +11,6 @@ import { useAppSelector } from "../../store/hooks";
 interface Item {
   id: string;
   label: string;
-  value: string;
 }
 
 interface DropDownPickerProps {
@@ -19,9 +18,9 @@ interface DropDownPickerProps {
   placeholder?: string;
   addItemLabel?: string;
   items: Item[];
-  defaultValue: string;
+  defaultValue: Item;
   onSelectAdd?: () => void;
-  onSelect: (value: string) => void;
+  onSelectItem: (value: Item) => void;
 }
 
 const DropDownPicker: React.FC<DropDownPickerProps> = ({
@@ -31,23 +30,15 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
   items,
   defaultValue,
   onSelectAdd,
-  onSelect,
+  onSelectItem,
 }) => {
-  const { selectedFundLabel } = useAppSelector((state) => state.fundLabel);
-  const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(defaultValue);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Item>(defaultValue);
 
-  useEffect(() => {
-    if (selectedFundLabel != null) {
-      setSelectedItem(selectedFundLabel?.title);
-      setOpen(false);
-    }
-  }, [selectedFundLabel]);
-
-  const handleSelectItem = (value: string) => {
-    setSelectedItem(value);
-    setOpen(false);
-    onSelect(value);
+  const handleSelectItem = (item: Item) => {
+    setSelectedItem(item);
+    onSelectItem(item);
+    setOpenDropdown(false);
   };
 
   return (
@@ -55,22 +46,22 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
       <Body fontWeight="500" style={defaultStyles.px8}>
         {title}
       </Body>
-      <OffsetContainer style={{ height: 50 }}>
+      <OffsetContainer style={styles.inputContainer}>
         <TouchableOpacity
-          onPress={() => setOpen(!open)}
-          style={{ justifyContent: "center", flex: 1, paddingHorizontal: 8 }}
+          onPress={() => setOpenDropdown(!openDropdown)}
+          style={styles.value}
         >
-          <Body>{selectedItem || placeholder}</Body>
+          <Body>{selectedItem.label || placeholder}</Body>
         </TouchableOpacity>
       </OffsetContainer>
 
-      {open && (
+      {openDropdown && (
         <OffsetContainer padding={8} style={styles.dropdownItems}>
           {addItemLabel && onSelectAdd && (
             <View style={[defaultStyles.p8, defaultStyles.fullWidth]}>
               <TextButton
                 onPress={onSelectAdd}
-                style={defaultStyles.p8}
+                style={[defaultStyles.p8, defaultStyles.fullWidth]}
                 title={addItemLabel}
               />
             </View>
@@ -78,8 +69,8 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
           {items.map((item) => (
             <TouchableOpacity
               key={item.id}
-              onPress={() => handleSelectItem(item.value)}
-              style={defaultStyles.p8}
+              onPress={() => handleSelectItem(item)}
+              style={[defaultStyles.p8, defaultStyles.fullWidth]}
             >
               <Body>{item.label}</Body>
             </TouchableOpacity>
@@ -92,6 +83,14 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
 };
 
 const styles = StyleSheet.create({
+  inputContainer: {
+    height: 50,
+  },
+  value: {
+    justifyContent: "center",
+    flex: 1,
+    paddingHorizontal: 8,
+  },
   dropdownItems: {
     position: "absolute",
     left: 8,

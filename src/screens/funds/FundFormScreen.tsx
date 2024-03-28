@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from "react";
+import DropDownPicker from "../../components/Inputs/DropDownPicker";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import moment from "moment";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
-import { createFund, fetchFunds } from "../../store/funds/action";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { InputAccessory } from "../../components/InputAccessory";
+import { fetchFundLabels } from "../../store/fundLabels/action";
+import { FundLabelFormModal } from "./components/FundLabelFormModal";
+import { FundLabelType } from "../../store/fundLabels/types";
+import { FundsStackParamList } from "../../navigation/FundStackNavigator";
 import { Input } from "../../components/Inputs/Input";
+import { InputAccessory } from "../../components/InputAccessory";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Screen } from "../../components/Screens/Screen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { FundsStackParamList } from "../../navigation/FundStackNavigator";
-import DropDownPicker from "../../components/Inputs/DropDownPicker";
-import { CreateFundInput } from "../../store/funds/types";
-import { fetchFundLabels } from "../../store/fundLabels/action";
-import { FundLabelType } from "../../store/fundLabels/types";
-import { FundLabelFormModal } from "./components/FundLabelFormModal";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Body } from "../../components/Typography";
 
 type FormValues = {
   fundLabelId: string;
@@ -53,12 +49,17 @@ type FundStackProps = NativeStackScreenProps<FundsStackParamList, "FundForm">;
 export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
   const fundLabelType = route.params?.fundLabelType;
   const dispatch = useAppDispatch();
-  const { incomeLabels, expenseLabels } = useAppSelector(
-    (state) => state.fundLabel
-  );
+  const { isFetching, incomeLabels, expenseLabels, selectedFundLabel } =
+    useAppSelector((state) => state.fundLabel);
   const [isCreateFundLabelModalVisible, setIsCreateFundLabelModalVisible] =
     useState(false);
   const inputAccessoryViewID = "cashInInputAccessory";
+
+  const { control, handleSubmit, formState } = useForm<FormValues>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: fundDefaultValues,
+    mode: "onChange",
+  });
 
   useEffect(() => {
     navigation.setOptions({
@@ -67,27 +68,19 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
       headerRight: () => (
         <Button
           title="Save"
-          isValid={isValid}
-          disabled={!isValid}
+          disabled={!formState.isValid}
+          bgColor="dark"
           onPress={handleSubmit(handleSaveFund)}
         />
       ),
     });
-  }, [navigation]);
+  }, [navigation, formState]);
+
+  console.log("🚀 ~ FundFormScreen ~ formState:", formState.isValid);
 
   useEffect(() => {
     dispatch(fetchFundLabels());
-  }, [incomeLabels, expenseLabels]);
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-  } = useForm<FormValues>({
-    resolver: yupResolver(validationSchema),
-    defaultValues: fundDefaultValues,
-    mode: "onChange",
-  });
+  }, []);
 
   const handleOpenCreateFundLabelModal = () =>
     setIsCreateFundLabelModalVisible(true);
@@ -96,17 +89,19 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
     setIsCreateFundLabelModalVisible(false);
 
   const handleSaveFund = async (data: FormValues) => {
-    const fund: CreateFundInput = {
-      fundLabelId: data.fundLabelId,
-      amount: +data.amount,
-      date: moment(data.date).format(),
-    };
+    console.log(data);
+    // const fund: CreateFundInput = {
+    //   fundLabelId: data.fundLabelId,
+    //   amount: +data.amount,
+    //   date: moment(data.date).format(),
+    // };
 
-    await dispatch(createFund(fund));
-    await dispatch(fetchFunds());
+    // await dispatch(createFund(fund));
+    // await dispatch(fetchFunds());
+    // navigation.navigate("Funds");
   };
 
-  if (isSubmitting) return <LoadingScreen />;
+  if (formState.isSubmitting || isFetching) return <LoadingScreen />;
 
   return (
     <>
@@ -125,12 +120,16 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
                   : expenseLabels
                 ).map(({ id, title }) => ({
                   id: id,
-                  value: title,
+                  value: id,
                   label: title,
                 }))}
-                defaultValue={value}
+                defaultValue={{
+                  id: selectedFundLabel?.id ?? "",
+                  label: selectedFundLabel?.title ?? "",
+                }}
+                // value={value}
                 onSelectAdd={handleOpenCreateFundLabelModal}
-                onSelect={onChange}
+                onSelectItem={onChange}
               />
             )}
           />
@@ -156,7 +155,7 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
                 value={value > 0 ? value.toString() : ""}
                 onChangeText={onChange}
                 onBlur={onBlur}
-                errorMessage={errors.amount?.message}
+                errorMessage={formState.errors.amount?.message}
               />
             </View>
           )}
@@ -195,20 +194,3 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  dropdownContainer: {
-    width: 200,
-  },
-  dropdown: {
-    backgroundColor: "#fafafa",
-  },
-  dropdownItems: {
-    backgroundColor: "#ffffff",
-  },
-});

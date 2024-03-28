@@ -22,21 +22,18 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <RNModal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={onClose}
-      >
+      <RNModal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
-          <TouchableOpacity onPress={onClose} style={styles.modalView}>
-            <MaterialCommunityIcons
-              style={styles.closeIcon}
-              name="close"
-              size={20}
-            />
+          <View style={styles.modalView}>
+            <TouchableOpacity onPress={onClose}>
+              <MaterialCommunityIcons
+                style={styles.closeIcon}
+                name="close"
+                size={20}
+              />
+            </TouchableOpacity>
             <View style={styles.contents}>{contents}</View>
-          </TouchableOpacity>
+          </View>
         </View>
       </RNModal>
     </View>

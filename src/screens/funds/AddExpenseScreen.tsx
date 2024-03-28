@@ -96,7 +96,6 @@ export const AddExpenseScreen = () => {
           <Button
             onPress={handleSubmit(handleSave)}
             title="Save"
-            isValid={isValid}
             disabled={!isValid}
           />
         }

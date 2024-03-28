@@ -25,15 +25,17 @@ export const GoalCard: React.FC<GoalCardProps> = ({
   const percentage = `${(currentAmount / targetAmount) * 100} %`;
 
   return (
-    <OffsetContainer padding={16}>
-      <Body fontWeight="500">{title}</Body>
+    <OffsetContainer padding={16} backgroundColor={colors.dark}>
+      <Body fontWeight="500" color={colors.white}>
+        {title}
+      </Body>
       <VerticalSpace spacer={8} />
-      <Caption>Every 2nd of the month</Caption>
+      <Caption color={colors.white}>Every 2nd of the month</Caption>
       <VerticalSpace spacer={16} />
 
       <Progress.Bar
         borderWidth={0}
-        color={colors.success}
+        color={colors.white}
         height={8}
         progress={progressPercentage}
         unfilledColor="rgba(0, 191, 154, 0.1)"
@@ -41,8 +43,12 @@ export const GoalCard: React.FC<GoalCardProps> = ({
       />
       <VerticalSpace spacer={16} />
       <View style={defaultStyles.centerHorizontallyBetween}>
-        <Body fontWeight="400">{percentage}</Body>
-        <Body fontWeight="500">PHP {Math.abs(targetAmount)}</Body>
+        <Body fontWeight="400" color={colors.white}>
+          {percentage}
+        </Body>
+        <Body fontWeight="500" color={colors.white}>
+          PHP {Math.abs(targetAmount)}
+        </Body>
       </View>
     </OffsetContainer>
   );

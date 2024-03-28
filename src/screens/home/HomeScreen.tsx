@@ -15,10 +15,11 @@ import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { EmptyGoalCard } from "./components/EmptyGoalCard";
 import { GoalCard } from "./components/GoalCard";
-import { Label, Subtitle } from "../../components/Typography";
+import { Body, Label, Subtitle, Title } from "../../components/Typography";
 import { savingsMockData } from "../../data/SavingsMockData";
 import { Screen } from "../../components/Screens/Screen";
 import { VerticalSpace } from "../../components/Spacer";
+import { OffsetContainer } from "../../components/Container";
 
 export const HomeScreen: React.FC = () => {
   // ref
@@ -56,33 +57,15 @@ export const HomeScreen: React.FC = () => {
               name="Aira"
             />
           </View>
-
           <VerticalSpace spacer={16} />
-
-          <View style={defaultStyles.centerHorizontally}>
-            <View style={styles.card}>
-              <Card
-                title="Total Savings"
-                subtitle="₱100,000"
-                LeadingIconComponent={
-                  <MaterialCommunityIcons
-                    name="hand-coin-outline"
-                    size={24}
-                    color={colors.info}
-                  />
-                }
-              />
+          <OffsetContainer backgroundColor={colors.dark} padding={16}>
+            <View style={defaultStyles.centerHorizontallyBetween}>
+              <Body color="white">Total Savings</Body>
+              <Body color="white">PHP 100,000</Body>
             </View>
-            <View style={styles.card}>
-              <Card
-                title="Last month"
-                subtitle="₱100,000"
-                LeadingIconComponent={
-                  <AntDesign name="arrowup" size={24} color={colors.success} />
-                }
-              />
-            </View>
-          </View>
+            <VerticalSpace spacer={8} />
+            <Title color="white">PHP 190,000</Title>
+          </OffsetContainer>
 
           <VerticalSpace spacer={16} />
 
@@ -95,7 +78,6 @@ export const HomeScreen: React.FC = () => {
                 <Button
                   title="Manage"
                   uppercase
-                  isValid={true}
                   onPress={() => bottomSheetModalRef.current?.present()}
                 />
               )}

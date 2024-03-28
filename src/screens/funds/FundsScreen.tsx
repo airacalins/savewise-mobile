@@ -7,13 +7,11 @@ import { AddFundLabelActionBottomSheet } from "./components/AddFundLabelActionBo
 import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { expensesMockData } from "../../data/ExpensesMockData";
 import { fetchFunds } from "../../store/funds/action";
 import { FundActionBottomSheet } from "./components/FundActionBottomSheet";
 import { FundLabelType } from "../../store/fundLabels/types";
 import { FundStackProps } from "../../navigation/FundStackNavigator";
 import { Header, Subtitle } from "../../components/Typography";
-import { incomeMockData } from "../../data/IncomeMockData";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { FundLabelsCard } from "./components/FundLabelsCard";
 import { OffsetContainer } from "../../components/Container";
@@ -99,7 +97,6 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
         <Button
           title="Add / Manage"
           uppercase
-          isValid={true}
           onPress={handleShowFundActionBottomSheet}
         />
       </View>

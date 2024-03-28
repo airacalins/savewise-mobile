@@ -79,8 +79,6 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
       {fundsByMonth[month].map((fund: Fund, index: number) => {
         const { id, title, date, amount } = fund;
 
-        console.log(index);
-
         return (
           <Swipeable
             key={id}

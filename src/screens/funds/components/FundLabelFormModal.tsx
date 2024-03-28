@@ -4,8 +4,11 @@ import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { Button } from "../../../components/Buttons/Button";
-import { createFundLabel } from "../../../store/fundLabels/action";
+import { Button, ButtonSize } from "../../../components/Buttons/Button";
+import {
+  createFundLabel,
+  fetchFundLabels,
+} from "../../../store/fundLabels/action";
 import {
   CreateFundLabelInput,
   FundLabelType,
@@ -19,7 +22,7 @@ type FormValues = {
   title: string;
 };
 
-const fundLabelDefaultValues = {
+const defaultValues = {
   title: "",
 };
 
@@ -44,11 +47,12 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
 
   const {
     control,
-    handleSubmit,
     formState: { errors, isSubmitting, isValid },
+    handleSubmit,
+    reset,
   } = useForm<FormValues>({
+    defaultValues,
     resolver: yupResolver(validationSchema),
-    defaultValues: fundLabelDefaultValues,
     mode: "onChange",
   });
 
@@ -59,7 +63,8 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
     };
 
     await dispatch(createFundLabel(fundLabel));
-
+    await dispatch(fetchFundLabels());
+    reset();
     onClose();
   };
 
@@ -86,9 +91,8 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
           />
           <Button
             title={"Save"}
-            size="M"
+            size={ButtonSize.Medium}
             bgColor="dark"
-            isValid={isValid}
             disabled={!isValid}
             onPress={handleSubmit(handleSaveFundLabel)}
           />
