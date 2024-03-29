@@ -1,6 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { FundLabel, CreateFundLabelInput, UpdateFundLabelInput } from "./types";
+import {
+  FundLabel,
+  CreateFundLabelInput,
+  UpdateFundLabelInput,
+  UpdateFundLabel,
+} from "./types";
 import { request } from "../../api/agent";
 
 export const fetchFundLabels = createAsyncThunk<FundLabel[]>(
@@ -28,19 +33,23 @@ export const fetchFundLabelById = createAsyncThunk<FundLabel, string>(
 export const createFundLabel = createAsyncThunk<
   FundLabel,
   CreateFundLabelInput
->("createFundLabel", async (FundLabel, thunkAPI) => {
+>("createFundLabel", async (fundLabel, thunkAPI) => {
   try {
-    return await request.post("/FundLabels", FundLabel);
+    return await request.post("/fundLabels", fundLabel);
   } catch (error: any) {
     return thunkAPI.rejectWithValue({ error: error.data });
   }
 });
 
-export const updateFundLabel = createAsyncThunk<boolean, UpdateFundLabelInput>(
+export const updateFundLabel = createAsyncThunk<boolean, UpdateFundLabel>(
   "updateFundLabel",
-  async (fetchFundLabelByIdundLabel, thunkAPI) => {
+  async (updateFundLabel, thunkAPI) => {
     try {
-      return await request.put("/fundLabels", fetchFundLabelByIdundLabel);
+      const fundLabel: UpdateFundLabelInput = {
+        title: updateFundLabel.title,
+      };
+
+      return await request.put(`/fundLabels/${updateFundLabel.id}`, fundLabel);
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }

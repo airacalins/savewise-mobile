@@ -22,6 +22,11 @@ export interface CreateFundLabelInput {
   fundLabelType: FundLabelType;
 }
 
+export interface UpdateFundLabel {
+  id: string;
+  title: string;
+}
+
 export interface UpdateFundLabelInput {
   title: string;
 }

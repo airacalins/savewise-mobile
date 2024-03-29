@@ -10,7 +10,6 @@ import { ScrollView, StyleSheet, View } from "react-native";
 
 import { Banner } from "./components/Banner";
 import { Button } from "../../components/Buttons/Button";
-import { Card } from "./components/Card";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { EmptyGoalCard } from "./components/EmptyGoalCard";
@@ -32,9 +31,7 @@ export const HomeScreen: React.FC = () => {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  const handleSheetChanges = useCallback((index: number) => {}, []);
 
   const renderBackdrop = useCallback(
     (backdropProps: BottomSheetBackdropProps) => (

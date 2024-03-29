@@ -1,23 +1,19 @@
 import React, { useEffect } from "react";
+import { FlatList, View } from "react-native";
+import { format } from "date-fns";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+import { Button } from "../../components/Buttons/Button";
 import { Caption } from "../../components/Typography";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { FlatList, View } from "react-native";
+import { fetchFundsByFundLabelId } from "../../store/funds/action";
+import { Fund } from "../../store/funds/types";
+import { FundsStackParamList } from "../../navigation/FundStackNavigator";
+import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { OffsetContainer } from "../../components/Container";
 import { Screen } from "../../components/Screens/Screen";
 import { Separator } from "../../components/Separator/Separator";
-import { FundsStackParamList } from "../../navigation/FundStackNavigator";
-import { Button } from "../../components/Buttons/Button";
-import {
-  SourceDetailsHistory,
-  sourceDetailHistoryMockData,
-} from "../../data/IncomeDetailsMockData";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { fetchFunds, fetchFundsByFundLabelId } from "../../store/funds/action";
-import { Fund } from "../../store/funds/types";
-import { format } from "date-fns";
-import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 
 type FundStackProps = NativeStackScreenProps<
   FundsStackParamList,

@@ -6,7 +6,6 @@ import { defaultStyles } from "../../layouts/DefaultStyles";
 import { OffsetContainer } from "../Container";
 import { VerticalSpace } from "../Spacer";
 import { TextButton } from "../Buttons/TextButton";
-import { useAppSelector } from "../../store/hooks";
 
 interface Item {
   id: string;
@@ -58,10 +57,10 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
       {openDropdown && (
         <OffsetContainer padding={8} style={styles.dropdownItems}>
           {addItemLabel && onSelectAdd && (
-            <View style={[defaultStyles.p8, defaultStyles.fullWidth]}>
+            <View style={[defaultStyles.p8, defaultStyles.w100]}>
               <TextButton
                 onPress={onSelectAdd}
-                style={[defaultStyles.p8, defaultStyles.fullWidth]}
+                style={[defaultStyles.p8, defaultStyles.w100]}
                 title={addItemLabel}
               />
             </View>
@@ -70,7 +69,7 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
             <TouchableOpacity
               key={item.id}
               onPress={() => handleSelectItem(item)}
-              style={[defaultStyles.p8, defaultStyles.fullWidth]}
+              style={[defaultStyles.p8, defaultStyles.w100]}
             >
               <Body>{item.label}</Body>
             </TouchableOpacity>

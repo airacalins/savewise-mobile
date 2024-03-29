@@ -11,9 +11,7 @@ export const defaultStyles = StyleSheet.create({
   },
 
   // Alignments
-  flex1: {
-    flex: 1,
-  },
+  flex1: { flex: 1 },
   center: {
     alignItems: "center",
     justifyContent: "center",
@@ -23,9 +21,7 @@ export const defaultStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
-  row: {
-    flexDirection: "row",
-  },
+  row: { flexDirection: "row" },
   centerHorizontally: {
     alignItems: "center",
     flexDirection: "row",
@@ -36,9 +32,8 @@ export const defaultStyles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
   },
-  fullWidth: {
-    width: "100%",
-  },
+  h100: { height: "100%" },
+  w100: { width: "100%" },
 
   // Separator
   dottedSeparator: {
@@ -56,6 +51,10 @@ export const defaultStyles = StyleSheet.create({
   textSuccess: { color: colors.success },
   textWhite: { color: colors.white },
   textCenter: { textAlign: "center" },
+
+  // Background Color
+  bgInfo: { backgroundColor: colors.info },
+  bgDanger: { backgroundColor: colors.danger },
 
   // Padding
   p8: { padding: 8 },

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";
@@ -8,22 +8,20 @@ import { Button, ButtonSize } from "../../../components/Buttons/Button";
 import {
   createFundLabel,
   fetchFundLabels,
+  updateFundLabel,
 } from "../../../store/fundLabels/action";
 import {
   CreateFundLabelInput,
   FundLabelType,
+  UpdateFundLabel,
 } from "../../../store/fundLabels/types";
 import { Input } from "../../../components/Inputs/Input";
 import { LoadingScreen } from "../../../components/Screens/LoadingScreen";
 import { Modal } from "../../../components/Modal/Modal";
-import { useAppDispatch } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 type FormValues = {
   title: string;
-};
-
-const defaultValues = {
-  title: "",
 };
 
 const validationSchema = yup.object().shape({
@@ -44,6 +42,15 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
   onClose,
 }) => {
   const dispatch = useAppDispatch();
+  const { selectedFundLabel } = useAppSelector((state) => state.fundLabel);
+  console.log("🚀 ~ selectedFundLabel:", selectedFundLabel);
+
+  // const defaultValues = useMemo(
+  //   () => ({
+  //     title: selectedFundLabel?.title ?? "",
+  //   }),
+  //   [selectedFundLabel]
+  // );
 
   const {
     control,
@@ -51,18 +58,36 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
     handleSubmit,
     reset,
   } = useForm<FormValues>({
-    defaultValues,
+    defaultValues: {
+      title: selectedFundLabel?.title ?? "",
+    },
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
 
-  const handleSaveFundLabel = async (data: FormValues) => {
+  useEffect(() => {
+    return () => reset();
+  }, []);
+
+  const handleCreateFundLabel = async (data: FormValues) => {
     const fundLabel: CreateFundLabelInput = {
       title: data.title,
       fundLabelType,
     };
 
     await dispatch(createFundLabel(fundLabel));
+    await dispatch(fetchFundLabels());
+    reset();
+    onClose();
+  };
+
+  const handleEditFundLabel = async (data: FormValues) => {
+    const fundLabel: UpdateFundLabel = {
+      id: selectedFundLabel?.id ?? "",
+      title: data.title,
+    };
+
+    await dispatch(updateFundLabel(fundLabel));
     await dispatch(fetchFundLabels());
     reset();
     onClose();
@@ -82,7 +107,7 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
               <Input
                 label={label}
                 value={value}
-                placeholder="Ex: Business Income"
+                placeholder={selectedFundLabel?.title ?? "Ex. Business"}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 errorMessage={errors.title?.message}
@@ -94,7 +119,9 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
             size={ButtonSize.Medium}
             bgColor="dark"
             disabled={!isValid}
-            onPress={handleSubmit(handleSaveFundLabel)}
+            onPress={handleSubmit(
+              !selectedFundLabel ? handleCreateFundLabel : handleEditFundLabel
+            )}
           />
         </View>
       }

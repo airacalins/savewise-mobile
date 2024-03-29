@@ -7,6 +7,7 @@ import { AddFundLabelActionBottomSheet } from "./components/AddFundLabelActionBo
 import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
+import { fetchFundLabels } from "../../store/fundLabels/action";
 import { fetchFunds } from "../../store/funds/action";
 import { FundActionBottomSheet } from "./components/FundActionBottomSheet";
 import { FundLabelType } from "../../store/fundLabels/types";
@@ -18,13 +19,15 @@ import { OffsetContainer } from "../../components/Container";
 import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { VerticalSpace } from "../../components/Spacer";
-import { fetchFundLabels } from "../../store/fundLabels/action";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
-  const { isFetching, funds, incomeFunds, expenseFunds } = useAppSelector(
-    (state) => state.fund
-  );
+  const {
+    isFetching: isFetchingFunds,
+    funds,
+    incomeFunds,
+    expenseFunds,
+  } = useAppSelector((state) => state.fund);
   const {
     isFetching: isFetchingFundLabels,
     incomeLabels,
@@ -35,6 +38,8 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     useRef<BottomSheetModalMethods>(null);
   const [isAddIncomeModalVisible, setIsAddIncomeModalVisible] = useState(false);
   const [fundLabelType, setFundLabelType] = useState(FundLabelType.Income);
+
+  console.log("Fund Screen");
 
   useEffect(() => {
     dispatch(fetchFunds());
@@ -55,7 +60,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
 
   const totalFunds = totalIncome - totalExpense;
 
-  if (isFetching) return <LoadingScreen />;
+  if (isFetchingFunds && isFetchingFundLabels) return <LoadingScreen />;
 
   const handleShowFundActionBottomSheet = () =>
     fundsActionBottomSheetRef.current?.present();

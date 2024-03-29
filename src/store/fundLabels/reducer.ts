@@ -1,10 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { FundLabelType, FundLabelsState } from "./types";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { FundLabel, FundLabelType, FundLabelsState } from "./types";
 import {
   createFundLabel,
   deleteFundLabel,
   fetchFundLabelById,
   fetchFundLabels,
+  updateFundLabel,
 } from "./action";
 
 export const initialState: FundLabelsState = {
@@ -17,7 +18,14 @@ export const initialState: FundLabelsState = {
 export const fundLabelsSlice = createSlice({
   name: "fundLabels",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setSelectedFundLabel: (
+      state: FundLabelsState,
+      action: PayloadAction<FundLabel | undefined>
+    ) => {
+      state.selectedFundLabel = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     // Get fund labels
     builder.addCase(fetchFundLabels.pending, (state, _) => {
@@ -48,11 +56,22 @@ export const fundLabelsSlice = createSlice({
       state.isFetching = false;
     });
 
+    // Update fund label
+    builder.addCase(updateFundLabel.pending, (state, _) => {
+      state.isFetching = true;
+    });
+    builder.addCase(updateFundLabel.fulfilled, (state, _) => {
+      state.isFetching = false;
+    });
+    builder.addCase(updateFundLabel.rejected, (state, _) => {
+      state.isFetching = false;
+    });
+
     // Fetch fund label by id and assign it as selected fund
     builder.addCase(fetchFundLabelById.pending, (state, _) => {
       state.isFetching = true;
     });
-    builder.addCase(fetchFundLabelById.fulfilled, (state, action) => {
+    builder.addCase(fetchFundLabelById.fulfilled, (state, _) => {
       state.isFetching = false;
     });
     builder.addCase(fetchFundLabelById.rejected, (state, _) => {
@@ -71,5 +90,7 @@ export const fundLabelsSlice = createSlice({
     });
   },
 });
+
+export const { setSelectedFundLabel } = fundLabelsSlice.actions;
 
 export const fundLabelReducer = fundLabelsSlice.reducer;

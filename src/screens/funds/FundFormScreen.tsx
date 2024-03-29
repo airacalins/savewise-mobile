@@ -76,8 +76,6 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
     });
   }, [navigation, formState]);
 
-  console.log("🚀 ~ FundFormScreen ~ formState:", formState.isValid);
-
   useEffect(() => {
     dispatch(fetchFundLabels());
   }, []);
@@ -89,13 +87,11 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
     setIsCreateFundLabelModalVisible(false);
 
   const handleSaveFund = async (data: FormValues) => {
-    console.log(data);
     // const fund: CreateFundInput = {
     //   fundLabelId: data.fundLabelId,
     //   amount: +data.amount,
     //   date: moment(data.date).format(),
     // };
-
     // await dispatch(createFund(fund));
     // await dispatch(fetchFunds());
     // navigation.navigate("Funds");

@@ -1,20 +1,21 @@
-import React, { useEffect } from "react";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
 import { Button } from "../../../components/Buttons/Button";
-import { Caption, Subtitle, Title } from "../../../components/Typography";
+import { Subtitle, Title } from "../../../components/Typography";
 import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
-import { HorizontalSpace } from "../../../components/Spacer";
+import { Fund } from "../../../store/funds/types";
+import { FundLabel, FundLabelType } from "../../../store/fundLabels/types";
+import { FundLabelFormModal } from "./FundLabelFormModal";
+import { FundLabelItem } from "./FundLabelItem";
+import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
 import { OffsetContainer } from "../../../components/Container";
 import { Separator } from "../../../components/Separator/Separator";
-import { FundLabel } from "../../../store/fundLabels/types";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { FundsStackParamList } from "../../../navigation/FundStackNavigator";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { Fund } from "../../../store/funds/types";
+import { setSelectedFundLabel } from "../../../store/fundLabels/reducer";
+import { useAppDispatch } from "../../../store/hooks";
 
 interface FundLabelsCardProps {
   title: string;
@@ -32,6 +33,9 @@ export const FundLabelsCard: React.FC<FundLabelsCardProps> = ({
   onCreateFundLabel: onCreateNewIncomeLabel,
 }) => {
   const navigation = useNavigation<StackNavigationProp<FundsStackParamList>>();
+  const dispatch = useAppDispatch();
+  const [isAddIncomeModalVisible, setIsAddIncomeModalVisible] = useState(false);
+  const [fundLabelType, setFundLabelType] = useState(FundLabelType.Income);
 
   const handleNavigateToFundDetails = (
     fundLabelName: string,
@@ -40,35 +44,18 @@ export const FundLabelsCard: React.FC<FundLabelsCardProps> = ({
     navigation.navigate("FundDetails", { fundLabelName, fundLabelId });
   };
 
-  const renderItem = ({ item }: { item: FundLabel }) => {
-    const fundsByFundLabelId = funds.filter(
-      (fund) => fund.fundLabel.id === item.id
-    );
-    const totalFundsByFundLabel = fundsByFundLabelId.reduce(
-      (accumulator, fund) => accumulator + fund.amount,
-      0
-    );
+  const handleEditFundLabel = (fundLabel: FundLabel) => {
+    setIsAddIncomeModalVisible(true);
+    dispatch(setSelectedFundLabel(fundLabel));
+  };
 
-    return (
-      <TouchableOpacity
-        onPress={() => handleNavigateToFundDetails(item.title, item.id)}
-        style={styles.item}
-      >
-        <Caption>{item.title}</Caption>
-        <View style={defaultStyles.centerHorizontally}>
-          <Caption fontWeight="500">
-            PHP {totalFundsByFundLabel.toLocaleString()}
-          </Caption>
-          <HorizontalSpace spacer={8} />
-          <MaterialCommunityIcons
-            name="greater-than"
-            size={16}
-            color={colors.success}
-          />
-        </View>
-      </TouchableOpacity>
+  const handleDeleteFundLabel = () => {
+    console.log(
+      "Are you sure you want to delete this? Deleting it will also delete all files related to the total funds."
     );
   };
+
+  const handleHideFundLabelModal = () => setIsAddIncomeModalVisible(false);
 
   return (
     <>
@@ -85,11 +72,41 @@ export const FundLabelsCard: React.FC<FundLabelsCardProps> = ({
         <FlatList
           data={labels}
           keyExtractor={(label) => label.id}
-          renderItem={renderItem}
+          renderItem={({ item }: { item: FundLabel }) => {
+            const fundsByFundLabelId = funds.filter(
+              (fund) => fund.fundLabel.id === item.id
+            );
+            const totalFundsByFundLabel = fundsByFundLabelId.reduce(
+              (accumulator, fund) => accumulator + fund.amount,
+              0
+            );
+
+            return (
+              <FundLabelItem
+                fundLabel={item}
+                totalFundPerLabel={totalFundsByFundLabel}
+                onNavigateToDetails={() =>
+                  handleNavigateToFundDetails(item.title, item.id)
+                }
+                onEditFundLabel={() => handleEditFundLabel(item)}
+                onDeleteFundLabel={() => handleDeleteFundLabel()}
+              />
+            );
+          }}
           ItemSeparatorComponent={Separator}
           scrollEnabled={false}
         />
       </OffsetContainer>
+      <FundLabelFormModal
+        label={
+          fundLabelType === FundLabelType.Income
+            ? "Income Name"
+            : "Expense Name"
+        }
+        fundLabelType={fundLabelType}
+        isVisible={isAddIncomeModalVisible}
+        onClose={handleHideFundLabelModal}
+      />
     </>
   );
 };
@@ -100,7 +117,19 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 16,
   },
+  swipeableRightActionContainer: {
+    flexDirection: "row",
+    height: "100%",
+    width: "30%",
+    ...defaultStyles.center,
+  },
+  swipeableRightActionItem: {
+    ...defaultStyles.center,
+    ...defaultStyles.h100,
+    ...defaultStyles.flex1,
+  },
   item: {
+    backgroundColor: colors.background,
     ...defaultStyles.centerHorizontallyBetween,
     ...defaultStyles.px8,
     ...defaultStyles.py16,
