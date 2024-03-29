@@ -16,17 +16,17 @@ import { FundLabel } from "../../../store/fundLabels/types";
 interface FundLabelItemProps {
   fundLabel: FundLabel;
   totalFundPerLabel: number;
-  onNavigateToDetails: () => void;
   onEditFundLabel: () => void;
   onDeleteFundLabel: () => void;
+  onNavigateToDetails: () => void;
 }
 
 export const FundLabelItem = ({
   fundLabel,
   totalFundPerLabel,
-  onNavigateToDetails,
   onEditFundLabel,
   onDeleteFundLabel,
+  onNavigateToDetails,
 }: FundLabelItemProps) => {
   const swipeableRef = useRef<Swipeable>(null);
 

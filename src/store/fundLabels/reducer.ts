@@ -44,6 +44,18 @@ export const fundLabelsSlice = createSlice({
       state.isFetching = false;
     });
 
+    // Fetch fund label by id and assign it as selected fund
+    builder.addCase(fetchFundLabelById.pending, (state, _) => {
+      state.isFetching = true;
+    });
+    builder.addCase(fetchFundLabelById.fulfilled, (state, action) => {
+      state.isFetching = false;
+      state.selectedFundLabel = action.payload;
+    });
+    builder.addCase(fetchFundLabelById.rejected, (state, _) => {
+      state.isFetching = false;
+    });
+
     // Create fund label
     builder.addCase(createFundLabel.pending, (state, _) => {
       state.isFetching = true;
@@ -64,17 +76,6 @@ export const fundLabelsSlice = createSlice({
       state.isFetching = false;
     });
     builder.addCase(updateFundLabel.rejected, (state, _) => {
-      state.isFetching = false;
-    });
-
-    // Fetch fund label by id and assign it as selected fund
-    builder.addCase(fetchFundLabelById.pending, (state, _) => {
-      state.isFetching = true;
-    });
-    builder.addCase(fetchFundLabelById.fulfilled, (state, _) => {
-      state.isFetching = false;
-    });
-    builder.addCase(fetchFundLabelById.rejected, (state, _) => {
       state.isFetching = false;
     });
 

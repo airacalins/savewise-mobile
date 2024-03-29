@@ -31,7 +31,6 @@ export const styles = StyleSheet.create({
     ...defaultStyles.centerHorizontallyBetween,
   },
   content: {
-    flex: 1,
     paddingHorizontal: 8,
     paddingVertical: 16,
   },

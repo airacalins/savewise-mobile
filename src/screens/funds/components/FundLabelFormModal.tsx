@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { View } from "react-native";
@@ -43,14 +43,13 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { selectedFundLabel } = useAppSelector((state) => state.fundLabel);
-  console.log("🚀 ~ selectedFundLabel:", selectedFundLabel);
 
-  // const defaultValues = useMemo(
-  //   () => ({
-  //     title: selectedFundLabel?.title ?? "",
-  //   }),
-  //   [selectedFundLabel]
-  // );
+  const defaultValues = useMemo(
+    () => ({
+      title: selectedFundLabel?.title ?? "",
+    }),
+    [selectedFundLabel]
+  );
 
   const {
     control,
@@ -58,16 +57,14 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
     handleSubmit,
     reset,
   } = useForm<FormValues>({
-    defaultValues: {
-      title: selectedFundLabel?.title ?? "",
-    },
+    defaultValues,
     resolver: yupResolver(validationSchema),
     mode: "onChange",
   });
 
   useEffect(() => {
     return () => reset();
-  }, []);
+  }, [selectedFundLabel]);
 
   const handleCreateFundLabel = async (data: FormValues) => {
     const fundLabel: CreateFundLabelInput = {

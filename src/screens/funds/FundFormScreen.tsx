@@ -20,6 +20,10 @@ import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Screen } from "../../components/Screens/Screen";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setSelectedFundLabel } from "../../store/fundLabels/reducer";
+import { CreateFundInput } from "../../store/funds/types";
+import moment from "moment";
+import { createFund, fetchFunds } from "../../store/funds/action";
 
 type FormValues = {
   fundLabelId: string;
@@ -74,6 +78,7 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
         />
       ),
     });
+    console.log("🚀 ~ useEffect ~ formState.isValid:", formState.isValid);
   }, [navigation, formState]);
 
   useEffect(() => {
@@ -87,14 +92,14 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
     setIsCreateFundLabelModalVisible(false);
 
   const handleSaveFund = async (data: FormValues) => {
-    // const fund: CreateFundInput = {
-    //   fundLabelId: data.fundLabelId,
-    //   amount: +data.amount,
-    //   date: moment(data.date).format(),
-    // };
-    // await dispatch(createFund(fund));
-    // await dispatch(fetchFunds());
-    // navigation.navigate("Funds");
+    const fund: CreateFundInput = {
+      fundLabelId: data.fundLabelId,
+      amount: +data.amount,
+      date: moment(data.date).format(),
+    };
+    await dispatch(createFund(fund));
+    await dispatch(fetchFunds());
+    navigation.navigate("Funds");
   };
 
   if (formState.isSubmitting || isFetching) return <LoadingScreen />;
@@ -125,7 +130,7 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
                 }}
                 // value={value}
                 onSelectAdd={handleOpenCreateFundLabelModal}
-                onSelectItem={onChange}
+                onSelectItem={(value) => onChange(value.id)}
               />
             )}
           />
@@ -156,6 +161,7 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
             </View>
           )}
         />
+
         <FundLabelFormModal
           fundLabelType={FundLabelType.Income}
           isVisible={isCreateFundLabelModalVisible}

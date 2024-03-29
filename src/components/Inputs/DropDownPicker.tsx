@@ -58,17 +58,16 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
         <OffsetContainer padding={8} style={styles.dropdownItems}>
           {addItemLabel && onSelectAdd && (
             <View style={[defaultStyles.p8, defaultStyles.w100]}>
-              <TextButton
-                onPress={onSelectAdd}
-                style={[defaultStyles.p8, defaultStyles.w100]}
-                title={addItemLabel}
-              />
+              <TextButton onPress={onSelectAdd} title={addItemLabel} />
             </View>
           )}
           {items.map((item) => (
             <TouchableOpacity
               key={item.id}
-              onPress={() => handleSelectItem(item)}
+              onPress={() => {
+                console.log(item.label);
+                handleSelectItem(item);
+              }}
               style={[defaultStyles.p8, defaultStyles.w100]}
             >
               <Body>{item.label}</Body>
