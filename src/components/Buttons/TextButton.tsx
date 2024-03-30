@@ -11,12 +11,17 @@ import { defaultStyles } from "../../layouts/DefaultStyles";
 
 interface TextButtonProps extends TouchableOpacityProps {
   title: string;
+  color?: string;
   onPress: () => void;
 }
-export const TextButton: React.FC<TextButtonProps> = ({ title, onPress }) => {
+export const TextButton: React.FC<TextButtonProps> = ({
+  title,
+  color,
+  onPress,
+}) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Body color={colors.success} uppercase fontWeight="500">
+      <Body color={color ?? colors.success} uppercase fontWeight="500">
         {title}
       </Body>
     </TouchableOpacity>

@@ -63,8 +63,10 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
   });
 
   useEffect(() => {
-    return () => reset();
-  }, [selectedFundLabel]);
+    return () => {
+      reset();
+    };
+  }, []);
 
   const handleCreateFundLabel = async (data: FormValues) => {
     const fundLabel: CreateFundLabelInput = {
