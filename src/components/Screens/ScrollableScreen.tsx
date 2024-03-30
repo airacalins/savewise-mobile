@@ -1,17 +1,34 @@
-import { SafeAreaView, StatusBar, StyleSheet, ScrollView } from "react-native";
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 
 import { colors } from "../../layouts/Colors";
 
 interface ScreenProps {
-  title?: string;
   children: React.ReactNode;
-  HeaderRightComponent?: React.ReactNode;
+  isRefreshing?: boolean;
+  onRefresh?: () => void;
 }
-export const ScrollableScreen: React.FC<ScreenProps> = ({ children }) => {
+export const ScrollableScreen: React.FC<ScreenProps> = ({
+  children,
+  isRefreshing = false,
+  onRefresh,
+}) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <ScrollView style={styles.screen}>{children}</ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        }
+        style={styles.screen}
+      >
+        {children}
+      </ScrollView>
     </SafeAreaView>
   );
 };

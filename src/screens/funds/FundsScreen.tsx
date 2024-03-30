@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { FlatList, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FlatList, Text, View } from "react-native";
 
 import { FundLabelFormModal } from "./components/FundLabelFormModal";
 import { AddFundLabelActionBottomSheet } from "./components/AddFundLabelActionBottomSheet";
-import { Button, ButtonSize } from "../../components/Buttons/Button";
+import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import {
@@ -27,10 +26,9 @@ import { VerticalSpace } from "../../components/Spacer";
 import { FundLabelItem } from "./components/FundLabelItem";
 import { Separator } from "../../components/Separator/Separator";
 import { setSelectedFundLabel } from "../../store/fundLabels/reducer";
-import { Modal } from "../../components/Modal/Modal";
-import { TextButton } from "../../components/Buttons/TextButton";
 import { DeleteModal } from "../../components/Modal/DeleteModal";
 import { PESO_SIGN } from "../../utils/string";
+import moment from "moment";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
@@ -76,8 +74,6 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   );
 
   const totalFunds = totalIncome - totalExpense;
-
-  if (isFetchingFunds && isFetchingFundLabels) return <LoadingScreen />;
 
   // Show/Hide Bottom Sheets
   const handleShowFundActionBottomSheet = () =>
@@ -132,6 +128,11 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   };
 
   // API Calls
+  const handlePullToRefresh = () => {
+    dispatch(fetchFunds());
+    dispatch(fetchFundLabels());
+  };
+
   const handleEditFundLabel = (fundLabel: FundLabel) => {
     setIsFundLabelFormModalVisible(true);
     dispatch(fetchFundLabelById(fundLabel.id));
@@ -148,9 +149,14 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     }
   };
 
+  if (isFetchingFunds && isFetchingFundLabels) return <LoadingScreen />;
+
   return (
-    <ScrollableScreen>
-      <View style={defaultStyles.centerHorizontallyBetween}>
+    <ScrollableScreen
+      isRefreshing={isFetchingFunds && isFetchingFundLabels}
+      onRefresh={handlePullToRefresh}
+    >
+      <View>
         <View style={defaultStyles.px8}>
           <Subtitle text="Total Funds" />
         </View>
