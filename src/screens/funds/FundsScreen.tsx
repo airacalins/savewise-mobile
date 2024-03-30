@@ -30,6 +30,7 @@ import { setSelectedFundLabel } from "../../store/fundLabels/reducer";
 import { Modal } from "../../components/Modal/Modal";
 import { TextButton } from "../../components/Buttons/TextButton";
 import { DeleteModal } from "../../components/Modal/DeleteModal";
+import { PESO_SIGN } from "../../utils/string";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
@@ -56,11 +57,6 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   const [fundLabelType, setFundLabelType] = useState(FundLabelType.Income);
 
   console.log("🚀 ~ FundsScreen ~ selectedFundLabel:", selectedFundLabel);
-  console.log(
-    "🚀 ~ FundsScreen ~ isFundLabelFormModalVisible:",
-    isFundLabelFormModalVisible
-  );
-  console.log("Fund Screens");
 
   useEffect(() => {
     dispatch(fetchFunds());
@@ -125,18 +121,14 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   };
 
   // Navigations
-  const handleNavigateToCreateFundFormScreen = (
-    fundLabelType: FundLabelType
-  ) => {
+  const handleNavigateToFundFormScreen = (fundLabelType: FundLabelType) => {
     fundsActionBottomSheetRef.current?.dismiss();
     navigation.navigate("FundForm", { fundLabelType });
   };
 
-  const handleNavigateToFundByFundLabelDetails = (
-    fundLabelName: string,
-    fundLabelId: string
-  ) => {
-    navigation.navigate("FundDetails", { fundLabelName, fundLabelId });
+  const handleNavigateToFundByFundLabelDetails = (fundLabel: FundLabel) => {
+    dispatch(setSelectedFundLabel(fundLabel));
+    navigation.navigate("FundDetails", { fundLabel });
   };
 
   // API Calls
@@ -160,7 +152,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     <ScrollableScreen>
       <View style={defaultStyles.centerHorizontallyBetween}>
         <View style={defaultStyles.px8}>
-          <Subtitle>Total Funds</Subtitle>
+          <Subtitle text="Total Funds" />
         </View>
         <Button
           title="Add / Manage"
@@ -169,9 +161,10 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
         />
       </View>
       <OffsetContainer padding={16} backgroundColor={colors.dark}>
-        <Header color={colors.white}>
-          ₱ {Math.abs(totalFunds).toLocaleString()}
-        </Header>
+        <Header
+          color={colors.white}
+          text={`${PESO_SIGN} ${Math.abs(totalFunds).toLocaleString()}`}
+        />
       </OffsetContainer>
       <VerticalSpace spacer={16} />
       <FundLabelsCard
@@ -198,7 +191,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
                   onEditFundLabel={() => handleEditFundLabel(item)}
                   onDeleteFundLabel={() => handleShowDeleteFundLabelModal(item)}
                   onNavigateToDetails={() =>
-                    handleNavigateToFundByFundLabelDetails(item.title, item.id)
+                    handleNavigateToFundByFundLabelDetails(item)
                   }
                 />
               );
@@ -233,7 +226,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
                   onEditFundLabel={() => handleEditFundLabel(item)}
                   onDeleteFundLabel={() => handleShowDeleteFundLabelModal(item)}
                   onNavigateToDetails={() =>
-                    handleNavigateToFundByFundLabelDetails(item.title, item.id)
+                    handleNavigateToFundByFundLabelDetails(item)
                   }
                 />
               );
@@ -247,11 +240,9 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <FundActionBottomSheet
         ref={fundsActionBottomSheetRef}
         onClose={handleHideFundActionBottomSheet}
-        onAddIncome={() =>
-          handleNavigateToCreateFundFormScreen(FundLabelType.Income)
-        }
+        onAddIncome={() => handleNavigateToFundFormScreen(FundLabelType.Income)}
         onAddExpense={() =>
-          handleNavigateToCreateFundFormScreen(FundLabelType.Expense)
+          handleNavigateToFundFormScreen(FundLabelType.Expense)
         }
       />
       <AddFundLabelActionBottomSheet

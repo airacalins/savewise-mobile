@@ -57,19 +57,19 @@ export const FundActionBottomSheet = React.forwardRef<
               />
             </TouchableOpacity>
           </View>
-          <Subtitle>Select Action</Subtitle>
+          <Subtitle text="Select Action" />
         </View>
         <VerticalSpace spacer={16} />
         <TouchableOpacity onPress={onAddIncome} style={defaultStyles.p16}>
-          <Body>Add Income</Body>
+          <Body text="Add Income" />
         </TouchableOpacity>
         <View style={defaultStyles.dottedSeparator} />
         <TouchableOpacity onPress={onAddExpense} style={defaultStyles.p16}>
-          <Body>Add Expense</Body>
+          <Body text="Add Expense" />
         </TouchableOpacity>
         <View style={defaultStyles.dottedSeparator} />
         <TouchableOpacity onPress={onAddExpense} style={defaultStyles.p16}>
-          <Body>View History</Body>
+          <Body text="View History" />
         </TouchableOpacity>
       </BottomSheetView>
     </BottomSheetModal>

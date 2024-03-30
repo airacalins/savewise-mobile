@@ -19,18 +19,18 @@ export const ProfileScreen = ({ navigation }: ProfileStackProps) => {
   return (
     <Screen>
       <View style={styles.sectionTitle}>
-        <Title>Account</Title>
+        <Title text="Account" />
       </View>
 
       <VerticalSpace spacer={32} />
 
       <View>
-        <Caption style={styles.sectionTitle}>Settings</Caption>
+        <Caption text="Settings" style={styles.sectionTitle} />
         <VerticalSpace spacer={8} />
         <OffsetContainer padding={16}>
           <ListTile
-            TitleComponent={<Subtitle>Aira Calingasan</Subtitle>}
-            SubtitleComponent={<Body>airacalins@gmail.com</Body>}
+            TitleComponent={<Subtitle text="Aira Calingasan" />}
+            SubtitleComponent={<Body text="airacalins@gmail.com" />}
             TrailingComponent={GreaterThanIcon}
             onPress={() => navigation.navigate("Settings")}
           />
@@ -40,17 +40,17 @@ export const ProfileScreen = ({ navigation }: ProfileStackProps) => {
       <VerticalSpace spacer={32} />
 
       <View>
-        <Caption style={styles.sectionTitle}>Preferences</Caption>
+        <Caption text="Preferences" style={styles.sectionTitle} />
         <VerticalSpace spacer={8} />
         <OffsetContainer padding={16}>
           <ListTile
-            TitleComponent={<Subtitle>Notifications</Subtitle>}
+            TitleComponent={<Subtitle text="Notifications" />}
             TrailingComponent={GreaterThanIcon}
             onPress={() => navigation.navigate("Notifications")}
           />
           <View style={defaultStyles.listTileSeparator} />
           <ListTile
-            TitleComponent={<Subtitle>Passcode</Subtitle>}
+            TitleComponent={<Subtitle text="Passcode" />}
             TrailingComponent={GreaterThanIcon}
             onPress={() => navigation.navigate("Passcode")}
           />
@@ -60,18 +60,18 @@ export const ProfileScreen = ({ navigation }: ProfileStackProps) => {
       <VerticalSpace spacer={32} />
 
       <View>
-        <Caption style={styles.sectionTitle}>Feedback</Caption>
+        <Caption text="Feedback" style={styles.sectionTitle} />
         <VerticalSpace spacer={8} />
         <View style={defaultStyles.px8}>
           <OffsetContainer padding={16}>
             <ListTile
-              TitleComponent={<Subtitle>Rate Savewise</Subtitle>}
+              TitleComponent={<Subtitle text="Rate Savewise" />}
               TrailingComponent={GreaterThanIcon}
               onPress={() => navigation.navigate("RateUs")}
             />
             <View style={defaultStyles.listTileSeparator} />
             <ListTile
-              TitleComponent={<Subtitle>Contact Us</Subtitle>}
+              TitleComponent={<Subtitle text="Contact Us" />}
               TrailingComponent={GreaterThanIcon}
               onPress={() => navigation.navigate("ContactUs")}
             />

@@ -42,15 +42,14 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
 
   return (
     <>
-      <Body fontWeight="500" style={defaultStyles.px8}>
-        {title}
-      </Body>
+      <Body text={title} fontWeight="500" style={defaultStyles.px8} />
+
       <OffsetContainer style={styles.inputContainer}>
         <TouchableOpacity
           onPress={() => setOpenDropdown(!openDropdown)}
           style={styles.value}
         >
-          <Body>{selectedItem.label || placeholder}</Body>
+          <Body text={selectedItem.label || (placeholder ?? "")} />
         </TouchableOpacity>
       </OffsetContainer>
 
@@ -70,7 +69,7 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
               }}
               style={[defaultStyles.p8, defaultStyles.w100]}
             >
-              <Body>{item.label}</Body>
+              <Body text={item.label} />
             </TouchableOpacity>
           ))}
         </OffsetContainer>

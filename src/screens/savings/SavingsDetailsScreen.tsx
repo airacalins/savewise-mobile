@@ -20,13 +20,14 @@ export const SavingsDetailsScreen = () => {
       <OffsetContainer>
         <Image source={{ uri: saving.image }} style={styles.cardImage} />
         <View style={defaultStyles.centerHorizontallyBetween}>
-          <Title>{saving.title}</Title>
+          <Title text={saving.title} />
           <View style={defaultStyles.centerHorizontally}>
             <AntDesign name="arrowup" size={16} color={colors.success} />
             <HorizontalSpace spacer={4} />
-            <Body style={defaultStyles.fontWeight500}>
-              {saving.totalSavings}
-            </Body>
+            <Body
+              text={saving.totalSavings}
+              style={defaultStyles.fontWeight500}
+            />
           </View>
         </View>
 
@@ -35,10 +36,11 @@ export const SavingsDetailsScreen = () => {
         <View style={defaultStyles.centerHorizontally}>
           <SimpleLineIcons name="target" size={16} color={colors.dark} />
           <HorizontalSpace spacer={8} />
-          <Body>Target amount: </Body>
-          <Caption style={defaultStyles.fontWeight500}>
-            {saving.targetSavings}
-          </Caption>
+          <Body text="Target amount:" />
+          <Caption
+            text={saving.targetSavings}
+            style={defaultStyles.fontWeight500}
+          />
         </View>
 
         <VerticalSpace spacer={8} />
@@ -46,10 +48,11 @@ export const SavingsDetailsScreen = () => {
         <View style={defaultStyles.centerHorizontally}>
           <AntDesign name="calendar" size={16} color={colors.dark} />
           <HorizontalSpace spacer={8} />
-          <Body>Target date: </Body>
-          <Caption style={defaultStyles.fontWeight500}>
-            {saving.targetDate}
-          </Caption>
+          <Body text="Target date: " />
+          <Caption
+            text={saving.targetDate}
+            style={defaultStyles.fontWeight500}
+          />
         </View>
       </OffsetContainer>
 

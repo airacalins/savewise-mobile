@@ -20,7 +20,6 @@ interface ButtonProps extends TouchableOpacityProps {
   title: string;
   uppercase?: boolean;
   bgColor?: "dark" | "danger" | "success";
-  isFullWidth?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -28,7 +27,6 @@ export const Button: React.FC<ButtonProps> = ({
   title,
   uppercase,
   bgColor,
-  isFullWidth,
   ...props
 }) => {
   const buttonBgColor = () => {
@@ -51,15 +49,14 @@ export const Button: React.FC<ButtonProps> = ({
 
     return (
       <TextComponent
+        text={title}
         color={!bgColor ? colors.dark : colors.white}
         fontWeight={size === ButtonSize.Medium ? "500" : "400"}
         style={{
           ...buttonTitleStyles(),
           textTransform: uppercase ? "uppercase" : "none",
         }}
-      >
-        {title}
-      </TextComponent>
+      />
     );
   };
 

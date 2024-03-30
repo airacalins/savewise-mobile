@@ -21,9 +21,12 @@ export const TextButton: React.FC<TextButtonProps> = ({
 }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Body color={color ?? colors.success} uppercase fontWeight="500">
-        {title}
-      </Body>
+      <Body
+        text={title}
+        color={color ?? colors.success}
+        uppercase
+        fontWeight="500"
+      />
     </TouchableOpacity>
   );
 };

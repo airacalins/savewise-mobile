@@ -11,9 +11,9 @@ import { VerticalSpace } from "../Spacer";
 export const NewFeatureSceen = () => (
   <Screen>
     <View style={[defaultStyles.center, { flex: 1 }]}>
-      <Body>This feature is building for you</Body>
+      <Body text="This feature is building for you" />
       <VerticalSpace spacer={8} />
-      <Caption>- Savewise -</Caption>
+      <Caption text="- Savewise -" />
       <VerticalSpace spacer={32} />
     </View>
     <LottieView

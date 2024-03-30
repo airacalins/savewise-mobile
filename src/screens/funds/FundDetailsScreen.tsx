@@ -14,23 +14,24 @@ import { OffsetContainer } from "../../components/Container";
 import { Screen } from "../../components/Screens/Screen";
 import { Separator } from "../../components/Separator/Separator";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { EmptyScreen } from "../../components/Screens/EmptyScreen";
 
 type FundStackProps = NativeStackScreenProps<
   FundsStackParamList,
   "FundDetails"
 >;
 export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
-  const { fundLabelId, fundLabelName } = route.params;
+  const { fundLabel } = route.params;
   const dispatch = useAppDispatch();
   const { isFetching, fundsPerLabel } = useAppSelector((state) => state.fund);
 
   useEffect(() => {
     navigation.setOptions({
-      title: fundLabelName,
+      title: fundLabel.title,
       headerRight: () => (
         <View style={{ paddingRight: 8 }}>
           <Button
-            // onPress={() => navigation.navigate("AddIncome")}
+            onPress={handleNavigateToFundFormScreen}
             title="Add"
             disabled={false}
           />
@@ -40,17 +41,23 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
   }, [navigation]);
 
   useEffect(() => {
-    dispatch(fetchFundsByFundLabelId(fundLabelId));
-  }, [fundLabelId]);
+    dispatch(fetchFundsByFundLabelId(fundLabel.id));
+  }, [fundLabel.id]);
 
-  const renderItem = ({ item }: { item: Fund }) => (
-    <View style={[defaultStyles.centerHorizontallyBetween, defaultStyles.p16]}>
-      <Caption>{format(new Date(item.date), "MMMM d, yyyy")}</Caption>
-      <Caption fontWeight="500">PHP {item.amount}</Caption>
-    </View>
-  );
+  const handleNavigateToFundFormScreen = () => {
+    navigation.navigate("FundForm", { fundLabelType: fundLabel.fundLabelType });
+  };
 
   if (isFetching) return <LoadingScreen />;
+
+  if (fundsPerLabel.length === 0)
+    return (
+      <EmptyScreen
+        text={`No transaction for yet!`}
+        buttonText={`Add fund to ${fundLabel.title}`}
+        onPress={handleNavigateToFundFormScreen}
+      />
+    );
 
   return (
     <Screen>
@@ -58,7 +65,17 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
         <FlatList
           data={fundsPerLabel}
           keyExtractor={(item) => item.id}
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <View
+              style={[
+                defaultStyles.centerHorizontallyBetween,
+                defaultStyles.p16,
+              ]}
+            >
+              <Caption text={format(new Date(item.date), "MMMM d, yyyy")} />
+              <Caption text={`PHP ${item.amount}`} fontWeight="500" />
+            </View>
+          )}
           ItemSeparatorComponent={Separator}
           scrollEnabled={false}
         />

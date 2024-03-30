@@ -19,9 +19,11 @@ export const ActivityScreen = () => {
         <VerticalSpace spacer={16} />
         <Funds funds={funds} />
         <VerticalSpace spacer={16} />
-        <Label color={colors.grey} style={defaultStyles.textCenter}>
-          - End of funds -
-        </Label>
+        <Label
+          text="- End of funds -"
+          color={colors.grey}
+          style={defaultStyles.textCenter}
+        />
       </View>
     </ScrollView>
   );

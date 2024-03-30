@@ -57,11 +57,11 @@ export const HomeScreen: React.FC = () => {
           <VerticalSpace spacer={16} />
           <OffsetContainer backgroundColor={colors.dark} padding={16}>
             <View style={defaultStyles.centerHorizontallyBetween}>
-              <Body color="white">Total Savings</Body>
-              <Body color="white">PHP 100,000</Body>
+              <Body text="Total Savings" color="white" />
+              <Body text="PHP 100,000" color="white" />
             </View>
             <VerticalSpace spacer={8} />
-            <Title color="white">PHP 190,000</Title>
+            <Title text="NAN" color="white" />
           </OffsetContainer>
 
           <VerticalSpace spacer={16} />
@@ -69,7 +69,7 @@ export const HomeScreen: React.FC = () => {
           <>
             <View style={defaultStyles.centerAlignHorizontally}>
               <View style={[defaultStyles.flex1, defaultStyles.px8]}>
-                <Subtitle>Goals</Subtitle>
+                <Subtitle text="Goals" />
               </View>
               {savingsMockData && (
                 <Button
@@ -100,7 +100,7 @@ export const HomeScreen: React.FC = () => {
           <VerticalSpace spacer={16} />
 
           <View style={defaultStyles.px8}>
-            <Subtitle>Expenses</Subtitle>
+            <Subtitle text="Expenses" />
           </View>
 
           <BottomSheetModal
@@ -118,7 +118,7 @@ export const HomeScreen: React.FC = () => {
                 backgroundColor: colors.background,
               }}
             >
-              <Label>Awesome 🎉</Label>
+              <Label text="Awesome 🎉" />
             </BottomSheetView>
           </BottomSheetModal>
 

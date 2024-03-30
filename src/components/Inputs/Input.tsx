@@ -24,9 +24,7 @@ export const Input: React.FC<InputProps> = ({
   return (
     <View style={defaultStyles.pb16}>
       {label && (
-        <Body fontWeight="500" style={defaultStyles.px8}>
-          {label}
-        </Body>
+        <Body text={label} fontWeight="500" style={defaultStyles.px8} />
       )}
       <OffsetContainer>
         <View style={defaultStyles.centerHorizontally}>
@@ -46,9 +44,11 @@ export const Input: React.FC<InputProps> = ({
       </OffsetContainer>
       <VerticalSpace spacer={4} />
       {errorMessage && (
-        <Caption color={colors.danger} style={defaultStyles.pl8}>
-          {errorMessage}
-        </Caption>
+        <Caption
+          text={errorMessage}
+          color={colors.danger}
+          style={defaultStyles.pl8}
+        />
       )}
     </View>
   );

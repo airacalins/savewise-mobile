@@ -38,13 +38,17 @@ export const DeleteModal = ({
             color={colors.dark}
           />
           <VerticalSpace spacer={24} />
-          <Subtitle fontWeight="400" style={defaultStyles.textCenter}>
-            {title}
-          </Subtitle>
+          <Subtitle
+            text={title}
+            fontWeight="400"
+            style={defaultStyles.textCenter}
+          />
           <VerticalSpace spacer={8} />
-          <Subtitle fontWeight="400" style={defaultStyles.textCenter}>
-            {subTitle}
-          </Subtitle>
+          <Subtitle
+            text={subTitle}
+            fontWeight="400"
+            style={defaultStyles.textCenter}
+          />
           <VerticalSpace spacer={24} />
           <View style={defaultStyles.w100}>
             <Button

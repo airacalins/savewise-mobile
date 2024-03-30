@@ -26,13 +26,10 @@ export const GoalCard: React.FC<GoalCardProps> = ({
 
   return (
     <OffsetContainer padding={16} backgroundColor={colors.dark}>
-      <Body fontWeight="500" color={colors.white}>
-        {title}
-      </Body>
+      <Body text={title} fontWeight="500" color={colors.white} />
       <VerticalSpace spacer={8} />
-      <Caption color={colors.white}>Every 2nd of the month</Caption>
+      <Caption text="Every 2nd of the month" color={colors.white} />
       <VerticalSpace spacer={16} />
-
       <Progress.Bar
         borderWidth={0}
         color={colors.white}
@@ -43,12 +40,12 @@ export const GoalCard: React.FC<GoalCardProps> = ({
       />
       <VerticalSpace spacer={16} />
       <View style={defaultStyles.centerHorizontallyBetween}>
-        <Body fontWeight="400" color={colors.white}>
-          {percentage}
-        </Body>
-        <Body fontWeight="500" color={colors.white}>
-          PHP {Math.abs(targetAmount)}
-        </Body>
+        <Body text={percentage} fontWeight="400" color={colors.white} />
+        <Body
+          text={`PHP ${Math.abs(targetAmount)}`}
+          fontWeight="500"
+          color={colors.white}
+        />
       </View>
     </OffsetContainer>
   );

@@ -6,6 +6,7 @@ import { Subtitle, Title } from "../../../components/Typography";
 import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { OffsetContainer } from "../../../components/Container";
+import { PESO_SIGN } from "../../../utils/string";
 
 interface FundLabelsCardProps {
   title: string;
@@ -24,13 +25,13 @@ export const FundLabelsCard: React.FC<FundLabelsCardProps> = ({
     <>
       <View style={defaultStyles.centerHorizontallyBetween}>
         <View style={defaultStyles.px8}>
-          <Subtitle>{title}</Subtitle>
+          <Subtitle text={title} />
         </View>
         <Button title="Manage" uppercase onPress={onCreateFundLabel} />
       </View>
       <OffsetContainer>
         <View style={styles.headerContainer}>
-          <Title>₱ {total.toLocaleString()}</Title>
+          <Title text={`${PESO_SIGN} ${total.toLocaleString()}`} />
         </View>
         {ListComponent}
       </OffsetContainer>

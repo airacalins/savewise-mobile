@@ -73,7 +73,7 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
 
   return months.map((month) => (
     <View key={`${year}${month}`}>
-      <Text>{`${getMonthName(+month)} ${year}`}</Text>
+      <Text text={`${getMonthName(+month)} ${year}`} />
 
       <VerticalSpace spacer={8} />
       {fundsByMonth[month].map((fund: Fund, index: number) => {
@@ -92,7 +92,7 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
                 >
                   <Feather name="trash" size={16} color={colors.white} />
                   <HorizontalSpace spacer={8} />
-                  <Body style={defaultStyles.textWhite}>Delete</Body>
+                  <Body text="Delete" style={defaultStyles.textWhite} />
                 </TouchableOpacity>
               </View>
             )}
@@ -101,8 +101,8 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
               onPress={() => handleNavigateToFundDetails(id)}
               LeadingComponent={
                 <View style={styles.dateContainer}>
-                  <Body>{moment(date).format("MMM")}</Body>
-                  <Body>{moment(date).format("DD")}</Body>
+                  <Body text={moment(date).format("MMM")} />
+                  <Body text={moment(date).format("DD")} />
                 </View>
               }
               IconComponent={
@@ -114,22 +114,25 @@ export const MonthlyFund: React.FC<MonthlyFundProps> = ({ year, funds }) => {
               }
               TitleComponent={
                 <View>
-                  <Body>{title}</Body>
+                  <Body text={title} />
                 </View>
               }
               SubtitleComponent={
-                <Caption>
-                  {amount > 0
-                    ? `You added ${amount.toLocaleString()} to your fund`
-                    : `You deducted ${Math.abs(
-                        amount
-                      ).toLocaleString()} from your fund`}
-                </Caption>
+                <Caption
+                  text={
+                    amount > 0
+                      ? `You added ${amount.toLocaleString()} to your fund`
+                      : `You deducted ${Math.abs(
+                          amount
+                        ).toLocaleString()} from your fund`
+                  }
+                />
               }
               TrailingComponent={
-                <Body color={amount < 0 ? colors.danger : colors.success}>
-                  {Math.abs(amount).toLocaleString()}
-                </Body>
+                <Body
+                  text={Math.abs(amount).toLocaleString()}
+                  color={amount < 0 ? colors.danger : colors.success}
+                />
               }
               verticalPadding={8}
             />

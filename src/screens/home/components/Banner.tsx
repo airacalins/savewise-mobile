@@ -26,8 +26,8 @@ export const Banner: React.FC<BannerProps> = ({ name, image }) => {
         <CircularImage source={image} />
         <HorizontalSpace spacer={16} />
         <View>
-          <Body>Hello,</Body>
-          <Header>{name}</Header>
+          <Body text="Hello," />
+          <Header text={name} />
         </View>
       </View>
 

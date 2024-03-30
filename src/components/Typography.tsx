@@ -10,7 +10,7 @@ import {
 import { colors } from "../layouts/Colors";
 
 interface TypographyProps extends TextProps {
-  children: React.ReactNode;
+  text: string;
   color?: string;
   fontWeight?:
     | "normal"
@@ -30,12 +30,11 @@ interface TypographyProps extends TextProps {
 }
 
 export const Header: React.FC<TypographyProps> = ({
-  children,
+  text,
   color = colors.dark,
   fontWeight = "500",
   uppercase,
   style,
-  ...props
 }) => (
   <Text
     style={[
@@ -43,18 +42,17 @@ export const Header: React.FC<TypographyProps> = ({
       {
         color,
         textTransform: uppercase ? "uppercase" : "none",
-        fontWeight: fontWeight,
+        fontWeight,
       },
       style,
     ]}
-    {...props}
   >
-    {children}
+    {text}
   </Text>
 );
 
 export const Title: React.FC<TypographyProps> = ({
-  children,
+  text,
   color = colors.dark,
   fontWeight = "500",
   uppercase,
@@ -73,12 +71,12 @@ export const Title: React.FC<TypographyProps> = ({
     ]}
     {...props}
   >
-    {children}
+    {text}
   </Text>
 );
 
 export const Subtitle: React.FC<TypographyProps> = ({
-  children,
+  text,
   color = colors.dark,
   fontWeight = "500",
   uppercase,
@@ -97,12 +95,12 @@ export const Subtitle: React.FC<TypographyProps> = ({
     ]}
     {...props}
   >
-    {children}
+    {text}
   </Text>
 );
 
 export const Body: React.FC<TypographyProps> = ({
-  children,
+  text,
   color = colors.dark,
   fontWeight = "300",
   uppercase,
@@ -121,12 +119,12 @@ export const Body: React.FC<TypographyProps> = ({
     ]}
     {...props}
   >
-    {children}
+    {text}
   </Text>
 );
 
 export const Caption: React.FC<TypographyProps> = ({
-  children,
+  text,
   color = colors.dark,
   fontWeight = "300",
   uppercase,
@@ -145,12 +143,12 @@ export const Caption: React.FC<TypographyProps> = ({
     ]}
     {...props}
   >
-    {children}
+    {text}
   </Text>
 );
 
 export const Label: React.FC<TypographyProps> = ({
-  children,
+  text,
   color = colors.dark,
   fontWeight = "300",
   uppercase,
@@ -170,7 +168,7 @@ export const Label: React.FC<TypographyProps> = ({
     ]}
     {...props}
   >
-    {children}
+    {text}
   </Text>
 );
 

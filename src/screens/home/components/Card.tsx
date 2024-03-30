@@ -23,9 +23,9 @@ export const Card: React.FC<CardProps> = ({
         {LeadingIconComponent}
         <HorizontalSpace spacer={16} />
         <View>
-          <Label>{title}</Label>
+          <Label text={title} />
           <VerticalSpace spacer={8} />
-          <Title>{subtitle}</Title>
+          <Title text={subtitle} />
         </View>
       </View>
     </OffsetContainer>

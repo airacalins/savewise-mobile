@@ -64,11 +64,12 @@ export const FundLabelItem = ({
       )}
     >
       <TouchableOpacity onPress={onNavigateToDetails} style={styles.item}>
-        <Caption>{fundLabel.title}</Caption>
+        <Caption text={fundLabel.title} />
         <View style={defaultStyles.centerHorizontally}>
-          <Caption fontWeight="500">
-            PHP {totalFundPerLabel.toLocaleString()}
-          </Caption>
+          <Caption
+            text={`PHP ${totalFundPerLabel.toLocaleString()}`}
+            fontWeight="500"
+          />
           <HorizontalSpace spacer={8} />
           <MaterialCommunityIcons
             name="greater-than"

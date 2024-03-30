@@ -56,17 +56,17 @@ export const AddFundLabelActionBottomSheet = React.forwardRef<
               />
             </TouchableOpacity>
           </View>
-          <Subtitle>Select Action</Subtitle>
+          <Subtitle text="Select Action" />
         </View>
         <VerticalSpace spacer={16} />
         <View style={defaultStyles.p16}>
           <TouchableOpacity onPress={onAddIncomeLabel}>
-            <Body>Add</Body>
+            <Body text="Add" />
           </TouchableOpacity>
         </View>
         <View style={defaultStyles.dottedSeparator} />
         <View style={defaultStyles.p16}>
-          <Body>View History</Body>
+          <Body text="View History" />
         </View>
       </BottomSheetView>
     </BottomSheetModal>
