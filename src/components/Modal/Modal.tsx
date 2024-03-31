@@ -12,7 +12,7 @@ import { colors } from "../../layouts/Colors";
 interface ModalProps {
   modalVisible: boolean;
   contents: React.ReactNode;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -25,13 +25,15 @@ export const Modal: React.FC<ModalProps> = ({
       <RNModal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TouchableOpacity onPress={onClose}>
-              <MaterialCommunityIcons
-                style={styles.closeIcon}
-                name="close"
-                size={20}
-              />
-            </TouchableOpacity>
+            {onClose && (
+              <TouchableOpacity onPress={onClose}>
+                <MaterialCommunityIcons
+                  style={styles.closeIcon}
+                  name="close"
+                  size={20}
+                />
+              </TouchableOpacity>
+            )}
             <View style={styles.contents}>{contents}</View>
           </View>
         </View>

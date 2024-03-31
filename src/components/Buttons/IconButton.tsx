@@ -13,7 +13,7 @@ interface IconButtonProps extends TouchableOpacityProps {
 }
 
 export const IconButton: React.FC<IconButtonProps> = ({
-  size,
+  size = "S",
   title,
   IconComponent,
   ...props
@@ -37,7 +37,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
           {title && (
             <>
               <HorizontalSpace spacer={8} />
-              <Subtitle>{title}</Subtitle>
+              <Subtitle text={title} />
             </>
           )}
         </View>

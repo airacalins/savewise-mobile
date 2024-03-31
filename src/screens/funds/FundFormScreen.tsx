@@ -79,7 +79,6 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
         />
       ),
     });
-    console.log("🚀 ~ useEffect ~ formState.isValid:", formState.isValid);
   }, [navigation, formState]);
 
   useEffect(() => {

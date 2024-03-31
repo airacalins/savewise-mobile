@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { AntDesign } from "@expo/vector-icons";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, TouchableOpacity, View } from "react-native";
 
 import { FundLabelFormModal } from "./components/FundLabelFormModal";
 import { AddFundLabelActionBottomSheet } from "./components/AddFundLabelActionBottomSheet";
@@ -16,7 +17,7 @@ import { fetchFunds } from "../../store/funds/action";
 import { FundActionBottomSheet } from "./components/FundActionBottomSheet";
 import { FundLabel, FundLabelType } from "../../store/fundLabels/types";
 import { FundStackProps } from "../../navigation/FundStackNavigator";
-import { Body, Header, Subtitle } from "../../components/Typography";
+import { Body, Header, Subtitle, Title } from "../../components/Typography";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { FundLabelsCard } from "./components/FundLabelsCard";
 import { OffsetContainer } from "../../components/Container";
@@ -28,7 +29,9 @@ import { Separator } from "../../components/Separator/Separator";
 import { setSelectedFundLabel } from "../../store/fundLabels/reducer";
 import { DeleteModal } from "../../components/Modal/DeleteModal";
 import { PESO_SIGN } from "../../utils/string";
-import moment from "moment";
+import { Modal } from "../../components/Modal/Modal";
+import { MonthYearPicker } from "../../components/Inputs/MonthYearPicker";
+import { IconButton } from "../../components/Buttons/IconButton";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
@@ -47,11 +50,11 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   const fundsActionBottomSheetRef = useRef<BottomSheetModalMethods>(null);
   const createFundLabelActionBottomSheetRef =
     useRef<BottomSheetModalMethods>(null);
-
   const [isFundLabelFormModalVisible, setIsFundLabelFormModalVisible] =
     useState(false);
   const [isDeleteFundLabelModalVisible, setIsDeleteFundLabelModalVisible] =
     useState(false);
+  const [isMonthYearModalVisible, setIsMonthYearModalVisible] = useState(false);
   const [fundLabelType, setFundLabelType] = useState(FundLabelType.Income);
 
   console.log("🚀 ~ FundsScreen ~ selectedFundLabel:", selectedFundLabel);
@@ -116,6 +119,10 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     setIsDeleteFundLabelModalVisible(false);
   };
 
+  const handleShowMonthYearCalendarModal = () => {
+    setIsMonthYearModalVisible(true);
+  };
+
   // Navigations
   const handleNavigateToFundFormScreen = (fundLabelType: FundLabelType) => {
     fundsActionBottomSheetRef.current?.dismiss();
@@ -149,6 +156,12 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     }
   };
 
+  const handleMonthChange = () => {
+    setIsMonthYearModalVisible(false);
+  };
+
+  const handleYearChange = () => {};
+
   if (isFetchingFunds && isFetchingFundLabels) return <LoadingScreen />;
 
   return (
@@ -156,7 +169,27 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       isRefreshing={isFetchingFunds && isFetchingFundLabels}
       onRefresh={handlePullToRefresh}
     >
-      <View>
+      <TouchableOpacity onPress={handleShowMonthYearCalendarModal}>
+        <OffsetContainer padding={16}>
+          <View style={defaultStyles.centerHorizontallyBetween}>
+            <Subtitle text="Mar 2023" />
+            <AntDesign name="calendar" size={20} color={colors.dark} />
+          </View>
+        </OffsetContainer>
+      </TouchableOpacity>
+      <VerticalSpace spacer={8} />
+      <Modal
+        modalVisible={isMonthYearModalVisible}
+        contents={
+          <MonthYearPicker
+            selectedDate={new Date()}
+            onMonthTapped={handleMonthChange}
+            onYearChanged={handleYearChange}
+          />
+        }
+      />
+
+      <View style={defaultStyles.centerHorizontallyBetween}>
         <View style={defaultStyles.px8}>
           <Subtitle text="Total Funds" />
         </View>
