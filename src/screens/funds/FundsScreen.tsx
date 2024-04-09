@@ -12,12 +12,17 @@ import {
   deleteFundLabel,
   fetchFundLabelById,
   fetchFundLabels,
+  fetchFundLabelsByYearAndMonth,
 } from "../../store/fundLabels/action";
 import { fetchFunds } from "../../store/funds/action";
 import { FundActionBottomSheet } from "./components/FundActionBottomSheet";
-import { FundLabel, FundLabelType } from "../../store/fundLabels/types";
+import {
+  FundLabelViewModel,
+  FundLabelType,
+  FundLabelsByYearAndMonth,
+} from "../../store/fundLabels/types";
 import { FundStackProps } from "../../navigation/FundStackNavigator";
-import { Body, Header, Subtitle, Title } from "../../components/Typography";
+import { Header, Subtitle } from "../../components/Typography";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { FundLabelsCard } from "./components/FundLabelsCard";
 import { OffsetContainer } from "../../components/Container";
@@ -31,7 +36,7 @@ import { DeleteModal } from "../../components/Modal/DeleteModal";
 import { PESO_SIGN } from "../../utils/string";
 import { Modal } from "../../components/Modal/Modal";
 import { MonthYearPicker } from "../../components/Inputs/MonthYearPicker";
-import { IconButton } from "../../components/Buttons/IconButton";
+import moment from "moment";
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
   const dispatch = useAppDispatch();
@@ -57,11 +62,16 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   const [isMonthYearModalVisible, setIsMonthYearModalVisible] = useState(false);
   const [fundLabelType, setFundLabelType] = useState(FundLabelType.Income);
 
-  console.log("🚀 ~ FundsScreen ~ selectedFundLabel:", selectedFundLabel);
+  const currentDate = new Date();
+  const currentYear = moment(currentDate).format("YYYY");
+  const currentMonth = moment(currentDate).format("M");
+  const currentMonthAndYear = { year: +currentYear, month: +currentMonth };
+  const [selectedMonthAndYear, setSelectedMonthAndYear] =
+    useState<FundLabelsByYearAndMonth>(currentMonthAndYear);
 
   useEffect(() => {
     dispatch(fetchFunds());
-    dispatch(fetchFundLabels());
+    dispatch(fetchFundLabelsByYearAndMonth(selectedMonthAndYear));
   }, []);
 
   const totalIncome = useMemo(
@@ -109,7 +119,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     setIsFundLabelFormModalVisible(false);
   };
 
-  const handleShowDeleteFundLabelModal = (item: FundLabel) => {
+  const handleShowDeleteFundLabelModal = (item: FundLabelViewModel) => {
     dispatch(setSelectedFundLabel(item));
     setIsDeleteFundLabelModalVisible(true);
   };
@@ -129,7 +139,9 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     navigation.navigate("FundForm", { fundLabelType });
   };
 
-  const handleNavigateToFundByFundLabelDetails = (fundLabel: FundLabel) => {
+  const handleNavigateToFundByFundLabelDetails = (
+    fundLabel: FundLabelViewModel
+  ) => {
     dispatch(setSelectedFundLabel(fundLabel));
     navigation.navigate("FundDetails", { fundLabel });
   };
@@ -140,7 +152,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     dispatch(fetchFundLabels());
   };
 
-  const handleEditFundLabel = (fundLabel: FundLabel) => {
+  const handleEditFundLabel = (fundLabel: FundLabelViewModel) => {
     setIsFundLabelFormModalVisible(true);
     dispatch(fetchFundLabelById(fundLabel.id));
   };
@@ -156,11 +168,17 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     }
   };
 
-  const handleMonthChange = () => {
+  const handleMonthChange = (date: moment.Moment) => {
+    const month = date.format("M");
+    setSelectedMonthAndYear({ ...selectedMonthAndYear, month: +month });
+    dispatch(fetchFundLabelsByYearAndMonth(selectedMonthAndYear));
     setIsMonthYearModalVisible(false);
   };
 
-  const handleYearChange = () => {};
+  const handleYearChange = (date: moment.Moment) => {
+    const year = date.format("YYYY");
+    setSelectedMonthAndYear({ ...selectedMonthAndYear, year: +year });
+  };
 
   if (isFetchingFunds && isFetchingFundLabels) return <LoadingScreen />;
 
@@ -172,7 +190,11 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <TouchableOpacity onPress={handleShowMonthYearCalendarModal}>
         <OffsetContainer padding={16}>
           <View style={defaultStyles.centerHorizontallyBetween}>
-            <Subtitle text="Mar 2023" />
+            <Subtitle
+              text={`${moment()
+                .month(+selectedMonthAndYear.month - 1)
+                .format("MMM")} ${selectedMonthAndYear.year}`}
+            />
             <AntDesign name="calendar" size={20} color={colors.dark} />
           </View>
         </OffsetContainer>
@@ -182,7 +204,17 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
         modalVisible={isMonthYearModalVisible}
         contents={
           <MonthYearPicker
-            selectedDate={new Date()}
+            selectedDate={
+              new Date(
+                +selectedMonthAndYear.year,
+                +selectedMonthAndYear.month - 1
+              )
+            }
+            initialView={moment({
+              year: +selectedMonthAndYear.year,
+              month: +selectedMonthAndYear.month - 1,
+              day: 1,
+            })}
             onMonthTapped={handleMonthChange}
             onYearChanged={handleYearChange}
           />

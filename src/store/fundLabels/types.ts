@@ -1,8 +1,8 @@
 export interface FundLabelsState {
   isFetching: boolean;
-  incomeLabels: FundLabel[];
-  expenseLabels: FundLabel[];
-  selectedFundLabel?: FundLabel;
+  incomeLabels: FundLabelViewModel[];
+  expenseLabels: FundLabelViewModel[];
+  selectedFundLabel?: FundLabelViewModel;
 }
 
 export enum FundLabelType {
@@ -10,16 +10,20 @@ export enum FundLabelType {
   Expense,
 }
 
-export interface FundLabel {
+export interface FundLabelViewModel {
   id: string;
   title: string;
   fundLabelType: FundLabelType;
   isDeleted: boolean;
 }
 
-export interface CreateFundLabelInput {
+export interface CreateFundLabelInputModel {
   title: string;
   fundLabelType: FundLabelType;
+}
+
+export interface UpdateFundLabelInputModel {
+  title: string;
 }
 
 export interface UpdateFundLabel {
@@ -27,6 +31,7 @@ export interface UpdateFundLabel {
   title: string;
 }
 
-export interface UpdateFundLabelInput {
-  title: string;
+export interface FundLabelsByYearAndMonth {
+  year: number;
+  month: number;
 }

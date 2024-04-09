@@ -1,4 +1,4 @@
-import { FundLabel } from "../fundLabels/types";
+import { FundLabelViewModel } from "../fundLabels/types";
 
 export interface FundsState {
   isFetching: boolean;
@@ -12,7 +12,7 @@ export interface FundsState {
 
 export interface Fund {
   id: string;
-  fundLabel: FundLabel;
+  fundLabel: FundLabelViewModel;
   image: string;
   title: string;
   amount: number;

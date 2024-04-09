@@ -1,14 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import {
-  FundLabel,
-  CreateFundLabelInput,
-  UpdateFundLabelInput,
+  FundLabelViewModel,
+  CreateFundLabelInputModel,
+  UpdateFundLabelInputModel,
   UpdateFundLabel,
+  FundLabelsByYearAndMonth,
 } from "./types";
 import { request } from "../../api/agent";
 
-export const fetchFundLabels = createAsyncThunk<FundLabel[]>(
+export const fetchFundLabels = createAsyncThunk<FundLabelViewModel[]>(
   "fetchFundLabels",
   async (_, thunkAPI) => {
     try {
@@ -19,7 +20,18 @@ export const fetchFundLabels = createAsyncThunk<FundLabel[]>(
   }
 );
 
-export const fetchFundLabelById = createAsyncThunk<FundLabel, string>(
+export const fetchFundLabelsByYearAndMonth = createAsyncThunk<
+  FundLabelViewModel[],
+  FundLabelsByYearAndMonth
+>("fetchFundLabelsByYearAndMonth", async ({ year, month }, thunkAPI) => {
+  try {
+    return await request.get(`/fundLabels/year/${year}/month/${month}`);
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue({ error: error.data });
+  }
+});
+
+export const fetchFundLabelById = createAsyncThunk<FundLabelViewModel, string>(
   "fetchFundLabelById",
   async (id, thunkAPI) => {
     try {
@@ -31,8 +43,8 @@ export const fetchFundLabelById = createAsyncThunk<FundLabel, string>(
 );
 
 export const createFundLabel = createAsyncThunk<
-  FundLabel,
-  CreateFundLabelInput
+  FundLabelViewModel,
+  CreateFundLabelInputModel
 >("createFundLabel", async (fundLabel, thunkAPI) => {
   try {
     return await request.post("/fundLabels", fundLabel);
@@ -45,7 +57,7 @@ export const updateFundLabel = createAsyncThunk<boolean, UpdateFundLabel>(
   "updateFundLabel",
   async (updateFundLabel, thunkAPI) => {
     try {
-      const fundLabel: UpdateFundLabelInput = {
+      const fundLabel: UpdateFundLabelInputModel = {
         title: updateFundLabel.title,
       };
 

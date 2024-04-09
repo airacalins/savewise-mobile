@@ -11,10 +11,10 @@ import { colors } from "../../../layouts/Colors";
 import { defaultStyles } from "../../../layouts/DefaultStyles";
 import { HorizontalSpace } from "../../../components/Spacer";
 import { Swipeable } from "react-native-gesture-handler";
-import { FundLabel } from "../../../store/fundLabels/types";
+import { FundLabelViewModel } from "../../../store/fundLabels/types";
 
 interface FundLabelItemProps {
-  fundLabel: FundLabel;
+  fundLabel: FundLabelViewModel;
   totalFundPerLabel: number;
   onEditFundLabel: () => void;
   onDeleteFundLabel: () => void;

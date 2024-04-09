@@ -1,10 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { FundLabel, FundLabelType, FundLabelsState } from "./types";
+import { FundLabelViewModel, FundLabelType, FundLabelsState } from "./types";
 import {
   createFundLabel,
   deleteFundLabel,
   fetchFundLabelById,
   fetchFundLabels,
+  fetchFundLabelsByYearAndMonth,
   updateFundLabel,
 } from "./action";
 
@@ -21,7 +22,7 @@ export const fundLabelsSlice = createSlice({
   reducers: {
     setSelectedFundLabel: (
       state: FundLabelsState,
-      action: PayloadAction<FundLabel | undefined>
+      action: PayloadAction<FundLabelViewModel | undefined>
     ) => {
       state.selectedFundLabel = action.payload;
     },
@@ -41,6 +42,26 @@ export const fundLabelsSlice = createSlice({
       );
     });
     builder.addCase(fetchFundLabels.rejected, (state, _) => {
+      state.isFetching = false;
+    });
+
+    // Get fund labels by year and month
+    builder.addCase(fetchFundLabelsByYearAndMonth.pending, (state, _) => {
+      state.isFetching = true;
+    });
+    builder.addCase(
+      fetchFundLabelsByYearAndMonth.fulfilled,
+      (state, action) => {
+        state.isFetching = false;
+        state.incomeLabels = action.payload.filter(
+          (fundLabel) => fundLabel.fundLabelType === FundLabelType.Income
+        );
+        state.expenseLabels = action.payload.filter(
+          (fundLabel) => fundLabel.fundLabelType === FundLabelType.Expense
+        );
+      }
+    );
+    builder.addCase(fetchFundLabelsByYearAndMonth.rejected, (state, _) => {
       state.isFetching = false;
     });
 

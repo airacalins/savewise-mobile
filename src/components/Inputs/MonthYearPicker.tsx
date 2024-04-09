@@ -9,20 +9,24 @@ import { StyleSheet } from "react-native";
 
 interface MonthYearPickerProps {
   selectedDate: Date | undefined;
-  onMonthTapped: () => void;
-  onYearChanged: () => void;
+  initialView: moment.Moment;
+  onMonthTapped: (date: moment.Moment) => void;
+  onYearChanged: (date: moment.Moment) => void;
 }
 
 export const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
   selectedDate,
+  initialView,
   onMonthTapped,
   onYearChanged,
 }) => {
   return (
     <MonthSelectorCalendar
+      selectedDate={moment(selectedDate)}
+      initialView={initialView}
+      maxDate={moment(new Date()).add(5, "years")}
       onMonthTapped={onMonthTapped}
       onYearChanged={onYearChanged}
-      selectedDate={moment(selectedDate)}
       containerStyle={{ backgroundColor: "transparent" }}
       prevIcon={
         <OffsetContainer padding={8}>

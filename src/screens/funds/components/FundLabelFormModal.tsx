@@ -11,7 +11,7 @@ import {
   updateFundLabel,
 } from "../../../store/fundLabels/action";
 import {
-  CreateFundLabelInput,
+  CreateFundLabelInputModel,
   FundLabelType,
   UpdateFundLabel,
 } from "../../../store/fundLabels/types";
@@ -69,7 +69,7 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
   }, []);
 
   const handleCreateFundLabel = async (data: FormValues) => {
-    const fundLabel: CreateFundLabelInput = {
+    const fundLabel: CreateFundLabelInputModel = {
       title: data.title,
       fundLabelType,
     };
