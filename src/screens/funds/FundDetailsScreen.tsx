@@ -7,7 +7,6 @@ import { Button } from "../../components/Buttons/Button";
 import { Caption } from "../../components/Typography";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { fetchFundsByFundLabelId } from "../../store/funds/action";
-import { Fund } from "../../store/funds/types";
 import { FundsStackParamList } from "../../navigation/FundStackNavigator";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { OffsetContainer } from "../../components/Container";
@@ -24,6 +23,13 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
   const { fundLabel } = route.params;
   const dispatch = useAppDispatch();
   const { isFetching, fundsPerLabel } = useAppSelector((state) => state.fund);
+  const { selectedMonthAndYear } = useAppSelector((state) => state.fundLabel);
+
+  const { month, year } = selectedMonthAndYear;
+
+  useEffect(() => {
+    dispatch(fetchFundsByFundLabelId(fundLabel.id));
+  }, [fundLabel.id]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -39,10 +45,6 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
       ),
     });
   }, [navigation]);
-
-  useEffect(() => {
-    dispatch(fetchFundsByFundLabelId(fundLabel.id));
-  }, [fundLabel.id]);
 
   const handleNavigateToFundFormScreen = () => {
     navigation.navigate("FundForm", { fundLabelType: fundLabel.fundLabelType });

@@ -1,5 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { FundLabelViewModel, FundLabelType, FundLabelsState } from "./types";
+import {
+  FundLabelViewModel,
+  FundLabelType,
+  FundLabelsState,
+  MonthAndYear,
+} from "./types";
 import {
   createFundLabel,
   deleteFundLabel,
@@ -9,11 +14,17 @@ import {
   updateFundLabel,
 } from "./action";
 
+const currentDate = new Date();
+
 export const initialState: FundLabelsState = {
   isFetching: false,
   incomeLabels: [],
   expenseLabels: [],
   selectedFundLabel: undefined,
+  selectedMonthAndYear: {
+    year: currentDate.getFullYear(),
+    month: currentDate.getMonth() + 1,
+  },
 };
 
 export const fundLabelsSlice = createSlice({
@@ -25,6 +36,12 @@ export const fundLabelsSlice = createSlice({
       action: PayloadAction<FundLabelViewModel | undefined>
     ) => {
       state.selectedFundLabel = action.payload;
+    },
+    setSelectedMonthAndYear: (
+      state: FundLabelsState,
+      action: PayloadAction<MonthAndYear>
+    ) => {
+      state.selectedMonthAndYear = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -113,6 +130,7 @@ export const fundLabelsSlice = createSlice({
   },
 });
 
-export const { setSelectedFundLabel } = fundLabelsSlice.actions;
+export const { setSelectedFundLabel, setSelectedMonthAndYear } =
+  fundLabelsSlice.actions;
 
 export const fundLabelReducer = fundLabelsSlice.reducer;

@@ -191,6 +191,10 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
                 <RNDateTimePicker
                   onChange={(_, date) => onChange(date)}
                   value={value}
+                  minimumDate={
+                    new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+                  }
+                  maximumDate={new Date()}
                   mode="date"
                 />
               )}

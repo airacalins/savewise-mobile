@@ -24,7 +24,7 @@ export const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
     <MonthSelectorCalendar
       selectedDate={moment(selectedDate)}
       initialView={initialView}
-      maxDate={moment(new Date()).add(5, "years")}
+      maxDate={moment(new Date())}
       onMonthTapped={onMonthTapped}
       onYearChanged={onYearChanged}
       containerStyle={{ backgroundColor: "transparent" }}

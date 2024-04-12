@@ -5,7 +5,7 @@ import {
   CreateFundLabelInputModel,
   UpdateFundLabelInputModel,
   UpdateFundLabel,
-  FundLabelsByYearAndMonth,
+  MonthAndYear,
 } from "./types";
 import { request } from "../../api/agent";
 
@@ -22,7 +22,7 @@ export const fetchFundLabels = createAsyncThunk<FundLabelViewModel[]>(
 
 export const fetchFundLabelsByYearAndMonth = createAsyncThunk<
   FundLabelViewModel[],
-  FundLabelsByYearAndMonth
+  MonthAndYear
 >("fetchFundLabelsByYearAndMonth", async ({ year, month }, thunkAPI) => {
   try {
     return await request.get(`/fundLabels/year/${year}/month/${month}`);

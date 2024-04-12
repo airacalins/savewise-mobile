@@ -3,6 +3,7 @@ export interface FundLabelsState {
   incomeLabels: FundLabelViewModel[];
   expenseLabels: FundLabelViewModel[];
   selectedFundLabel?: FundLabelViewModel;
+  selectedMonthAndYear: MonthAndYear;
 }
 
 export enum FundLabelType {
@@ -14,7 +15,8 @@ export interface FundLabelViewModel {
   id: string;
   title: string;
   fundLabelType: FundLabelType;
-  isDeleted: boolean;
+  dateCreated: string;
+  dateDeleted?: string;
 }
 
 export interface CreateFundLabelInputModel {
@@ -31,7 +33,7 @@ export interface UpdateFundLabel {
   title: string;
 }
 
-export interface FundLabelsByYearAndMonth {
+export interface MonthAndYear {
   year: number;
   month: number;
 }
