@@ -10,7 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import { fetchFundLabels } from "../../store/fundLabels/action";
+import {
+  fetchFundLabels,
+  fetchFundLabelsByYearAndMonth,
+} from "../../store/fundLabels/action";
 import { FundLabelFormModal } from "./components/FundLabelFormModal";
 import { FundLabelType } from "../../store/fundLabels/types";
 import { FundsStackParamList } from "../../navigation/FundStackNavigator";
@@ -54,17 +57,33 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
   const fundLabelType = route.params?.fundLabelType;
   100;
   const dispatch = useAppDispatch();
-  const { isFetching, incomeLabels, expenseLabels, selectedFundLabel } =
-    useAppSelector((state) => state.fundLabel);
+  const {
+    isFetching,
+    incomeLabels,
+    expenseLabels,
+    selectedFundLabel,
+    selectedMonthAndYear,
+  } = useAppSelector((state) => state.fundLabel);
   const [isCreateFundLabelModalVisible, setIsCreateFundLabelModalVisible] =
     useState(false);
   const inputAccessoryViewID = "cashInInputAccessory";
+  const { month: selectedMonth, year: selectedYear } = selectedMonthAndYear;
 
   const { control, handleSubmit, formState } = useForm<FormValues>({
     resolver: yupResolver(validationSchema),
     defaultValues: fundDefaultValues,
     mode: "onChange",
   });
+
+  useEffect(() => {
+    dispatch(fetchFundLabelsByYearAndMonth(selectedMonthAndYear));
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSelectedFundLabel(undefined));
+    };
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -81,16 +100,6 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
     });
   }, [navigation, formState]);
 
-  useEffect(() => {
-    dispatch(fetchFundLabels());
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      dispatch(setSelectedFundLabel(undefined));
-    };
-  }, []);
-
   const handleOpenCreateFundLabelModal = () =>
     setIsCreateFundLabelModalVisible(true);
 
@@ -106,6 +115,16 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
     await dispatch(createFund(fund));
     await dispatch(fetchFunds());
     navigation.navigate("Funds");
+  };
+
+  const maximumDate = () => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    return selectedYear === currentYear && selectedMonth === currentMonth
+      ? new Date()
+      : new Date(selectedYear, selectedMonth, 0);
   };
 
   if (formState.isSubmitting || isFetching) return <LoadingScreen />;
@@ -191,10 +210,8 @@ export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
                 <RNDateTimePicker
                   onChange={(_, date) => onChange(date)}
                   value={value}
-                  minimumDate={
-                    new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-                  }
-                  maximumDate={new Date()}
+                  minimumDate={new Date(selectedYear, selectedMonth - 1, 1)}
+                  maximumDate={maximumDate()}
                   mode="date"
                 />
               )}

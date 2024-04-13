@@ -75,7 +75,10 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
               ]}
             >
               <Caption text={format(new Date(item.date), "MMMM d, yyyy")} />
-              <Caption text={`PHP ${item.amount}`} fontWeight="500" />
+              <Caption
+                text={`PHP ${item.amount.toLocaleString()}`}
+                fontWeight="500"
+              />
             </View>
           )}
           ItemSeparatorComponent={Separator}
