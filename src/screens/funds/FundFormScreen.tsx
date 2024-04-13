@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DropDownPicker from "../../components/Inputs/DropDownPicker";
+import moment from "moment";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
@@ -9,11 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button } from "../../components/Buttons/Button";
 import { colors } from "../../layouts/Colors";
+import { createFund, fetchFunds } from "../../store/funds/action";
+import { CreateFundInput } from "../../store/funds/types";
 import { defaultStyles } from "../../layouts/DefaultStyles";
-import {
-  fetchFundLabels,
-  fetchFundLabelsByYearAndMonth,
-} from "../../store/fundLabels/action";
+import { fetchFundLabelsByYearAndMonth } from "../../store/fundLabels/action";
 import { FundLabelFormModal } from "./components/FundLabelFormModal";
 import { FundLabelType } from "../../store/fundLabels/types";
 import { FundsStackParamList } from "../../navigation/FundStackNavigator";
@@ -22,11 +22,8 @@ import { InputAccessory } from "../../components/InputAccessory";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Screen } from "../../components/Screens/Screen";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setSelectedFundLabel } from "../../store/fundLabels/reducer";
-import { CreateFundInput } from "../../store/funds/types";
-import moment from "moment";
-import { createFund, fetchFunds } from "../../store/funds/action";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 type FormValues = {
   fundLabelId: string;
@@ -55,7 +52,6 @@ type FundStackProps = NativeStackScreenProps<FundsStackParamList, "FundForm">;
 
 export const FundFormScreen = ({ navigation, route }: FundStackProps) => {
   const fundLabelType = route.params?.fundLabelType;
-  100;
   const dispatch = useAppDispatch();
   const {
     isFetching,
