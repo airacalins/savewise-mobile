@@ -63,10 +63,7 @@ const DropDownPicker: React.FC<DropDownPickerProps> = ({
           {items.map((item) => (
             <TouchableOpacity
               key={item.id}
-              onPress={() => {
-                console.log(item.label);
-                handleSelectItem(item);
-              }}
+              onPress={() => handleSelectItem(item)}
               style={[defaultStyles.p8, defaultStyles.w100]}
             >
               <Body text={item.label} />

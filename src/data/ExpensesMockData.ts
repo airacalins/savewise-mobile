@@ -1,6 +1,4 @@
-import { FinancialActivity } from "./types";
-
-export const expensesMockData: FinancialActivity[] = [
+export const expensesMockData = [
   {
     id: "8c78f9eb-0ab7-4ef8-b2f4-709946d71f22",
     title: "Groceries",

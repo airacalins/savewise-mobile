@@ -6,9 +6,7 @@ import { defaultStyles } from "../../layouts/DefaultStyles";
 import { Subtitle } from "../Typography";
 
 interface ScreenProps {
-  title?: string;
   children: React.ReactNode;
-  HeaderRightComponent?: React.ReactNode;
 }
 
 export const Screen: React.FC<ScreenProps> = ({ children }) => {

@@ -1,120 +1,143 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import moment from "moment";
 import { AntDesign } from "@expo/vector-icons";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { FlatList, TouchableOpacity, View } from "react-native";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { FundLabelFormModal } from "./components/FundLabelFormModal";
-import { AddFundLabelActionBottomSheet } from "./components/AddFundLabelActionBottomSheet";
-import { Button } from "../../components/Buttons/Button";
+import { FundStackProps } from "../../navigation/FundStackNavigator";
+import { FUNDS_QUERY_KEY, getFundsByYearAndMonth } from "../../api/funds/hooks";
 import { colors } from "../../layouts/Colors";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import {
-  deleteFundLabel,
-  fetchFundLabelById,
-  fetchFundLabelsByYearAndMonth,
-} from "../../store/fundLabels/action";
-import { fetchFunds } from "../../store/funds/action";
-import { FundActionBottomSheet } from "./components/FundActionBottomSheet";
-import {
   FundLabelViewModel,
   FundLabelType,
-  MonthAndYear,
 } from "../../store/fundLabels/types";
-import { FundStackProps } from "../../navigation/FundStackNavigator";
-import { Header, Subtitle } from "../../components/Typography";
-import { LoadingScreen } from "../../components/Screens/LoadingScreen";
-import { FundLabelsCard } from "./components/FundLabelsCard";
-import { OffsetContainer } from "../../components/Container";
-import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { VerticalSpace } from "../../components/Spacer";
-import { FundLabelItem } from "./components/FundLabelItem";
-import { Separator } from "../../components/Separator/Separator";
+
+import { useDialogState } from "../../hooks/useDialogState";
 import {
-  setSelectedFundLabel,
-  setSelectedMonthAndYear,
-} from "../../store/fundLabels/reducer";
-import { DeleteModal } from "../../components/Modal/DeleteModal";
+  FUND_LABEL_QUERY_KEY,
+  getFundLabelsByYearAndMonth,
+} from "../../api/fundLabels/hooks";
+import {
+  FundActionBottomSheet,
+  AddFundLabelActionBottomSheet,
+  FundLabelFormModal,
+  FundLabelItem,
+  FundLabelsCard,
+} from "./components";
+import {
+  Button,
+  Separator,
+  OffsetContainer,
+  Subtitle,
+  VerticalSpace,
+  Modal,
+  MonthYearPicker,
+  DeleteModal,
+  Header,
+} from "../../components";
+import { LoadingScreen } from "../../components/Screens/LoadingScreen";
+import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
 import { PESO_SIGN } from "../../utils/string";
-import { Modal } from "../../components/Modal/Modal";
-import { MonthYearPicker } from "../../components/Inputs/MonthYearPicker";
-import moment from "moment";
-import { Fund } from "../../store/funds/types";
+import { FundLabel } from "../../api/fundLabels/types";
+
+interface SelectedYearAndMonth {
+  year: number;
+  month: number;
+}
 
 export const FundsScreen = ({ navigation }: FundStackProps) => {
-  const dispatch = useAppDispatch();
-  const {
-    isFetching: isFetchingFunds,
-    funds,
-    incomeFunds,
-    expenseFunds,
-  } = useAppSelector((state) => state.fund);
-  const {
-    isFetching: isFetchingFundLabels,
-    selectedFundLabel,
-    incomeLabels,
-    expenseLabels,
-    selectedMonthAndYear,
-  } = useAppSelector((state) => state.fundLabel);
-  const fundsActionBottomSheetRef = useRef<BottomSheetModalMethods>(null);
   const createFundLabelActionBottomSheetRef =
     useRef<BottomSheetModalMethods>(null);
-  const [isFundLabelFormModalVisible, setIsFundLabelFormModalVisible] =
-    useState(false);
-  const [isDeleteFundLabelModalVisible, setIsDeleteFundLabelModalVisible] =
-    useState(false);
-  const [isMonthYearModalVisible, setIsMonthYearModalVisible] = useState(false);
+  const fundsActionBottomSheetRef = useRef<BottomSheetModalMethods>(null);
+  const fundLabelFormModal = useDialogState();
+  const deleteFundConfirmationModal = useDialogState();
+  const yearAndMonthSelectionModal = useDialogState();
   const [fundLabelType, setFundLabelType] = useState(FundLabelType.Income);
-  const { month, year } = selectedMonthAndYear;
-  const [selectedYear, setSelectedYear] = useState<number>(year);
 
-  useEffect(() => {
-    dispatch(fetchFunds());
-    dispatch(fetchFundLabelsByYearAndMonth(selectedMonthAndYear));
-  }, [selectedMonthAndYear]);
-
-  const filterFundsBySelectedMonthAndYear = (funds: Fund[]) => {
-    const filteredFunds = funds.filter((fund) => {
-      const dateCreated = new Date(fund.date);
-
-      return (
-        dateCreated.getMonth() + 1 === month &&
-        dateCreated.getFullYear() === year
-      );
+  const [selectedYearAndMonth, setSelectedYearAndMonth] =
+    useState<SelectedYearAndMonth>({
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
     });
 
-    return filteredFunds;
+  // API Calls
+  const queryClient = useQueryClient();
+
+  const {
+    data: fundsByYearAndMonth,
+    isLoading: isLoadingFundsByYearAndMonth,
+    refetch: refetchFundsByYearAndMonth,
+  } = useQuery({
+    queryFn: () =>
+      getFundsByYearAndMonth(
+        selectedYearAndMonth.year,
+        selectedYearAndMonth.month
+      ),
+    queryKey: [FUNDS_QUERY_KEY],
+  });
+
+  const {
+    data: fundLabelsByYearAndMonth,
+    isLoading: isLoadingFundLabelsByYearAndMonth,
+    refetch: refetchFundLabelsByYearAndMonth,
+  } = useQuery({
+    queryFn: () =>
+      getFundLabelsByYearAndMonth(
+        selectedYearAndMonth.year,
+        selectedYearAndMonth.month
+      ),
+    queryKey: [FUND_LABEL_QUERY_KEY],
+  });
+
+  useEffect(() => {
+    if (selectedYearAndMonth) {
+      queryClient.invalidateQueries({
+        queryKey: [FUNDS_QUERY_KEY],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [FUND_LABEL_QUERY_KEY],
+      });
+    }
+  }, [selectedYearAndMonth, queryClient]);
+
+  // Constants
+  const totalIncomeByYearAndMonth = useMemo(() => {
+    return fundsByYearAndMonth
+      ?.filter((item) => item.fundLabel.fundLabelType === FundLabelType.Income)
+      .reduce((accumulator, item) => accumulator + item.amount, 0);
+  }, [fundsByYearAndMonth]);
+
+  const totalExpenseByYearAndMonth = useMemo(() => {
+    return fundsByYearAndMonth
+      ?.filter((item) => item.fundLabel.fundLabelType === FundLabelType.Expense)
+      .reduce((accumulator, item) => accumulator + item.amount, 0);
+  }, [fundsByYearAndMonth]);
+
+  const totalFunds = useMemo(() => {
+    return (totalIncomeByYearAndMonth ?? 0) - (totalExpenseByYearAndMonth ?? 0);
+  }, [totalIncomeByYearAndMonth, totalExpenseByYearAndMonth]);
+
+  const incomeLabelsByYearAndMonth = useMemo(() => {
+    return fundLabelsByYearAndMonth?.filter(
+      (item) => item.fundLabelType === FundLabelType.Income
+    );
+  }, [fundLabelsByYearAndMonth]);
+
+  const expenseLabelsByYearAndMonth = useMemo(() => {
+    return fundLabelsByYearAndMonth?.filter(
+      (item) => item.fundLabelType === FundLabelType.Expense
+    );
+  }, [fundLabelsByYearAndMonth]);
+
+  // Functions
+  const handlePullToRefresh = () => {
+    refetchFundsByYearAndMonth();
+    refetchFundLabelsByYearAndMonth();
   };
 
-  const totalIncome = useMemo(() => {
-    const filteredIncomesBySelectedMonthAndYear =
-      filterFundsBySelectedMonthAndYear(incomeFunds);
-
-    return filteredIncomesBySelectedMonthAndYear.reduce(
-      (accumulator, fund) => accumulator + fund.amount,
-      0
-    );
-  }, [incomeFunds]);
-
-  const totalExpense = useMemo(() => {
-    const filteredExpensesBySelectedMonthAndYear =
-      filterFundsBySelectedMonthAndYear(expenseFunds);
-
-    return filteredExpensesBySelectedMonthAndYear.reduce(
-      (accumulator, fund) => accumulator + fund.amount,
-      0
-    );
-  }, [expenseFunds]);
-
-  const totalFunds = totalIncome - totalExpense;
-
-  // Show/Hide Bottom Sheets
-  const handleShowFundActionBottomSheet = () =>
-    fundsActionBottomSheetRef.current?.present();
-
-  const handleHideFundActionBottomSheet = () =>
-    fundsActionBottomSheetRef.current?.dismiss();
-
+  // Functions: Show/Hide Bottom Sheets
   const handleShowIncomeActionBottomSheet = () => {
     setFundLabelType(FundLabelType.Income);
     createFundLabelActionBottomSheetRef.current?.present();
@@ -125,32 +148,22 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     createFundLabelActionBottomSheetRef.current?.present();
   };
 
-  const handleHideFundLabelActionBottomSheet = () =>
-    createFundLabelActionBottomSheetRef.current?.dismiss();
-
-  // Show/Hide Modals
+  // Functions: Show/Hide Modals
   const handleShowFundLabelFormModal = () => {
     createFundLabelActionBottomSheetRef.current?.dismiss();
-    setIsFundLabelFormModalVisible(true);
+    fundLabelFormModal.open();
   };
 
   const handleHideFundLabelFormModal = () => {
-    dispatch(setSelectedFundLabel(undefined));
-    setIsFundLabelFormModalVisible(false);
+    fundLabelFormModal.close();
   };
 
   const handleShowDeleteFundLabelModal = (item: FundLabelViewModel) => {
-    dispatch(setSelectedFundLabel(item));
-    setIsDeleteFundLabelModalVisible(true);
+    deleteFundConfirmationModal.open();
   };
 
   const handleHideDeleteFundLabelModal = () => {
-    dispatch(setSelectedFundLabel(undefined));
-    setIsDeleteFundLabelModalVisible(false);
-  };
-
-  const handleShowMonthYearCalendarModal = () => {
-    setIsMonthYearModalVisible(true);
+    deleteFundConfirmationModal.close();
   };
 
   // Navigations
@@ -162,67 +175,51 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   const handleNavigateToFundByFundLabelDetails = (
     fundLabel: FundLabelViewModel
   ) => {
-    dispatch(setSelectedFundLabel(fundLabel));
     navigation.navigate("FundDetails", { fundLabel });
   };
 
   // API Calls
-  const handlePullToRefresh = () => {
-    dispatch(fetchFunds());
-    dispatch(fetchFundLabelsByYearAndMonth(selectedMonthAndYear));
-  };
-
   const handleEditFundLabel = (fundLabel: FundLabelViewModel) => {
-    setIsFundLabelFormModalVisible(true);
-    dispatch(fetchFundLabelById(fundLabel.id));
+    fundLabelFormModal.open();
   };
 
   const handleDeleteFundLabel = () => {
-    if (selectedFundLabel) {
-      dispatch(deleteFundLabel(selectedFundLabel.id));
-      handleHideDeleteFundLabelModal();
-      dispatch(fetchFunds());
-      dispatch(fetchFundLabelsByYearAndMonth(selectedMonthAndYear));
-    } else {
-      console.log("No selected fund");
-    }
+    // if (selectedFundLabel) {
+    //   handleHideDeleteFundLabelModal();
+    // } else {
+    //   console.log("No selected fund");
+    // }
   };
 
   const handleMonthChange = (date: moment.Moment) => {
-    const month = date.format("M");
-    dispatch(setSelectedMonthAndYear({ year: selectedYear, month: +month }));
-    dispatch(fetchFunds());
-    dispatch(fetchFundLabelsByYearAndMonth(selectedMonthAndYear));
-    setIsMonthYearModalVisible(false);
+    const month = +date.format("M");
+    setSelectedYearAndMonth((prev) => ({ ...prev, month }));
+    refetchFundsByYearAndMonth();
+    refetchFundLabelsByYearAndMonth();
+    yearAndMonthSelectionModal.close();
   };
 
   const handleYearChange = (date: moment.Moment) => {
-    const year = date.format("YYYY");
-    setSelectedYear(+year);
+    const year = +date.format("YYYY");
+    setSelectedYearAndMonth({ ...selectedYearAndMonth, year });
   };
 
   // UI
   const renderIncomeLabels = () => (
     <FlatList
-      data={incomeLabels}
+      data={incomeLabelsByYearAndMonth}
       keyExtractor={(label) => label.id}
+      ItemSeparatorComponent={Separator}
+      scrollEnabled={false}
       renderItem={({ item }) => {
-        const fundsByFundLabelId = funds.filter(
-          (fund) => fund.fundLabel.id === item.id
-        );
-
-        const incomeByMonthAndYear =
-          filterFundsBySelectedMonthAndYear(fundsByFundLabelId);
-
-        const totalIncomeByFundLabel = incomeByMonthAndYear.reduce(
-          (accumulator, fund) => accumulator + fund.amount,
-          0
-        );
+        const totalAmount = fundsByYearAndMonth
+          ?.filter((fund) => fund.fundLabelId === item.id)
+          .reduce((sum, fund) => sum + fund.amount, 0);
 
         return (
           <FundLabelItem
             fundLabel={item}
-            totalFundPerLabel={totalIncomeByFundLabel}
+            totalFundPerLabel={totalAmount ?? 0}
             onEditFundLabel={() => handleEditFundLabel(item)}
             onDeleteFundLabel={() => handleShowDeleteFundLabelModal(item)}
             onNavigateToDetails={() =>
@@ -231,32 +228,24 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
           />
         );
       }}
-      ItemSeparatorComponent={Separator}
-      scrollEnabled={false}
     />
   );
 
   const renderExpenseLabels = () => (
     <FlatList
-      data={expenseLabels}
-      keyExtractor={(label) => label.id}
+      data={expenseLabelsByYearAndMonth}
+      keyExtractor={(item) => item.id}
+      ItemSeparatorComponent={Separator}
+      scrollEnabled={false}
       renderItem={({ item }) => {
-        const fundsByFundLabelId = funds.filter(
-          (fund) => fund.fundLabel.id === item.id
-        );
-
-        const expensesByMonthAndYear =
-          filterFundsBySelectedMonthAndYear(fundsByFundLabelId);
-
-        const totalExpenseByFundLabel = expensesByMonthAndYear.reduce(
-          (accumulator, fund) => accumulator + fund.amount,
-          0
-        );
+        const totalAmount = fundsByYearAndMonth
+          ?.filter((fund) => fund.fundLabelId === item.id)
+          .reduce((sum, fund) => sum + fund.amount, 0);
 
         return (
           <FundLabelItem
             fundLabel={item}
-            totalFundPerLabel={totalExpenseByFundLabel}
+            totalFundPerLabel={totalAmount ?? 0}
             onEditFundLabel={() => handleEditFundLabel(item)}
             onDeleteFundLabel={() => handleShowDeleteFundLabelModal(item)}
             onNavigateToDetails={() =>
@@ -265,25 +254,26 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
           />
         );
       }}
-      ItemSeparatorComponent={Separator}
-      scrollEnabled={false}
     />
   );
 
-  if (isFetchingFunds && isFetchingFundLabels) return <LoadingScreen />;
+  const isLoading =
+    !fundsByYearAndMonth ||
+    !fundLabelsByYearAndMonth ||
+    isLoadingFundsByYearAndMonth ||
+    isLoadingFundLabelsByYearAndMonth;
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
-    <ScrollableScreen
-      isRefreshing={isFetchingFunds && isFetchingFundLabels}
-      onRefresh={handlePullToRefresh}
-    >
-      <TouchableOpacity onPress={handleShowMonthYearCalendarModal}>
+    <ScrollableScreen isRefreshing={isLoading} onRefresh={handlePullToRefresh}>
+      <TouchableOpacity onPress={yearAndMonthSelectionModal.open}>
         <OffsetContainer padding={16}>
           <View style={defaultStyles.centerHorizontallyBetween}>
             <Subtitle
               text={`${moment()
-                .month(+selectedMonthAndYear.month - 1)
-                .format("MMM")} ${selectedMonthAndYear.year}`}
+                .month(+selectedYearAndMonth.month - 1)
+                .format("MMM")} ${selectedYearAndMonth.year}`}
             />
             <AntDesign name="calendar" size={20} color={colors.dark} />
           </View>
@@ -297,7 +287,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
         <Button
           title="Add / Manage"
           uppercase
-          onPress={handleShowFundActionBottomSheet}
+          onPress={fundsActionBottomSheetRef.current?.present}
         />
       </View>
       <OffsetContainer padding={16} backgroundColor={colors.dark}>
@@ -311,21 +301,21 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <VerticalSpace spacer={16} />
       <FundLabelsCard
         title="Income"
-        total={totalIncome}
+        total={totalIncomeByYearAndMonth ?? 0}
         onCreateFundLabel={handleShowIncomeActionBottomSheet}
         ListComponent={renderIncomeLabels()}
       />
       <VerticalSpace spacer={16} />
       <FundLabelsCard
         title="Expenses"
-        total={totalExpense}
+        total={totalExpenseByYearAndMonth ?? 0}
         onCreateFundLabel={handleShowExpenseActionBottomSheet}
         ListComponent={renderExpenseLabels()}
       />
       <VerticalSpace spacer={16} />
       <FundActionBottomSheet
         ref={fundsActionBottomSheetRef}
-        onClose={handleHideFundActionBottomSheet}
+        onClose={() => fundsActionBottomSheetRef.current?.dismiss()}
         onAddIncome={() => handleNavigateToFundFormScreen(FundLabelType.Income)}
         onAddExpense={() =>
           handleNavigateToFundFormScreen(FundLabelType.Expense)
@@ -334,21 +324,21 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
       <AddFundLabelActionBottomSheet
         ref={createFundLabelActionBottomSheetRef}
         onAddIncomeLabel={handleShowFundLabelFormModal}
-        onClose={handleHideFundLabelActionBottomSheet}
+        onClose={() => createFundLabelActionBottomSheetRef.current?.dismiss()}
       />
       <Modal
-        modalVisible={isMonthYearModalVisible}
+        modalVisible={yearAndMonthSelectionModal.isVisible}
         contents={
           <MonthYearPicker
             selectedDate={
               new Date(
-                +selectedMonthAndYear.year,
-                +selectedMonthAndYear.month - 1
+                +selectedYearAndMonth.year,
+                +selectedYearAndMonth.month - 1
               )
             }
             initialView={moment({
-              year: +selectedMonthAndYear.year,
-              month: +selectedMonthAndYear.month - 1,
+              year: +selectedYearAndMonth.year,
+              month: +selectedYearAndMonth.month - 1,
               day: 1,
             })}
             onMonthTapped={handleMonthChange}
@@ -363,14 +353,12 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
             : "Expense Name"
         }
         fundLabelType={fundLabelType}
-        isVisible={isFundLabelFormModalVisible}
+        isVisible={fundLabelFormModal.isVisible}
         onClose={handleHideFundLabelFormModal}
       />
       <DeleteModal
-        isVisible={isDeleteFundLabelModalVisible}
-        title={`Are you sure you want to delete ${
-          selectedFundLabel?.title ?? ""
-        }?`}
+        isVisible={deleteFundConfirmationModal.isVisible}
+        title={`Are you sure you want to delete?`}
         subTitle="Deleting it will also delete all files related to the total funds."
         onClose={handleHideDeleteFundLabelModal}
         onDelete={handleDeleteFundLabel}

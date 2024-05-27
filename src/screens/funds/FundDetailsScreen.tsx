@@ -6,14 +6,14 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Button } from "../../components/Buttons/Button";
 import { Caption } from "../../components/Typography";
 import { defaultStyles } from "../../layouts/DefaultStyles";
+import { EmptyScreen } from "../../components/Screens/EmptyScreen";
 import { fetchFundsByFundLabelId } from "../../store/funds/action";
 import { FundsStackParamList } from "../../navigation/FundStackNavigator";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { OffsetContainer } from "../../components/Container";
-import { Screen } from "../../components/Screens/Screen";
+import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
 import { Separator } from "../../components/Separator/Separator";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { EmptyScreen } from "../../components/Screens/EmptyScreen";
 
 type FundStackProps = NativeStackScreenProps<
   FundsStackParamList,
@@ -24,8 +24,6 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
   const dispatch = useAppDispatch();
   const { isFetching, fundsPerLabel } = useAppSelector((state) => state.fund);
   const { selectedMonthAndYear } = useAppSelector((state) => state.fundLabel);
-
-  const { month, year } = selectedMonthAndYear;
 
   useEffect(() => {
     dispatch(fetchFundsByFundLabelId(fundLabel.id));
@@ -46,6 +44,10 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
     });
   }, [navigation]);
 
+  const handleRefresh = () => {
+    dispatch(fetchFundsByFundLabelId(fundLabel.id));
+  };
+
   const handleNavigateToFundFormScreen = () => {
     navigation.navigate("FundForm", { fundLabelType: fundLabel.fundLabelType });
   };
@@ -62,7 +64,7 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
     );
 
   return (
-    <Screen>
+    <ScrollableScreen onRefresh={handleRefresh}>
       <OffsetContainer>
         <FlatList
           data={fundsPerLabel}
@@ -85,6 +87,6 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
           scrollEnabled={false}
         />
       </OffsetContainer>
-    </Screen>
+    </ScrollableScreen>
   );
 };
