@@ -4,18 +4,12 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { colors } from "../layouts/Colors";
 import { FundsScreen } from "../screens/funds/FundsScreen";
 import { FundFormScreen } from "../screens/funds/FundFormScreen";
-import {
-  FundLabelViewModel,
-  FundLabelType,
-  MonthAndYear,
-} from "../store/fundLabels/types";
 import { FundDetailsScreen } from "../screens/funds/FundDetailsScreen";
+import { FundLabel, FundLabelType } from "../api/fundLabels/types";
 
 export type FundsStackParamList = {
   Funds: undefined;
-  FundDetails: {
-    fundLabel: FundLabelViewModel;
-  };
+  FundDetails: { fundLabel: FundLabel };
   FundForm: undefined | { fundLabelType: FundLabelType };
   IncomeSources: undefined;
   IncomeDetails: undefined;

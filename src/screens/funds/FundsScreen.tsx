@@ -55,6 +55,7 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   const deleteFundConfirmationModal = useDialogState();
   const yearAndMonthSelectionModal = useDialogState();
   const [fundLabelType, setFundLabelType] = useState(FundLabelType.Income);
+  const [selectedFundLabel, setSelectedFundLabel] = useState<FundLabel>();
 
   const [selectedYearAndMonth, setSelectedYearAndMonth] =
     useState<SelectedYearAndMonth>({
@@ -132,6 +133,19 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
   }, [fundLabelsByYearAndMonth]);
 
   // Functions
+  const handleMonthChange = (date: moment.Moment) => {
+    const month = +date.format("M");
+    setSelectedYearAndMonth((prev) => ({ ...prev, month }));
+    refetchFundsByYearAndMonth();
+    refetchFundLabelsByYearAndMonth();
+    yearAndMonthSelectionModal.close();
+  };
+
+  const handleYearChange = (date: moment.Moment) => {
+    const year = +date.format("YYYY");
+    setSelectedYearAndMonth({ ...selectedYearAndMonth, year });
+  };
+
   const handlePullToRefresh = () => {
     refetchFundsByYearAndMonth();
     refetchFundLabelsByYearAndMonth();
@@ -154,16 +168,8 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     fundLabelFormModal.open();
   };
 
-  const handleHideFundLabelFormModal = () => {
-    fundLabelFormModal.close();
-  };
-
   const handleShowDeleteFundLabelModal = (item: FundLabelViewModel) => {
     deleteFundConfirmationModal.open();
-  };
-
-  const handleHideDeleteFundLabelModal = () => {
-    deleteFundConfirmationModal.close();
   };
 
   // Navigations
@@ -172,14 +178,13 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     navigation.navigate("FundForm", { fundLabelType });
   };
 
-  const handleNavigateToFundByFundLabelDetails = (
-    fundLabel: FundLabelViewModel
-  ) => {
+  const handleNavigateToFundByFundLabelDetails = (fundLabel: FundLabel) => {
     navigation.navigate("FundDetails", { fundLabel });
   };
 
   // API Calls
   const handleEditFundLabel = (fundLabel: FundLabelViewModel) => {
+    setSelectedFundLabel(fundLabel);
     fundLabelFormModal.open();
   };
 
@@ -189,19 +194,6 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
     // } else {
     //   console.log("No selected fund");
     // }
-  };
-
-  const handleMonthChange = (date: moment.Moment) => {
-    const month = +date.format("M");
-    setSelectedYearAndMonth((prev) => ({ ...prev, month }));
-    refetchFundsByYearAndMonth();
-    refetchFundLabelsByYearAndMonth();
-    yearAndMonthSelectionModal.close();
-  };
-
-  const handleYearChange = (date: moment.Moment) => {
-    const year = +date.format("YYYY");
-    setSelectedYearAndMonth({ ...selectedYearAndMonth, year });
   };
 
   // UI
@@ -353,16 +345,17 @@ export const FundsScreen = ({ navigation }: FundStackProps) => {
             : "Expense Name"
         }
         fundLabelType={fundLabelType}
+        fundLabel={selectedFundLabel}
         isVisible={fundLabelFormModal.isVisible}
-        onClose={handleHideFundLabelFormModal}
+        onClose={fundLabelFormModal.close}
       />
       <DeleteModal
         isVisible={deleteFundConfirmationModal.isVisible}
         title={`Are you sure you want to delete?`}
         subTitle="Deleting it will also delete all files related to the total funds."
-        onClose={handleHideDeleteFundLabelModal}
+        onClose={deleteFundConfirmationModal.close}
         onDelete={handleDeleteFundLabel}
-        onCancel={handleHideDeleteFundLabelModal}
+        onCancel={deleteFundConfirmationModal.close}
       />
     </ScrollableScreen>
   );

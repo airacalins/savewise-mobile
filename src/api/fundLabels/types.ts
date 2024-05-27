@@ -12,4 +12,4 @@ export type FundLabel = {
 
 export type CreateFundLabelRequest = Omit<FundLabel, "id" | "dateCreated">;
 
-export type UpdateFundLabelRequest = Omit<FundLabel, "id" | "dateCreated">;
+export type UpdateFundLabelRequest = Omit<FundLabel, "dateCreated">;

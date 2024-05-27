@@ -1,36 +1,38 @@
-import React, { useEffect, useMemo } from "react";
-import * as yup from "yup";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { View } from "react-native";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { Button, ButtonSize } from "../../../components/Buttons/Button";
 import {
+  TCreateFundLabelSchema,
+  TUpdateFundLabelSchema,
+  createFundLabelSchema,
+} from "../../../api/fundLabels/schema";
+import {
+  FUND_LABEL_QUERY_KEY,
   createFundLabel,
-  fetchFundLabels,
+  getFundLabelById,
   updateFundLabel,
-} from "../../../store/fundLabels/action";
+} from "../../../api/fundLabels/hooks";
 import {
-  CreateFundLabelInputModel,
+  CreateFundLabelRequest,
+  FundLabel,
   FundLabelType,
-  UpdateFundLabel,
-} from "../../../store/fundLabels/types";
-import { Input } from "../../../components/Inputs/Input";
-import { LoadingScreen } from "../../../components/Screens/LoadingScreen";
-import { Modal } from "../../../components/Modal/Modal";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-
-type FormValues = {
-  title: string;
-};
-
-const validationSchema = yup.object().shape({
-  title: yup.string().label("Title").required(),
-});
+  UpdateFundLabelRequest,
+} from "../../../api/fundLabels/types";
+import {
+  Input,
+  ButtonSize,
+  Modal,
+  Button,
+  LoadingScreen,
+} from "../../../components";
 
 interface FundLabelFormModalProps {
   label: string;
   fundLabelType: FundLabelType;
+  fundLabel?: FundLabel;
   isVisible: boolean;
   onClose: () => void;
 }
@@ -38,28 +40,47 @@ interface FundLabelFormModalProps {
 export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
   label,
   fundLabelType,
+  fundLabel,
   isVisible,
   onClose,
 }) => {
-  const dispatch = useAppDispatch();
-  const { selectedFundLabel } = useAppSelector((state) => state.fundLabel);
-
-  const defaultValues = useMemo(
-    () => ({
-      title: selectedFundLabel?.title ?? "",
-    }),
-    [selectedFundLabel]
-  );
+  const defaultValues = {
+    title: fundLabel ? fundLabel.title : "",
+  };
 
   const {
     control,
     formState: { errors, isSubmitting, isValid },
     handleSubmit,
     reset,
-  } = useForm<FormValues>({
-    defaultValues,
-    resolver: yupResolver(validationSchema),
+  } = useForm<TCreateFundLabelSchema>({
+    defaultValues: defaultValues,
+    resolver: yupResolver(createFundLabelSchema),
     mode: "onChange",
+  });
+
+  // API
+  const queryClient = useQueryClient();
+
+  const { data: selectedFundLabel } = useQuery({
+    queryFn: () => getFundLabelById(fundLabel?.id ?? ""),
+    queryKey: [FUND_LABEL_QUERY_KEY],
+  });
+
+  console.log("🚀 ~ selectedFundLabel:", selectedFundLabel);
+
+  const createFundLabelMutation = useMutation({
+    mutationFn: createFundLabel,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [FUND_LABEL_QUERY_KEY] });
+    },
+  });
+
+  const updateFundLabelMutation = useMutation({
+    mutationFn: updateFundLabel,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [FUND_LABEL_QUERY_KEY] });
+    },
   });
 
   useEffect(() => {
@@ -68,31 +89,35 @@ export const FundLabelFormModal: React.FC<FundLabelFormModalProps> = ({
     };
   }, []);
 
-  const handleCreateFundLabel = async (data: FormValues) => {
-    const fundLabel: CreateFundLabelInputModel = {
-      title: data.title,
-      fundLabelType,
-    };
-
-    await dispatch(createFundLabel(fundLabel));
-    await dispatch(fetchFundLabels());
-    reset();
-    onClose();
+  // Functions
+  const handleCreateFundLabel = async (formValues: TCreateFundLabelSchema) => {
+    try {
+      const fundLabel: CreateFundLabelRequest = {
+        title: formValues.title,
+        fundLabelType,
+      };
+      await createFundLabelMutation.mutateAsync({ ...fundLabel });
+      reset();
+      onClose();
+    } catch {}
   };
 
-  const handleEditFundLabel = async (data: FormValues) => {
-    const fundLabel: UpdateFundLabel = {
-      id: selectedFundLabel?.id ?? "",
-      title: data.title,
-    };
-
-    await dispatch(updateFundLabel(fundLabel));
-    await dispatch(fetchFundLabels());
-    reset();
-    onClose();
+  const handleEditFundLabel = async (formValues: TUpdateFundLabelSchema) => {
+    try {
+      const updatedFundLabel: UpdateFundLabelRequest = {
+        id: fundLabel?.id ?? "",
+        title: formValues.title,
+        fundLabelType,
+      };
+      await updateFundLabelMutation.mutateAsync({
+        ...updatedFundLabel,
+      });
+      reset();
+      onClose();
+    } catch {}
   };
 
-  if (isSubmitting) return <LoadingScreen />;
+  if (!selectedFundLabel || isSubmitting) return <LoadingScreen />;
 
   return (
     <Modal

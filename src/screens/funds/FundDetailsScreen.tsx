@@ -7,13 +7,17 @@ import { Button } from "../../components/Buttons/Button";
 import { Caption } from "../../components/Typography";
 import { defaultStyles } from "../../layouts/DefaultStyles";
 import { EmptyScreen } from "../../components/Screens/EmptyScreen";
-import { fetchFundsByFundLabelId } from "../../store/funds/action";
 import { FundsStackParamList } from "../../navigation/FundStackNavigator";
 import { LoadingScreen } from "../../components/Screens/LoadingScreen";
 import { OffsetContainer } from "../../components/Container";
 import { ScrollableScreen } from "../../components/Screens/ScrollableScreen";
 import { Separator } from "../../components/Separator/Separator";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import {
+  FUND_LABEL_QUERY_KEY,
+  getFundLabelById,
+} from "../../api/fundLabels/hooks";
+import { useQuery } from "@tanstack/react-query";
+import { FUNDS_QUERY_KEY, getFundsByFundLabelId } from "../../api/funds/hooks";
 
 type FundStackProps = NativeStackScreenProps<
   FundsStackParamList,
@@ -21,13 +25,23 @@ type FundStackProps = NativeStackScreenProps<
 >;
 export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
   const { fundLabel } = route.params;
-  const dispatch = useAppDispatch();
-  const { isFetching, fundsPerLabel } = useAppSelector((state) => state.fund);
-  const { selectedMonthAndYear } = useAppSelector((state) => state.fundLabel);
+  const {
+    data: fundLabelData,
+    isLoading: isLoadingFundLabel,
+    refetch: refetchFundLabel,
+  } = useQuery({
+    queryFn: () => getFundLabelById(fundLabel.id),
+    queryKey: [FUND_LABEL_QUERY_KEY],
+  });
 
-  useEffect(() => {
-    dispatch(fetchFundsByFundLabelId(fundLabel.id));
-  }, [fundLabel.id]);
+  const {
+    data: fundsData,
+    isLoading: isLoadingFunds,
+    refetch: refetchFunds,
+  } = useQuery({
+    queryFn: () => getFundsByFundLabelId(fundLabel.id),
+    queryKey: [FUNDS_QUERY_KEY],
+  });
 
   useEffect(() => {
     navigation.setOptions({
@@ -44,17 +58,16 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
     });
   }, [navigation]);
 
-  const handleRefresh = () => {
-    dispatch(fetchFundsByFundLabelId(fundLabel.id));
-  };
-
   const handleNavigateToFundFormScreen = () => {
     navigation.navigate("FundForm", { fundLabelType: fundLabel.fundLabelType });
   };
 
-  if (isFetching) return <LoadingScreen />;
+  const isLoading =
+    !fundLabelData || !fundsData || isLoadingFundLabel || isLoadingFunds;
 
-  if (fundsPerLabel.length === 0)
+  if (isLoading) return <LoadingScreen />;
+
+  if (fundsData?.length === 0)
     return (
       <EmptyScreen
         text={`No transaction for yet!`}
@@ -64,10 +77,10 @@ export const FundDetailsScreen = ({ navigation, route }: FundStackProps) => {
     );
 
   return (
-    <ScrollableScreen onRefresh={handleRefresh}>
+    <ScrollableScreen onRefresh={refetchFundLabel}>
       <OffsetContainer>
         <FlatList
-          data={fundsPerLabel}
+          data={fundsData}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View
